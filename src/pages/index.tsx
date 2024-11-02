@@ -22,7 +22,7 @@ function HomepageHeader() {
           <p className="hero__subtitle">{siteConfig.tagline}</p>
           <div className={styles.buttons}>
             <Link to="docs">
-              <button className="button button--secondary" role="button">Get Started</button>
+              <button className="button button--secondary" role="button">Documentation</button>
             </Link>
             <iframe
               src="https://ghbtns.com/github-btn.html?user=AutoParams&repo=AutoParams&type=star&count=true&size=large"

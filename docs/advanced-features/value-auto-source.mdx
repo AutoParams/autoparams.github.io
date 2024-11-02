@@ -1,0 +1,76 @@
+---
+sidebar_position: 3
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# @ValueAutoSource
+
+The `@ValueAutoSource` annotation combines the capabilities of `@ValueSource` and `@AutoSource`, providing a more flexible way to generate test arguments. Specifically, it assigns a predefined value to the first parameter and then generates arbitrary values for the remaining parameters.
+
+## How to Use
+
+To employ the `@ValueAutoSource` annotation, add it above your test method and specify the values for the first parameter using the attributes like `strings`, `ints`, etc., just as you would with `@ValueSource`.
+
+Here's an example:
+
+<JavaKotlinCodeBlock>
+    
+    ```java
+    @ParameterizedTest
+    @ValueAutoSource(strings = {"foo"})
+    void testMethod(String arg1, String arg2) {
+        assertEquals("foo", arg1);
+        assertNotEquals(arg1, arg2);
+    }
+    ```
+    
+    ```kotlin
+
+    ```    
+</JavaKotlinCodeBlock>
+
+In this case, `arg1` is set to `"foo"`, while `arg2` will receive an automatically generated value. The test confirms that `arg1` is exactly `"foo"` and that `arg2` is different from `arg1`.
+
+## Compatibility with @Freeze
+
+The `@ValueAutoSource` annotation is fully compatible with the `@Freeze` annotation, allowing you to fix certain parameter values while also providing predefined values for others.
+
+Here is how they can work together:
+
+<JavaKotlinCodeBlock>
+```java
+@AllArgsConstructor
+@Getter
+public class ValueContainer {
+    private final String value;
+}
+```
+
+```kotlin
+
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@ValueAutoSource(strings = {"foo"})
+void testMethod(@Freeze String arg1, String arg2, ValueContainer arg3) {
+    assertEquals("foo", arg2);
+    assertEquals("foo", arg3.getValue());
+}
+```
+
+```kotlin
+
+```
+</JavaKotlinCodeBlock>
+
+## Benefits
+
+1. **Combining Fixed and Random Values**: `@ValueAutoSource` allows you to specify certain parameter values while letting AutoParams generate random values for others, offering the best of both worlds.
+1. **Enhanced Flexibility**: This feature grants you more control over test data, making it easier to cover a wide range of scenarios.
+1. **Reduced Test Complexity**: By combining the functionalities of `@ValueSource` and `@AutoSource`, you can simplify your test setup, making it easier to read and maintain.
+
+The `@ValueAutoSource` annotation is a versatile addition to your testing toolkit, giving you greater control over test data while maintaining the benefits of automated random data generation.

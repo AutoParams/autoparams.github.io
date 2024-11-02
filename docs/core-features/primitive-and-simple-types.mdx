@@ -1,0 +1,71 @@
+---
+sidebar_position: 1
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# Primitive & Simple Types
+
+## Support for Primitive Types
+
+AutoParams effortlessly generates test arguments for primitive data types, such as booleans, integers, and floats.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(boolean x1, byte x2, int x3, long x4, float x5, double x6, char x7) {
+}
+```
+
+```kotlin
+
+```
+</JavaKotlinCodeBlock>
+
+## Handling Simple Objects
+
+The framework also provides test arguments in the form of simple objects like Strings, UUIDs, and BigIntegers.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(String x1, UUID x2, BigInteger x3) {
+}
+```
+
+```kotlin
+
+```
+</JavaKotlinCodeBlock>
+
+## Enum Type Support
+
+Enum types are seamlessly integrated as well. AutoParams will randomly select values from the enum for test arguments.
+
+<JavaKotlinCodeBlock>
+```java
+public enum Day {
+    SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
+    THURSDAY, FRIDAY, SATURDAY
+}
+```
+
+```kotlin
+
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(Day arg) {
+}
+```
+
+```kotlin
+
+```
+</JavaKotlinCodeBlock>
