@@ -15,10 +15,6 @@ langMap.set('language-kotlin', { lang: 'kotlin', label: 'Kotlin'});
 const extractCode = (child: JSX.Element) => child.props?.children;
 
 const JavaKotlinCodeBlock = ({children}: { children: JSX.Element[] }) => {
-  children.map(code => {
-    console.log(code);
-  });
-
   const codes = children.map(extractCode)
     .filter(code => languages.includes(code?.props?.className))
     .map(code => ({
