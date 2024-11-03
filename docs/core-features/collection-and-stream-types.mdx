@@ -23,7 +23,10 @@ void testMethod(int[] array1, String[] array2) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(array1: IntArray, array2: Array<String>) {
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -40,7 +43,10 @@ void testMethod(List<String> list, ArrayList<UUID> arrayList) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(list: List<String>, arrayList: ArrayList<UUID>) {
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -57,7 +63,10 @@ void testMethod(Set<String> set, HashSet<UUID> hashSet) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(set: Set<String>, hashSet: HashSet<UUID>) {
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -69,12 +78,17 @@ Support extends to the `Map<K, V>` interface and the `HashMap<K, V>` class as we
 ```java
 @ParameterizedTest
 @AutoSource
-void testMethod(Map<String, ComplexObject> map, HashMap<UUID, ComplexObject> hashMap) {
+void testMethod(Map<String, ComplexObject> map,
+                HashMap<UUID, ComplexObject> hashMap) {
 }
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(map: Map<String, ComplexObject>,
+               hashMap: HashMap<UUID, ComplexObject>) {
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -97,7 +111,10 @@ void testMethod(Stream<ComplexObject> stream) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(stream: Stream<ComplexObject>) {
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -114,7 +131,10 @@ void testMethod(IntStream arg1, LongStream arg2, DoubleStream arg3) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(arg1: IntStream, arg2: LongStream, arg3: DoubleStream) {
+}
 ```
 </JavaKotlinCodeBlock>
 

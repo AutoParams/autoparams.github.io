@@ -14,6 +14,7 @@ To set the range for a parameter, simply annotate it with `@Min` to define the m
 
 Here's an example:
 
+<JavaKotlinCodeBlock>
 ```java
 @ParameterizedTest
 @AutoSource
@@ -22,6 +23,16 @@ void testMethod(@Min(1) @Max(10) int value) {
     assertTrue(value <= 10);
 }
 ```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(@Min(1) @Max(10) value: Int) {
+    assertTrue(value >= 1)
+    assertTrue(value <= 10)
+}
+```
+</JavaKotlinCodeBlock>
 
 In this test, the value parameter will always be an integer between `1` and `10`, inclusive.
 

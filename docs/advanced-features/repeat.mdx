@@ -28,7 +28,15 @@ void testMethod(int a, int b) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+@Repeat(10)
+fun testMethod(a: Int, b: Int) {
+    // This test method will be executed ten times with different sets of 'a' and 'b' each time.
+    val sut = Calculator()
+    val actual = sut.add(a, b)
+    assertEquals(a + b, actual)
+}
 ```
 </JavaKotlinCodeBlock>
 

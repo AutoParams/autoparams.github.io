@@ -24,7 +24,7 @@ public class ValueContainer {
 ```
 
 ```kotlin
-
+class ValueContainer(val value: String)
 ```
 </JavaKotlinCodeBlock>
 
@@ -39,7 +39,12 @@ void testMethod(@Freeze String arg1, String arg2, ValueContainer arg3) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(@Freeze arg1: String, arg2: String, arg3: ValueContainer) {
+    assertEquals(arg1, arg2)
+    assertEquals(arg1, arg3.value)
+}
 ```
 </JavaKotlinCodeBlock>
 

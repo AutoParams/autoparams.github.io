@@ -74,7 +74,7 @@ public class Product {
 ```
 
 ```kotlin
-
+class Product (val id: UUID, val name: String, val priceAmount: BigDecimal)
 ```
 </JavaKotlinCodeBlock>
 
@@ -83,14 +83,14 @@ public class Product {
 @AllArgsConstructor
 @Getter
 public class Review {
-    private final UUId id;
+    private final UUID id;
     private final Product product;
     private final String comment;
 }
 ```
 
 ```kotlin
-
+class Review(val id: UUID, val product: Product, val comment: String)
 ```
 </JavaKotlinCodeBlock>
 
@@ -106,7 +106,13 @@ void testMethod(@Freeze Product product, Review[] reviews) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(@Freeze product: Product, reviews: Array<Review>) {
+    for (review in reviews) {
+        assertSame(product, review.product)
+    }
+}
 ```
 </JavaKotlinCodeBlock>
 

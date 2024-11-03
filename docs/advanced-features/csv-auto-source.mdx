@@ -26,7 +26,13 @@ void testMethod(int arg1, String arg2, String arg3) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@CsvAutoSource("16, foo")
+fun testMethod(arg1: Int, arg2: String, arg3: String) {
+    assertEquals(16, arg1)
+    assertEquals("foo", arg2)
+    assertNotEquals(arg2, arg3)
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -48,7 +54,7 @@ public class ValueContainer {
 ```
 
 ```kotlin
-
+class ValueContainer(val value: String)
 ```
 </JavaKotlinCodeBlock>
 
@@ -62,7 +68,11 @@ void testMethod(int arg1, @Freeze String arg2, ValueContainer arg3) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@CsvAutoSource("16, foo")
+fun testMethod(arg1: Int, @Freeze arg2: String, arg3: ValueContainer) {
+    assertEquals("foo", arg3.value)
+}
 ```
 </JavaKotlinCodeBlock>
 
