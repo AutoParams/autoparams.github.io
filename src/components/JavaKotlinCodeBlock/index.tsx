@@ -1,5 +1,6 @@
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import React from "react";
 
 type CodeInfo = {
   lang: string,
@@ -14,8 +15,8 @@ langMap.set('language-kotlin', { lang: 'kotlin', label: 'Kotlin'});
 
 const extractCode = (child: JSX.Element) => child.props?.children;
 
-const JavaKotlinCodeBlock = ({children}: { children: JSX.Element[] }) => {
-  const codes = children.map(extractCode)
+const JavaKotlinCodeBlock = ({children}: { children: JSX.Element | JSX.Element[] }) => {
+  const codes = React.Children.toArray(children).map(extractCode)
     .filter(code => languages.includes(code?.props?.className))
     .map(code => ({
       langKey: code.props.className,
