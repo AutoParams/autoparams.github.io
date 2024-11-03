@@ -15,19 +15,24 @@ To employ the `@ValueAutoSource` annotation, add it above your test method and s
 Here's an example:
 
 <JavaKotlinCodeBlock>
-    
-    ```java
-    @ParameterizedTest
-    @ValueAutoSource(strings = {"foo"})
-    void testMethod(String arg1, String arg2) {
-        assertEquals("foo", arg1);
-        assertNotEquals(arg1, arg2);
-    }
-    ```
-    
-    ```kotlin
 
-    ```    
+```java
+@ParameterizedTest
+@ValueAutoSource(strings = {"foo"})
+void testMethod(String arg1, String arg2) {
+    assertEquals("foo", arg1);
+    assertNotEquals(arg1, arg2);
+}
+```
+
+```kotlin
+@ParameterizedTest
+@ValueAutoSource(strings = ["foo"])
+fun testMethod(arg1: String, arg2: String) {
+    assertEquals("foo", arg1)
+    assertNotEquals(arg1, arg2)
+}
+```
 </JavaKotlinCodeBlock>
 
 In this case, `arg1` is set to `"foo"`, while `arg2` will receive an automatically generated value. The test confirms that `arg1` is exactly `"foo"` and that `arg2` is different from `arg1`.
@@ -48,7 +53,7 @@ public class ValueContainer {
 ```
 
 ```kotlin
-
+class ValueContainer(val value: String)
 ```
 </JavaKotlinCodeBlock>
 
@@ -63,7 +68,12 @@ void testMethod(@Freeze String arg1, String arg2, ValueContainer arg3) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@ValueAutoSource(strings = ["foo"])
+fun testMethod(@Freeze arg1: String, arg2: String, arg3: ValueContainer) {
+    assertEquals("foo", arg2)
+    assertEquals("foo", arg3.value)
+}
 ```
 </JavaKotlinCodeBlock>
 

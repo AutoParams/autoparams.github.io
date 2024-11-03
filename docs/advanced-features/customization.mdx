@@ -29,7 +29,12 @@ public class Product {
 ```
 
 ```kotlin
-
+class Product(
+    val id: UUID,
+    val name: String,
+    val listPriceAmount: BigDecimal,
+    val sellingPriceAmount: BigDecimal
+)
 ```
 </JavaKotlinCodeBlock>
 
@@ -48,7 +53,7 @@ public class ProductGenerator extends ObjectGeneratorBase<Product> {
 
         ThreadLocalRandom random = ThreadLocalRandom.current();
         BigDecimal listPriceAmount = new BigDecimal(random.nextInt(100, 1000 + 1));
-        BigDecimal sellingPriceAmount = listPriceAmount.multiply(new BigDecimal(0.9));
+        BigDecimal sellingPriceAmount = listPriceAmount.multiply(new BigDecimal("0.9"));
 
         return new Product(id, name, listPriceAmount, sellingPriceAmount);
     }
@@ -56,7 +61,19 @@ public class ProductGenerator extends ObjectGeneratorBase<Product> {
 ```
 
 ```kotlin
+class ProductGenerator : ObjectGeneratorBase<Product>() {
 
+    override fun generateObject(query: ObjectQuery, context: ResolutionContext): Product {
+        val id = context.resolve(UUID::class.java)
+        val name = context.resolve(String::class.java)
+
+        val random = ThreadLocalRandom.current()
+        val listPriceAmount = BigDecimal(random.nextInt(100, 1000 + 1))
+        val sellingPriceAmount = listPriceAmount.multiply(BigDecimal("0.9"))
+
+        return Product(id, name, listPriceAmount, sellingPriceAmount)
+    }
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -70,12 +87,17 @@ Annotate your test method to apply the customization:
 @AutoSource
 @Customization(ProductGenerator.class)
 void testMethod(Product arg) {
-    assertTrue(arg.getSellingPriceAmount().compareTo(arg.getListPriceAmount()) < 0);
+    assertThat(arg.getSellingPriceAmount()).isLessThan(arg.getListPriceAmount());
 }
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+@Customization(ProductGenerator::class)
+fun testMethod(arg: Product) {
+    assertThat(arg.sellingPriceAmount).isLessThan(arg.listPriceAmount)
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -99,7 +121,12 @@ public class DomainCustomizer extends CompositeCustomzer {
 ```
 
 ```kotlin
-
+class DomainCustomizer : CompositeCustomizer(
+    EmailGenerator(),
+    UserGenerator(),
+    SupplierGenerator(),
+    ProductGenerator()
+)
 ```
 </JavaKotlinCodeBlock>
 
@@ -115,7 +142,11 @@ void testMethod(Email email, User user, Supplier supplier, Product product) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+@Customization(DomainCustomizer::class)
+fun testMethod(email: Email, user: User, supplier: Supplier, product: Product) {
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -134,7 +165,10 @@ public class User {
 ```
 
 ```kotlin
-
+class User {
+    var id: Long? = null
+    var name: String? = null
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -150,7 +184,13 @@ void testMethod(User user) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+@Customization(InstancePropertyWriter::class)
+fun testMethod(user: User) {
+    assertNotNull(user.id)
+    assertNotNull(user.name)
+}
 ```
 </JavaKotlinCodeBlock>
 

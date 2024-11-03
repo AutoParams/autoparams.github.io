@@ -19,7 +19,10 @@ public class GenericObject<T1, T2> {
 ```
 
 ```kotlin
-
+class GenericObject<T1, T2>(
+    val value1: T1,
+    val value2: T2
+)
 ```
 </JavaKotlinCodeBlock>
 
@@ -34,6 +37,11 @@ void testMethod(
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(
+    arg1: GenericObject<String, ComplexObject>,
+    arg2: GenericObject<UUID, GenericObject<String, ComplexObject>>) {
+}
 ```
 </JavaKotlinCodeBlock>

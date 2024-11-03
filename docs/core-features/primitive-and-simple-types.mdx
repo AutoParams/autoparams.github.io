@@ -14,12 +14,17 @@ AutoParams effortlessly generates test arguments for primitive data types, such 
 ```java
 @ParameterizedTest
 @AutoSource
-void testMethod(boolean x1, byte x2, int x3, long x4, float x5, double x6, char x7) {
+void testMethod(
+    boolean x1, byte x2, int x3, long x4, float x5, double x6, char x7) {
 }
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun test_primitive(
+    x1: Boolean, x2: Byte, x3: Int, x4: Long, x5: Float, x6: Double, x7: Char) {
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -36,7 +41,10 @@ void testMethod(String x1, UUID x2, BigInteger x3) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(x1: String, x2: UUID, x3: BigInteger) {
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -53,7 +61,10 @@ public enum Day {
 ```
 
 ```kotlin
-
+enum class Day {
+    SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
+    THURSDAY, FRIDAY, SATURDAY
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -66,6 +77,9 @@ void testMethod(Day arg) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(arg: Day) {
+}
 ```
 </JavaKotlinCodeBlock>

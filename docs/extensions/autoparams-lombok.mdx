@@ -49,10 +49,6 @@ public class User {
     private String email;
 }
 ```
-
-```kotlin
-
-```
 </JavaKotlinCodeBlock>
 
 You can use BuilderCustomizer to create objects of type User for your tests:
@@ -67,10 +63,6 @@ void testMethod(User user) {
     assertThat(arg.getName()).isNotNull();
     assertThat(arg.getEmail()).isNotNull();
 }
-```
-
-```kotlin
-
 ```
 </JavaKotlinCodeBlock>
 
@@ -91,10 +83,6 @@ public class User {
     private String email;
 }
 ```
-
-```kotlin
-
-```
 </JavaKotlinCodeBlock>
 
 Here's how you can extend `BuilderCustomizer`:
@@ -107,10 +95,6 @@ public class UserBuilderCustomizer extends BuilderCustomizer {
         super("getBuilder", "createUser");
     }
 }
-```
-
-```kotlin
-
 ```
 </JavaKotlinCodeBlock>
 
@@ -126,10 +110,6 @@ void testMethod(User user) {
     assertThat(arg.getName()).isNotNull();
     assertThat(arg.getEmail()).isNotNull();
 }
-```
-
-```kotlin
-
 ```
 </JavaKotlinCodeBlock>
 

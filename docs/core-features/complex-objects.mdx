@@ -19,7 +19,7 @@ public class ComplexObject {
 ```
 
 ```kotlin
-
+class ComplexObject (val value1: Int, val value2: String)
 ```
 </JavaKotlinCodeBlock>
 
@@ -32,7 +32,10 @@ void testMethod(ComplexObject arg) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(arg: ComplexObject) {
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -71,7 +74,18 @@ public class ComplexObject {
 ```
 
 ```kotlin
+class ComplexObject
+@ConstructorProperties("value1", "value2, value3")
+constructor (val value1: Int,
+             val value2: String?,
+             val value3: UUID?) {
 
+    @ConstructorProperties("value1", "value2")
+    constructor(value1: Int, value2: String)
+            : this(value1, value2, null)
+
+    constructor(value1: Int): this(value1, null, null)
+}
 ```
 </JavaKotlinCodeBlock>
 
@@ -86,6 +100,11 @@ void testMethod(ComplexObject arg) {
 ```
 
 ```kotlin
-
+@ParameterizedTest
+@AutoSource
+fun testMethod(arg: ComplexObject) {
+    assertNotNull(arg.value2)
+    assertNull(arg.value3)
+}
 ```
 </JavaKotlinCodeBlock>
