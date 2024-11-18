@@ -84,6 +84,9 @@ const config: Config = {
       additionalLanguages: ['java', 'kotlin', 'gradle'],
     },
   } satisfies Preset.ThemeConfig,
+  future: {
+    experimental_faster: true,
+  }
 };
 
 export default config;
