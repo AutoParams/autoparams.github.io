@@ -8,6 +8,7 @@ import Heading from '@theme/Heading';
 import styles from './index.module.css';
 import HomepageCodeExamples from '../components/HomepageCodeExamples';
 import HeadingDecoration from '../components/HeadingDecoration';
+import Translate from '@docusaurus/Translate';
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
@@ -17,9 +18,11 @@ function HomepageHeader() {
         <HeadingDecoration />
         <div className={styles.heading}>
           <Heading as="h1" className={clsx('hero__title', styles.headingTitle)}>
-            {siteConfig.title}
+            <Translate id="homepage.siteConfig.title">{siteConfig.title}</Translate>
           </Heading>
-          <p className="hero__subtitle">{siteConfig.tagline}</p>
+          <p className="hero__subtitle">
+            <Translate id="homepage.siteConfig.tagline">{siteConfig.tagline}</Translate>
+          </p>
           <div className={styles.buttons}>
             <Link to="docs">
               <button className="button button--secondary" role="button">Documentation</button>
