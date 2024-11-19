@@ -1,0 +1,58 @@
+---
+sidebar_position: 3
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# autoparams-kotlin
+
+autoparams-kotlin is an extension designed to simplify and enhance the experience when working with Kotlin. 
+
+## Install
+
+### Maven
+
+For Maven, you can add the following dependency to your pom.xml:
+
+```xml
+<dependency>
+  <groupId>io.github.autoparams</groupId>
+  <artifactId>autoparams-kotlin</artifactId>
+  <version>8.3.0</version>
+</dependency>
+```
+
+### Gradle
+
+For Gradle, use:
+
+```groovy
+testImplementation 'io.github.autoparams:autoparams-kotlin:8.3.0'
+```
+
+## @AutoKotlinSource
+
+Consider the example of a Point data class in Kotlin:
+
+<JavaKotlinCodeBlock>
+```kotlin
+data class Point(val x: Int = 0, val y: Int = 0)
+```
+</JavaKotlinCodeBlock>
+
+In typical test scenarios, you might want to ensure the parameters passed to your test methods aren't just default or predictable values. The autoparams-kotlin extension can assist in such cases.
+
+Below is a demonstration using the `@AutoKotlinSource` annotation provided by autoparams-kotlin. This annotation automatically generates random parameters for your test methods:
+
+<JavaKotlinCodeBlock>
+```kotlin
+@ParameterizedTest
+@AutoKotlinSource
+fun testMethod(point: Point) {
+    assertThat(point.x).isNotEqualTo(0)
+    assertThat(point.y).isNotEqualTo(0)
+}
+```
+</JavaKotlinCodeBlock>
+
+In this example, the `testMethod` doesn't receive a hardcoded `Point` object. Instead, thanks to the `@AutoKotlinSource` annotation, a randomized `Point` object is passed in, making the test more robust by ensuring it isn't biased by predetermined values.
