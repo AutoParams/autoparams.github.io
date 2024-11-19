@@ -1,0 +1,141 @@
+---
+sidebar_position: 4
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# Collection & Stream Types
+
+## Support for Collection Types
+
+AutoParams offers extensive support for various collection types, enhancing its utility for more complex testing scenarios.
+
+### Arrays
+
+AutoParams automatically generates array instances, each containing three elements by default.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(int[] array1, String[] array2) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(array1: IntArray, array2: Array<String>) {
+}
+```
+</JavaKotlinCodeBlock>
+
+### List Types
+
+Both the `List<E>` interface and the `ArrayList<E>` class are supported. AutoParams generates list objects that contain a few elements.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(List<String> list, ArrayList<UUID> arrayList) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(list: List<String>, arrayList: ArrayList<UUID>) {
+}
+```
+</JavaKotlinCodeBlock>
+
+### Set Types
+
+AutoParams also supports the `Set<E>` interface and the `HashSet<E>` class, generating set objects that contain a few elements.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(Set<String> set, HashSet<UUID> hashSet) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(set: Set<String>, hashSet: HashSet<UUID>) {
+}
+```
+</JavaKotlinCodeBlock>
+
+### Map Interface
+
+Support extends to the `Map<K, V>` interface and the `HashMap<K, V>` class as well. AutoParams generates map objects containing a few key-value pairs.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(Map<String, ComplexObject> map,
+                HashMap<UUID, ComplexObject> hashMap) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(map: Map<String, ComplexObject>,
+               hashMap: HashMap<UUID, ComplexObject>) {
+}
+```
+</JavaKotlinCodeBlock>
+
+This comprehensive support for collection types makes AutoParams an exceptionally versatile tool for generating test data, accommodating a wide variety of data structures to ensure thorough testing.
+
+## Support for Stream Types
+
+AutoParams extends its versatility by offering support for various types of stream interfaces, further broadening your testing capabilities.
+
+### Generic Stream Interface
+
+AutoParams supports the generic `Stream<T>` interface and generates stream objects containing a few elements.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(Stream<ComplexObject> stream) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(stream: Stream<ComplexObject>) {
+}
+```
+</JavaKotlinCodeBlock>
+
+### Stream Interfaces of Primitive Types
+
+AutoParams also accommodates stream interfaces that are specific to primitive types, such as IntStream, LongStream, and DoubleStream.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(IntStream arg1, LongStream arg2, DoubleStream arg3) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(arg1: IntStream, arg2: LongStream, arg3: DoubleStream) {
+}
+```
+</JavaKotlinCodeBlock>
+
+This added layer of support for stream types allows AutoParams to be a comprehensive solution for generating test data across a wide range of data structures and types, making your testing more robust and efficient.

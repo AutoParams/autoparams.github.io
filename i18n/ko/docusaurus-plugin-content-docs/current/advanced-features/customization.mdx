@@ -1,0 +1,201 @@
+---
+sidebar_position: 7
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# @Customization
+
+The `@Customization` annotation allows you to tailor the generation of test data according to specific business rules or requirements. This powerful feature integrates seamlessly with the AutoParams framework, offering the flexibility to apply custom logic to your parameterized tests.
+
+## Business Rule Example
+
+Let's consider a Product entity, which has some business rules to follow:
+
+- The listPriceAmount must be greater than or equal to 100
+- The listPriceAmount must be less than or equal to 1000
+- A 10% discount should be offered, reflected in sellingPriceAmount
+
+<JavaKotlinCodeBlock>
+```java
+@AllArgsConstructor
+@Getter
+public class Product {
+    private final UUID id;
+    private final String name;
+    private final BigDecimal listPriceAmount;
+    private final BigDecimal sellingPriceAmount;
+}
+```
+
+```kotlin
+class Product(
+    val id: UUID,
+    val name: String,
+    val listPriceAmount: BigDecimal,
+    val sellingPriceAmount: BigDecimal
+)
+```
+</JavaKotlinCodeBlock>
+
+## Customizing Object Generation
+
+You can implement these rules using the `Customizer` interface:
+
+<JavaKotlinCodeBlock>
+```java
+public class ProductGenerator extends ObjectGeneratorBase<Product> {
+
+    @Override
+    protected Product generateObject(ObjectQuery query, ResolutionContext context) {
+        UUID id = context.resolve(UUID.class);
+        String name = context.resolve(String.class);
+
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        BigDecimal listPriceAmount = new BigDecimal(random.nextInt(100, 1000 + 1));
+        BigDecimal sellingPriceAmount = listPriceAmount.multiply(new BigDecimal("0.9"));
+
+        return new Product(id, name, listPriceAmount, sellingPriceAmount);
+    }
+}
+```
+
+```kotlin
+class ProductGenerator : ObjectGeneratorBase<Product>() {
+
+    override fun generateObject(query: ObjectQuery, context: ResolutionContext): Product {
+        val id = context.resolve(UUID::class.java)
+        val name = context.resolve(String::class.java)
+
+        val random = ThreadLocalRandom.current()
+        val listPriceAmount = BigDecimal(random.nextInt(100, 1000 + 1))
+        val sellingPriceAmount = listPriceAmount.multiply(BigDecimal("0.9"))
+
+        return Product(id, name, listPriceAmount, sellingPriceAmount)
+    }
+}
+```
+</JavaKotlinCodeBlock>
+
+## Applying Customization to Test Method
+
+Annotate your test method to apply the customization:
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+@Customization(ProductGenerator.class)
+void testMethod(Product arg) {
+    assertThat(arg.getSellingPriceAmount()).isLessThan(arg.getListPriceAmount());
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+@Customization(ProductGenerator::class)
+fun testMethod(arg: Product) {
+    assertThat(arg.sellingPriceAmount).isLessThan(arg.listPriceAmount)
+}
+```
+</JavaKotlinCodeBlock>
+
+
+## Composite Customizer
+
+You can also create a composite customizer to apply multiple custom rules:
+
+<JavaKotlinCodeBlock>
+```java
+public class DomainCustomizer extends CompositeCustomzer {
+    public DomainCustomizer() {
+        super(
+            new EmailGenerator(),
+            new UserGenerator(),
+            new SupplierGenerator(),
+            new ProductGenerator()
+        );
+    }
+}
+```
+
+```kotlin
+class DomainCustomizer : CompositeCustomizer(
+    EmailGenerator(),
+    UserGenerator(),
+    SupplierGenerator(),
+    ProductGenerator()
+)
+```
+</JavaKotlinCodeBlock>
+
+And use it like this:
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+@Customization(DomainCustomizer.class)
+void testMethod(Email email, User user, Supplier supplier, Product product) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+@Customization(DomainCustomizer::class)
+fun testMethod(email: Email, user: User, supplier: Supplier, product: Product) {
+}
+```
+</JavaKotlinCodeBlock>
+
+## Settable Properties
+
+If your object follows the JavaBeans spec and has settable properties, you can use `InstancePropertyCustomizer`:
+
+<JavaKotlinCodeBlock>
+```java
+@Getter
+@Setter
+public class User {
+    private Long id;
+    private String name;
+}
+```
+
+```kotlin
+class User {
+    var id: Long? = null
+    var name: String? = null
+}
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+@Customization(InstancePropertyWriter.class)
+void testMethod(User user) {
+    assertNotNull(user.getId());
+    assertNotNull(user.getName());
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+@Customization(InstancePropertyWriter::class)
+fun testMethod(user: User) {
+    assertNotNull(user.id)
+    assertNotNull(user.name)
+}
+```
+</JavaKotlinCodeBlock>
+
+## Customization Scoping
+
+The `@Customization` annotation can also be applied to individual parameters within a test method. Once applied, the customization will affect all following parameters, unless overridden.
+
+This feature provides a nuanced approach to data generation, enabling highly specialized and context-sensitive test scenarios.

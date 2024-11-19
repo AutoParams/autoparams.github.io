@@ -1,0 +1,107 @@
+---
+sidebar_position: 5
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# @MethodAutoSource
+
+The `@MethodAutoSource` annotation blends the capabilities of `@MethodSource` and `@AutoSource`. This allows you to specify the names of factory methods for the initial set of parameters, while the remaining parameters are automatically populated with arbitrary values.
+
+## How to Use
+
+To employ `@MethodAutoSource`, annotate your test method with it and specify the factory method that provides the argument values for the initial parameters. AutoParams will generate values for the remaining parameters.
+
+Here's a straightforward example:
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@MethodAutoSource("factoryMethod")
+void testMethod(int arg1, String arg2, String arg3) {
+    assertEquals(16, arg1);
+    assertEquals("foo", arg2);
+    assertNotEquals(arg2, arg3);
+}
+
+static Stream<Arguments> factoryMethod() {
+    return Stream.of(Arguments.of(16, "foo"));
+}
+```
+
+```kotlin
+@ParameterizedTest
+@MethodAutoSource("factoryMethod")
+fun testMethod(arg1: Int, arg2: String, arg3: String) {
+    assertEquals(16, arg1)
+    assertEquals("foo", arg2)
+    assertNotEquals(arg2, arg3)
+}
+
+companion object {
+    @JvmStatic
+    fun factoryMethod(): Stream<Arguments> {
+        return Stream.of(Arguments.of(16, "foo"))
+    }
+}
+```
+</JavaKotlinCodeBlock>
+
+In this instance, `arg1` and `arg2` are set based on the values provided by the `factoryMethod`. `arg3` will be assigned a randomly generated value, and the test confirms that `arg3` is not equal to `arg2`.
+
+## Compatibility with @Freeze
+
+The `@MethodAutoSource` annotation is also fully compatible with the `@Freeze` annotation. This lets you lock in values for particular parameters while dynamically populating others through a factory method.
+
+Here's how it works together:
+
+<JavaKotlinCodeBlock>
+```java
+@AllArgsConstructor
+@Getter
+public class ValueContainer {
+    private final String value;
+}
+```
+
+```kotlin
+class ValueContainer(val value: String)
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@MethodAutoSource("factoryMethod")
+void testMethod(int arg1, @Freeze String arg2, ValueContainer arg3) {
+    assertEquals("foo", arg3.getValue());
+}
+
+static Stream<Arguments> factoryMethod() {
+    return Stream.of(Arguments.of(16, "foo"));
+}
+```
+
+```kotlin
+@ParameterizedTest
+@MethodAutoSource("factoryMethod")
+fun testMethod(arg1: Int, @Freeze arg2: String, arg3: ValueContainer) {
+    assertEquals("foo", arg3.value)
+}
+
+companion object {
+    @JvmStatic
+    fun factoryMethod(): Stream<Arguments> {
+        return Stream.of(Arguments.of(16, "foo"))
+    }
+}
+```
+</JavaKotlinCodeBlock>
+
+## Benefits
+
+1. **Customizability**: The ability to specify factory methods for some parameters allows for highly tailored test setups.
+1. **Simplicity**: With automatic value generation for remaining parameters, @MethodAutoSource alleviates the need for extensive manual data preparation.
+1. **Flexibility**: This feature allows you to test a wider range of scenarios by combining pre-defined and random values.
+
+The `@MethodAutoSource` annotation enriches your testing toolkit, offering a balanced blend of control and randomness in your parameterized tests.
