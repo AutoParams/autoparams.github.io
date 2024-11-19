@@ -2,6 +2,7 @@ import styles from './styles.module.css';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
+import Translate from '@docusaurus/Translate';
 
 const simpleExampleJavaCode = `@ParameterizedTest
 @AutoSource
@@ -25,10 +26,10 @@ export default function HomepageCodeExamples(): JSX.Element {
             <div className="container">
                 <div className="row">
                     <div className={"col col--5"}>
-                        <h2>A Simple Example</h2>
+                        <h2><Translate id="homepage.codeExample.title">A Simple Example</Translate></h2>
                         <p>
-                            The automatic generation of test data by AutoParams can potentially eliminate
-                            the need for triangulation in tests, streamlining the testing process.
+                            <Translate id="homepage.codeExample.description">The automatic generation of test data by AutoParams can potentially eliminate
+                            the need for triangulation in tests, streamlining the testing process.</Translate>
                         </p>
                     </div>
                     <div className="col col--7">
