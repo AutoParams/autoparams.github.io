@@ -91,7 +91,7 @@ const config: Config = {
       copyright: `Copyright © ${new Date().getFullYear()} AutoParams contributors. Built with Docusaurus.`,
     },
     prism: {
-      theme: prismThemes.gruvboxMaterialDark,
+      theme: prismThemes.oceanicNext,
       darkTheme: prismThemes.gruvboxMaterialDark,
       additionalLanguages: ['java', 'kotlin', 'gradle'],
     },
