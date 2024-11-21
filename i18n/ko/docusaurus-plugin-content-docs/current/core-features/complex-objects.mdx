@@ -6,7 +6,7 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # 복합 개체
 
-For more complicated objects, AutoParams utilizes the public constructor with arbitrary arguments to generate test data. If the class has multiple public constructors, the framework will select the one with the fewest parameters to initialize the object.
+더 복잡한 개체의 경우, 공개 생성자와 임의의 인수를 사용하여 테스트 데이터를 생성합니다. 클래스에 여러 개의 공개 생성자가 있는 경우 매개변수가 가장 적은 생성자를 선택하여 개체를 초기화합니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -39,12 +39,12 @@ fun testMethod(arg: ComplexObject) {
 ```
 </JavaKotlinCodeBlock>
 
-## Constructor Selection Policy
+## 생성자 선택 정책
 
-When AutoParams generates objects of complex types, it adheres to the following selection criteria for constructors:
+AutoParams가 복합 유형의 개체를 생성할 때, 생성자에 대한 다음 선택 기준을 준수합니다.
 
-1. Priority is given to constructors that are annotated with the `@ConstructorProperties` annotation.
-1. If no such annotation is present, AutoParams will choose the constructor with the fewest parameters.
+1. `@ConstructorProperties` 어노테이션이 붙은 생성자를 우선합니다.
+1. 해당 어노테이션이 없으면 매개변수가 가장 적은 생성자를 선택합니다.
 
 <JavaKotlinCodeBlock>
 ```java
