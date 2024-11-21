@@ -4,15 +4,15 @@
     "description": "The label for version current"
   },
   "sidebar.docsSidebar.category.Core Features": {
-    "message": "Core Features",
+    "message": "핵심 기능",
     "description": "The label for category Core Features in sidebar docsSidebar"
   },
   "sidebar.docsSidebar.category.Advanced Features": {
-    "message": "Advanced Features",
+    "message": "고급 기능",
     "description": "The label for category Advanced Features in sidebar docsSidebar"
   },
   "sidebar.docsSidebar.category.Extensions": {
-    "message": "Extensions",
+    "message": "확장",
     "description": "The label for category Extensions in sidebar docsSidebar"
   }
 }
