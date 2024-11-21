@@ -8,14 +8,14 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://autoparamssample.github.io',
+  url: 'https://autoparams.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
-  organizationName: 'AutoParamsSample', // Usually your GitHub org/user name.
-  projectName: 'autoparamssample.github.io', // Usually your repo name.
+  organizationName: 'AutoParams', // Usually your GitHub org/user name.
+  projectName: 'autoparams.github.io', // Usually your repo name.
   trailingSlash: false,
 
   onBrokenLinks: 'throw',
