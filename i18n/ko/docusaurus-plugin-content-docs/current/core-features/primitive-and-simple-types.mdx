@@ -6,9 +6,9 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # 기본 & 단순 유형
 
-## Support for Primitive Types
+## 기본 유형
 
-AutoParams effortlessly generates test arguments for primitive data types, such as booleans, integers, and floats.
+AutoParams는 부울, 정수, 부동 소수점과 같은 기본 데이터 유형에 대한 테스트 인수를 손쉽게 생성합니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -28,9 +28,9 @@ fun test_primitive(
 ```
 </JavaKotlinCodeBlock>
 
-## Handling Simple Objects
+## 단순한 개체
 
-The framework also provides test arguments in the form of simple objects like Strings, UUIDs, and BigIntegers.
+또한 문자열, UUID, BigInteger와 같은 간단한 개체도 테스트 인수로 제공합니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -48,9 +48,9 @@ fun testMethod(x1: String, x2: UUID, x3: BigInteger) {
 ```
 </JavaKotlinCodeBlock>
 
-## Enum Type Support
+## 열거형
 
-Enum types are seamlessly integrated as well. AutoParams will randomly select values from the enum for test arguments.
+열거형 유형도 완벽하게 통합됩니다. AutoParams는 테스트 인수의 열거형 값을 무작위로 선택합니다.
 
 <JavaKotlinCodeBlock>
 ```java
