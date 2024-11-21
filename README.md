@@ -2,7 +2,7 @@
 
 This is the repository for the AutoParams Documentation site.
 - [AutoParams Repository](https://github.com/AutoParams/AutoParams)
-- [AutoParams Documentation Site](https://autoparamssample.github.io)
+- [AutoParams Documentation Site](https://autoparams.github.io)
 
 ## Structure
 - `docs` : Docs markdown files
