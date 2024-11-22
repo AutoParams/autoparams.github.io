@@ -6,13 +6,13 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # @Repeat
 
-The `@Repeat` annotation in AutoParams provides you with a straightforward way to repeat a unit test multiple times, each time with newly generated, arbitrary test data. This can be particularly useful when you want to ensure that a piece of code functions as expected across a variety of input conditions.
+AutoParams의 `@Repeat` 어노테이션은 단위 테스트를 여러 번 반복하는 간단한 방법을 제공하며, 매번 새로 생성된 임의의 테스트 데이터로 반복합니다. 이는 다양한 입력 조건에서 코드 조각이 예상대로 작동하는지 확인하고 싶을 때 특히 유용합니다.
 
-## How to Use
+## 사용 방법
 
-To use the `@Repeat` feature, you'll need to attach the `@Repeat` annotation alongside the `@AutoSource` annotation on your parameterized test method. The repeat property of the `@Repeat` annotation takes an integer value, specifying the number of times the test should be repeated.
+`@Repeat` 기능을 사용하려면 매개변수화된 테스트 메서드에 `@AutoSource`와 `@Repeat` 어노테이션을 함께 첨부해야 합니다. `@Repeat` 어노테이션의 `repeat` 속성은 테스트가 반복될 횟수를 지정하는 정수 값을 받습니다.
 
-Here's an example:
+다음은 그 예입니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -40,12 +40,12 @@ fun testMethod(a: Int, b: Int) {
 ```
 </JavaKotlinCodeBlock>
 
-In the example above, the test method testMethod will run ten times. Each run will have a new set of randomly generated values for a and b, thanks to the `@AutoSource` annotation. The `@Repeat(10)` ensures that this cycle happens ten times, enhancing the test coverage.
+위의 예에서 `testMethod` 테스트는 10번 실행됩니다. 각 실행은 `@AutoSource` 어노테이션 덕분에 무작위로 생성된 새로운 값 세트가 `a`와 `b`에 적용됩니다. `@Repeat(10)`은 이 주기가 10번 실행되도록 하여 테스트 커버리지를 향상시킵니다.
 
-## Benefits
+## 혜택
 
-1. **Diverse Test Data**: The `@Repeat` feature allows you to test your methods across a wider range of automatically generated input values.
-1. **Reduced Manual Effort**: There's no need to manually specify multiple sets of test data or create loops within your tests.
-1. **Increased Test Robustness**: Repeating tests multiple times with varying data can uncover edge cases and improve the reliability of your software.
+1. **다양한 테스트 데이터**: `@Repeat` 기능을 사용하면 자동으로 생성된 다양한 입력 값에 대해 메서드를 테스트할 수 있습니다.
+1. **수동 작업 감소**: 여러 테스트 데이터 세트를 수동으로 지정하거나 테스트 내에서 루프를 만들 필요가 없습니다.
+1. **테스트 견고성 향상**: 다양한 데이터로 테스트를 여러 번 반복하면 예외 사례를 발견하고 소프트웨어의 안정성을 향상할 수 있습니다.
 
-By using the `@Repeat` feature, you can increase the comprehensiveness and reliability of your test suite with minimal additional effort.
+`@Repeat` 기능을 사용하면 최소한의 노력으로 테스트 모음의 포괄성과 신뢰성을 높일 수 있습니다.
