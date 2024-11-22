@@ -6,13 +6,13 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # @CsvAutoSource
 
-The `@CsvAutoSource` annotation merges the features of `@CsvSource` and `@AutoSource`, providing you with the flexibility to specify CSV-formatted arguments for some parameters while generating random values for the remaining ones.
+`@CsvAutoSource` 어노테이션은 `@CsvSource`와 `@AutoSource`의 기능을 통합하여 일부 매개변수에 대해 CSV 형식의 인수를 지정하고 나머지 매개변수에 대해 무작위 값을 생성하는 유연성을 제공합니다.
 
-## How to Use
+## 사용 방법
 
-To use `@CsvAutoSource`, annotate your test method with it and provide CSV-formatted input values for the initial set of parameters. The remaining parameters will be populated with automatically generated values.
+`@CsvAutoSource`를 사용하려면 테스트 메서드에 어노테이션을 달고 초기 매개변수 집합에 대한 CSV 형식의 입력 값을 제공합니다. 나머지 매개변수는 자동으로 생성된 값으로 채워집니다.
 
-Here's a simple example:
+간단한 예를 보겠습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -36,13 +36,13 @@ fun testMethod(arg1: Int, arg2: String, arg3: String) {
 ```
 </JavaKotlinCodeBlock>
 
-In this example, `arg1` is set to `16` and `arg2` is set to `"foo"` based on the provided CSV input. Meanwhile, `arg3` will be assigned a randomly generated value. The test verifies that `arg3` is different from `arg2`.
+이 예제는 제공된 CSV 입력에 따라 `arg1`은 `16`으로 설정되고 `arg2`는 `"foo"`로 설정됩니다. 한편, `arg3`은 무작위로 생성된 값이 할당됩니다. 이 테스트는 `arg3`가 `arg2`와 다르다는 것을 확인합니다.
 
-## Compatibility with @Freeze
+## @Freeze와의 호환성
 
-Just like `@ValueAutoSource`, `@CsvAutoSource` is fully compatible with the `@Freeze` annotation, allowing you to lock in values for specific parameters while also defining others via CSV.
+`@ValueAutoSource`와 마찬가지로 `@CsvAutoSource`는 `@Freeze` 주석과 완벽하게 호환되므로 특정 매개변수의 값을 고정하는 동시에 CSV를 통해 다른 매개변수를 정의할 수 있습니다.
 
-Here's how they can work together:
+함께 작동하는 방식은 다음과 같습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -76,10 +76,10 @@ fun testMethod(arg1: Int, @Freeze arg2: String, arg3: ValueContainer) {
 ```
 </JavaKotlinCodeBlock>
 
-## Benefits
+## 혜택
 
-1. **Dual Control**: The ability to specify values via CSV for some parameters while allowing automatic random generation for others provides a high level of control over your test data.
-1. **Streamlined Testing**: By allowing both manual and automated data input, `@CsvAutoSource` simplifies the setup of complex tests.
-1. **Flexible and Comprehensive**: This feature offers you the flexibility to cover a broader range of test scenarios by mixing pre-defined and random values.
+1. **이중 제어**: 일부 매개변수에 대해서는 CSV를 통해 값을 지정하고 다른 매개변수에 대해서는 자동 난수 생성을 허용하는 기능을 통해 테스트 데이터에 대한 높은 수준의 제어가 가능합니다.
+1. **간소화된 테스트**: 수동 및 자동 데이터 입력을 모두 허용함으로써 `@CsvAutoSource`는 복잡한 테스트 설정을 간소화합니다.
+1. **유연하고 포괄적**: 이 기능을 사용하면 사전 정의된 값과 무작위 값을 혼합하여 더 광범위한 테스트 시나리오를 포괄할 수 있는 유연성을 제공합니다.
 
-The `@CsvAutoSource` annotation is another versatile tool in your testing suite, adding both precision and coverage to your parameterized tests.
+`@CsvAutoSource` 어노테이션은 테스트 도구 모음의 또 다른 다재다능한 도구로, 매개변수화된 테스트에 정밀도와 커버리지를 모두 추가합니다.
