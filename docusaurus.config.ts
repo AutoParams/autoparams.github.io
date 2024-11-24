@@ -55,6 +55,7 @@ const config: Config = {
   themeConfig: {
     metadata: [
       { name: 'description', content: 'AutoParams is a versatile test data generator designed for parameterized tests in Java and Kotlin, drawing inspiration from AutoFixture.' },
+      { name: 'google-site-verification', content: 'JTQC3Qse5xJxBr7GLaV4aYsN43IKAOO0pUhBayPB0wk'},
     ],
     navbar: {
       title: 'AutoParams',
