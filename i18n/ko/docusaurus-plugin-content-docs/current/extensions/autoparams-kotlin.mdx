@@ -6,13 +6,13 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # autoparams-kotlin
 
-autoparams-kotlin is an extension designed to simplify and enhance the experience when working with Kotlin. 
+`autoparams-kotlin`은 Kotlin을 사용할 때의 경험을 단순화하고 향상시키도록 설계된 확장 프로그램입니다.
 
-## Install
+## 설치하기
 
 ### Maven
 
-For Maven, you can add the following dependency to your pom.xml:
+Maven의 경우 pom.xml에 다음 종속성을 추가할 수 있습니다.
 
 ```xml
 <dependency>
@@ -24,7 +24,7 @@ For Maven, you can add the following dependency to your pom.xml:
 
 ### Gradle
 
-For Gradle, use:
+Gradle을 사용한다면, build.gradle에 다음 종속성을 추가하세요.
 
 ```gradle
 testImplementation 'io.github.autoparams:autoparams-kotlin:8.3.0'
@@ -32,7 +32,7 @@ testImplementation 'io.github.autoparams:autoparams-kotlin:8.3.0'
 
 ## @AutoKotlinSource
 
-Consider the example of a Point data class in Kotlin:
+Kotlin의 `Point` 데이터 클래스 예를 살펴보겠습니다.
 
 <JavaKotlinCodeBlock>
 ```kotlin
@@ -40,9 +40,9 @@ data class Point(val x: Int = 0, val y: Int = 0)
 ```
 </JavaKotlinCodeBlock>
 
-In typical test scenarios, you might want to ensure the parameters passed to your test methods aren't just default or predictable values. The autoparams-kotlin extension can assist in such cases.
+일반적인 테스트 시나리오에서 테스트 메서드에 전달된 매개변수가 기본 값이나 예측 가능한 값이 아닌지 확인하고 싶을 수 있습니다. `autoparams-kotlin` 확장은 이러한 경우에 도움이 될 수 있습니다.
 
-Below is a demonstration using the `@AutoKotlinSource` annotation provided by autoparams-kotlin. This annotation automatically generates random parameters for your test methods:
+아래는 `autoparams-kotlin`에서 제공하는 `@AutoKotlinSource` 어노테이션을 사용한 데모입니다. 이 어노테이션은 테스트 메서드에 대한 임의의 매개변수를 자동으로 생성합니다.
 
 <JavaKotlinCodeBlock>
 ```kotlin
@@ -55,4 +55,4 @@ fun testMethod(point: Point) {
 ```
 </JavaKotlinCodeBlock>
 
-In this example, the `testMethod` doesn't receive a hardcoded `Point` object. Instead, thanks to the `@AutoKotlinSource` annotation, a randomized `Point` object is passed in, making the test more robust by ensuring it isn't biased by predetermined values.
+이 예에서 `testMethod`는 하드코딩된 `Point` 개체를 받지 않습니다. 대신 `@AutoKotlinSource` 어노테이션 덕분에 무작위 `Point` 개체가 전달되어 미리 정해진 값에 의해 편향되지 않도록 하여 테스트를 더욱 견고하게 만듭니다.
