@@ -23,14 +23,6 @@ function HomepageHeader() {
           <p className="hero__subtitle">
             <Translate id="homepage.siteConfig.tagline">{siteConfig.tagline}</Translate>
           </p>
-          <div className={styles.buttons}>
-            <Link to="docs">
-              <button className="button button--secondary" role="button">Documentation</button>
-            </Link>
-            <iframe
-              src="https://ghbtns.com/github-btn.html?user=AutoParams&repo=AutoParams&type=star&count=true&size=large"
-                width="170" height="30" title="GitHub"></iframe>
-          </div>
         </div>
       </div>
     </header>

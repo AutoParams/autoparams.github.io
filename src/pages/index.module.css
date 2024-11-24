@@ -16,18 +16,9 @@
   }
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding-left: 55px;
-  padding-top: 2rem;
-}
-
 .heading {
   position: relative;
-  padding: 40px 0;
+  padding: 60px 0;
 }
 
 .headingTitle {
