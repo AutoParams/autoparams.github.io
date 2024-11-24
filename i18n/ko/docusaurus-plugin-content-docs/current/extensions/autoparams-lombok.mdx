@@ -6,13 +6,13 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # autoparams-lombok
 
-autoparams-lombok is an extension for the AutoParams library that makes it easier to work with [Project Lombok](https://projectlombok.org/), a library that reduces boilerplate code in Java applications.
+`autoparams-lombok`은 Java 애플리케이션의 보일러플레이트 코드를 줄여 주는 라이브러리인 [Project Lombok](https://projectlombok.org/) 작업을 보다 쉽게 ​​만들어 주는 AutoParams 라이브러리의 확장 프로그램입니다.
 
-## Install
+## 설치하기
 
 ### Maven
 
-For Maven, you can add the following dependency to your pom.xml:
+Maven의 경우 pom.xml에 다음 종속성을 추가할 수 있습니다.
 
 ```xml
 <dependency>
@@ -24,7 +24,7 @@ For Maven, you can add the following dependency to your pom.xml:
 
 ### Gradle
 
-For Gradle, use:
+Gradle을 사용한다면, build.gradle에 다음 종속성을 추가하세요.
 
 ```gradle
 testImplementation 'io.github.autoparams:autoparams-lombok:8.3.0'
@@ -32,9 +32,9 @@ testImplementation 'io.github.autoparams:autoparams-lombok:8.3.0'
 
 ## BuilderCustomizer
 
-When working with `@Builder` annotation, you can use the `BuilderCustomizer` to facilitate generating arbitrary objects for your tests. Here's an example:
+`@Builder` 어노테이션으로 작업할 때 `BuilderCustomizer`를 사용하여 테스트를 위한 임의의 개체를 생성하는 것을 용이하게 할 수 있습니다. 다음은 예입니다.
 
-Suppose you have a `User` class like so:
+다음과 같은 `User` 클래스가 있다고 가정해 보겠습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -51,7 +51,7 @@ public class User {
 ```
 </JavaKotlinCodeBlock>
 
-You can use BuilderCustomizer to create objects of type User for your tests:
+`BuilderCustomizer`를 사용하면 테스트를 위한 `User` 유형의 개체를 생성할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -66,9 +66,9 @@ void testMethod(User user) {
 ```
 </JavaKotlinCodeBlock>
 
-### Custom Method Names
+### 사용자 정의 메서드 이름
 
-If you've customized the builder method names using `builderMethodName` and `buildMethodName` in your Lombok `@Builder`, you'll need to create a subclass of `BuilderCustomizer` to handle the custom names:
+Lombok의 `@Builder`에서 `builderMethodName`과 `buildMethodName`을 사용하여 빌더 메서드 이름을 사용자 정의한 경우, 사용자 정의 이름을 처리하기 위해 `BuilderCustomizer`의 하위 클래스를 생성해야 합니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -85,7 +85,7 @@ public class User {
 ```
 </JavaKotlinCodeBlock>
 
-Here's how you can extend `BuilderCustomizer`:
+`BuilderCustomizer`를 확장하는 방법은 다음과 같습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -98,7 +98,7 @@ public class UserBuilderCustomizer extends BuilderCustomizer {
 ```
 </JavaKotlinCodeBlock>
 
-Now, you can use your customized `UserBuilderCustomizer` in your tests:
+이제 테스트에서 사용자 정의된 `UserBuilderCustomizer`를 사용할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -113,4 +113,4 @@ void testMethod(User user) {
 ```
 </JavaKotlinCodeBlock>
 
-This allows you to keep the benefits of using `@Builder` annotation while gaining the automatic generation capabilities provided by AutoParams.
+이렇게 하면 `@Builder` 어노테이션을 사용하는 이점은 그대로 유지하면서 AutoParams가 제공하는 자동 생성 기능도 활용할 수 있습니다.
