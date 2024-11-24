@@ -6,15 +6,15 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # @Customization
 
-The `@Customization` annotation allows you to tailor the generation of test data according to specific business rules or requirements. This powerful feature integrates seamlessly with the AutoParams framework, offering the flexibility to apply custom logic to your parameterized tests.
+`@Customization` 어노테이션을 사용하면 특정 비즈니스 규칙이나 요구 사항에 따라 테스트 데이터 생성을 맞춤 설정할 수 있습니다. 이 강력한 기능은 AutoParams 프레임워크와 완벽하게 통합되어 매개변수화된 테스트에 사용자 정의 논리를 적용할 수 있는 유연성을 제공합니다.
 
-## Business Rule Example
+## 비즈니스 규칙 예
 
-Let's consider a Product entity, which has some business rules to follow:
+다음과 같은 몇 가지 비즈니스 규칙이 있는 Product 엔터티를 고려해 보겠습니다.
 
-- The listPriceAmount must be greater than or equal to 100
-- The listPriceAmount must be less than or equal to 1000
-- A 10% discount should be offered, reflected in sellingPriceAmount
+- `listPriceAmount`는 100보다 크거나 같아야 합니다.
+- `listPriceAmount`는 1000보다 작거나 같아야 합니다.
+- `sellingPriceAmount`에 반영된 10% 할인을 제공해야 합니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -38,9 +38,9 @@ class Product(
 ```
 </JavaKotlinCodeBlock>
 
-## Customizing Object Generation
+## 개체 생성 사용자 정의
 
-You can implement these rules using the `Customizer` interface:
+`Customizer` 인터페이스를 사용하여 이러한 규칙을 구현할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -77,9 +77,9 @@ class ProductGenerator : ObjectGeneratorBase<Product>() {
 ```
 </JavaKotlinCodeBlock>
 
-## Applying Customization to Test Method
+## 테스트 메서드에 사용자 정의 적용
 
-Annotate your test method to apply the customization:
+사용자 정의를 적용하려면 테스트 메서드에 `@Customization` 어노테이션을 달아야 합니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -102,9 +102,9 @@ fun testMethod(arg: Product) {
 </JavaKotlinCodeBlock>
 
 
-## Composite Customizer
+## 복합 커스터마이저
 
-You can also create a composite customizer to apply multiple custom rules:
+복수의 사용자 정의 규칙을 적용하기 위해 복합 커스터마이저를 만들 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -130,7 +130,7 @@ class DomainCustomizer : CompositeCustomizer(
 ```
 </JavaKotlinCodeBlock>
 
-And use it like this:
+그리고 다음처럼 사용하세요.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -150,9 +150,9 @@ fun testMethod(email: Email, user: User, supplier: Supplier, product: Product) {
 ```
 </JavaKotlinCodeBlock>
 
-## Settable Properties
+## 설정 가능한 속성
 
-If your object follows the JavaBeans spec and has settable properties, you can use `InstancePropertyCustomizer`:
+개체가 JavaBeans 사양을 따르고 설정할 수 있는 속성이 있는 경우 `InstancePropertyCustomizer`를 사용할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -194,8 +194,8 @@ fun testMethod(user: User) {
 ```
 </JavaKotlinCodeBlock>
 
-## Customization Scoping
+## 사용자 정의 범위 지정
 
-The `@Customization` annotation can also be applied to individual parameters within a test method. Once applied, the customization will affect all following parameters, unless overridden.
+`@Customization` 어노테이션은 테스트 메서드 내의 개별 매개변수에도 적용할 수 있습니다. 적용되면 사용자 정의는 재정의되지 않는 한 모든 후속 매개변수에 영향을 미칩니다.
 
-This feature provides a nuanced approach to data generation, enabling highly specialized and context-sensitive test scenarios.
+이 기능은 데이터 생성에 대한 미묘한 접근 방식을 제공하여 고도로 전문화되고 상황에 민감한 테스트 시나리오를 가능하게 합니다.
