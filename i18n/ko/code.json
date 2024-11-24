@@ -310,7 +310,7 @@
     "message": "태그",
     "description": "The title of the tag list page"
   },
-  "homepage.siteConfig.title": {
+  "homepage.heading.title": {
     "message": "AutoParams는 자바 및 코틀린으로 작성된 테스트 데이터 생성기입니다.",
     "description": "The siteConfig.title message"
   },
