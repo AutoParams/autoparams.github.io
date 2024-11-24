@@ -18,7 +18,7 @@ function HomepageHeader() {
         <HeadingDecoration />
         <div className={styles.heading}>
           <Heading as="h1" className={clsx('hero__title', styles.headingTitle)}>
-            <Translate id="homepage.siteConfig.title">{siteConfig.title}</Translate>
+            <Translate id="homepage.heading.title">AutoParams is a test data generator in Java and Kotlin.</Translate>
           </Heading>
           <p className="hero__subtitle">
             <Translate id="homepage.siteConfig.tagline">{siteConfig.tagline}</Translate>
