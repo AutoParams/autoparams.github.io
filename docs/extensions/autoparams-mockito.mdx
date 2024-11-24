@@ -6,7 +6,7 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # autoparams-mockito
 
-autoparams-mockito is an extension of the AutoParams library that facilitates the creation of mocks for interfaces and abstract classes using Mockito, a popular mocking framework in Java. By integrating these two libraries, you can seamlessly generate mock objects for your tests.
+`autoparams-mockito` is an extension of the AutoParams library that facilitates the creation of mocks for interfaces and abstract classes using Mockito, a popular mocking framework in Java. By integrating these two libraries, you can seamlessly generate mock objects for your tests.
 
 ## Install
 
@@ -77,7 +77,7 @@ class SystemUnderTest(private val dependency: Dependency) {
 ```
 </JavaKotlinCodeBlock>
 
-To generate mock objects for interfaces or abstract classes, the autoparams-mockito extension provides the `MockitoCustomizer`. When you decorate your test method with `@Customization(MockitoCustomizer.class)`, the `@AutoSource` annotation will employ Mockito to create mock values for the specified parameters.
+To generate mock objects for interfaces or abstract classes, the `autoparams-mockito` extension provides the `MockitoCustomizer`. When you decorate your test method with `@Customization(MockitoCustomizer.class)`, the `@AutoSource` annotation will employ Mockito to create mock values for the specified parameters.
 
 Here's how you can apply this in practice:
 
