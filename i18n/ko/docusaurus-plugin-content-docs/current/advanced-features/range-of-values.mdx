@@ -6,13 +6,13 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # 값의 범위 제한
 
-You can constrain the range of generated arbitrary values for certain parameters using the `@Min` and `@Max` annotations. These annotations allow you to set minimum and maximum bounds, respectively, ensuring that the generated values fall within the specified range.
+`@Min` 및 `@Max` 어노테이션을 사용하여 특정 매개변수에 대해 생성되는 임의의 값의 범위를 제한할 수 있습니다. 이러한 어노테이션을 사용하면 각각 최소 및 최대 범위를 설정하여 생성된 값이 지정된 범위 내에 속하도록 할 수 있습니다.
 
-## How to Use
+## 사용 방법
 
-To set the range for a parameter, simply annotate it with `@Min` to define the minimum value and `@Max` to define the maximum value.
+매개변수의 범위를 설정하려면 `@Min` 어노테이션을 달아 최소값을 정의하고, `@Max` 어노테이션을 달아 최대값을 정의하면 됩니다.
 
-Here's an example:
+다음은 그 예입니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -34,11 +34,11 @@ fun testMethod(@Min(1) @Max(10) value: Int) {
 ```
 </JavaKotlinCodeBlock>
 
-In this test, the value parameter will always be an integer between `1` and `10`, inclusive.
+이 테스트에서 값 매개변수는 항상 `1` 이상 `10` 이하의 정수입니다.
 
-## Supported types
+## 지원되는 유형
 
-The `@Min` and `@Max` annotations are compatible with the following types:
+`@Min` 및 `@Max` 어노테이션은 다음 유형과 호환됩니다.
 
 - `byte`
 - `Byte`
@@ -53,10 +53,10 @@ The `@Min` and `@Max` annotations are compatible with the following types:
 - `double`
 - `Double`
 
-## Benefits
+## 혜택
 
-1. **Controlled Randomness**: These annotations help you fine-tune the scope of randomness, allowing for more targeted and meaningful tests.
-1. **Reduced Test Flakiness**: By constraining the range of values, you reduce the risk of encountering edge cases that could make your tests flaky.
-1. **Enhanced Readability**: Using `@Min` and `@Max` makes it clear to readers what range of values are being tested, thereby improving the readability and maintainability of your test code.
+1. **제어된 무작위성**: 이 어노테이션은 무작위성의 범위를 미세하게 조정하여 더 집중적이고 의미 있는 테스트를 수행하는 데 도움이 됩니다.
+1. **테스트의 불안정성 감소**: 값의 범위를 제한함으로써 테스트가 불안정해질 수 있는 예외 상황이 발생할 위험을 줄일 수 있습니다.
+1. **가독성 향상**: `@Min`과 `@Max`를 사용하면 독자에게 어떤 범위의 값을 테스트하는지 명확하게 전달하여 테스트 코드의 가독성과 유지보수성을 향상시킵니다.
 
-By using the `@Min` and `@Max` annotations in conjunction with `@AutoSource`, you can achieve a balanced mix of randomness and predictability, making your parameterized tests both versatile and reliable.
+`@Min`과 `@Max` 어노테이션을 `@AutoSource`와 함께 사용하면 무작위성과 예측 가능성을 균형 있게 혼합하여 매개변수화된 테스트를 다재다능하고 안정적으로 만들 수 있습니다.
