@@ -92,6 +92,12 @@ const config: Config = {
       darkTheme: prismThemes.gruvboxMaterialDark,
       additionalLanguages: ['java', 'kotlin', 'gradle'],
     },
+    algolia: {
+      appId: 'XWNJDQZOP3',
+      apiKey: '0e68b2bcc08a9def8ee39b61496b9d83',
+      indexName: 'autoparamsio',
+      contextualSearch: true,
+    },
   } satisfies Preset.ThemeConfig,
   future: {
     // Disabled because hot reload fails in Korean
