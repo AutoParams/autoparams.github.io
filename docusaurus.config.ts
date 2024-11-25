@@ -100,8 +100,7 @@ const config: Config = {
     },
   } satisfies Preset.ThemeConfig,
   future: {
-    // Disabled because hot reload fails in Korean
-    // experimental_faster: true,
+    experimental_faster: true,
   }
 };
 
