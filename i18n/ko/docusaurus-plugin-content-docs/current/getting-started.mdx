@@ -13,7 +13,7 @@ description: Maven 또는 Gradle에 종속성을 추가하여 시작할 수 있�
 
 ### Maven
 
-Maven을 사용한다면, pom.xml에 다음 종속성을 추가하세요:
+Maven을 사용한다면, `pom.xml`에 다음 종속성을 추가하세요:
 
 ```xml
 <dependency>
@@ -23,10 +23,18 @@ Maven을 사용한다면, pom.xml에 다음 종속성을 추가하세요:
 </dependency>
 ```
 
-### Gradle
+### Gradle (Groovy)
 
-Gradle을 사용한다면, build.gradle에 다음 종속성을 추가하세요:
+Gradle Groovy DSL을 사용한다면, `build.gradle`에 다음 종속성을 추가하세요:
 
 ```gradle
 testImplementation 'io.github.autoparams:autoparams:8.3.0'
+```
+
+### Gradle (Kotlin)
+
+Gradle Kotlin DSL을 사용한다면, `build.gradle.kts`에 다음 종속성을 추가하세요:
+
+```gradle
+testImplementation("io.github.autoparams:autoparams:8.3.0")
 ```

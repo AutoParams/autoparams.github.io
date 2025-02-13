@@ -12,7 +12,7 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 ### Maven
 
-Maven을 사용한다면, pom.xml에 다음 종속성을 추가하세요.
+Maven을 사용한다면, `pom.xml`에 다음 종속성을 추가하세요.
 
 ```xml
 <dependency>
@@ -22,12 +22,20 @@ Maven을 사용한다면, pom.xml에 다음 종속성을 추가하세요.
 </dependency>
 ```
 
-### Gradle
+### Gradle (Groovy)
 
-Gradle을 사용한다면, build.gradle에 다음 종속성을 추가하세요.
+Gradle Groovy DSL을 사용한다면, `build.gradle`에 다음 종속성을 추가하세요.
 
 ```gradle
 testImplementation 'io.github.autoparams:autoparams-mockito:8.3.0'
+```
+
+### Gradle (Kotlin)
+
+Gradle Kotlin DSL을 사용한다면, `build.gradle.kts`에 다음 종속성을 추가하세요.
+
+```gradle
+testImplementation("io.github.autoparams:autoparams-mockito:8.3.0")
 ```
 
 ## Mockito로 테스트 더블 생성

@@ -13,7 +13,7 @@ description: You can start by adding a dependency to Maven or Gradle.
 
 ### Maven
 
-For Maven, you can add the following dependency to your pom.xml:
+For Maven, you can add the following dependency to your `pom.xml`:
 
 ```xml
 <dependency>
@@ -23,10 +23,18 @@ For Maven, you can add the following dependency to your pom.xml:
 </dependency>
 ```
 
-### Gradle
+### Gradle (Groovy)
 
-For Gradle, use:
+For Gradle Groovy DSL, use:
 
 ```gradle
 testImplementation 'io.github.autoparams:autoparams:8.3.0'
+```
+
+### Gradle (Kotlin)
+
+For Gradle Kotlin DSL, use:
+
+```gradle
+testImplementation("io.github.autoparams:autoparams:8.3.0")
 ```
