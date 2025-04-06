@@ -1,0 +1,142 @@
+---
+sidebar_position: 4
+description: 배열과 컬렉션, 제너릭 스트림과 원시 스트림 유형의 테스트 인수를 생성합니다.
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# 컬렉션 & 스트림 유형
+
+## 컬렉션 유형 지원
+
+AutoParams는 다양한 컬렉션 유형에 대한 광범위한 지원을 제공하여 보다 복잡한 테스트 시나리오에서 그 유용성을 향상시킵니다.
+
+### 배열
+
+AutoParams는 기본적으로 세 개의 요소를 포함하는 배열 인스턴스를 자동으로 생성합니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(int[] array1, String[] array2) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(array1: IntArray, array2: Array<String>) {
+}
+```
+</JavaKotlinCodeBlock>
+
+### List 유형
+
+`List<E>` 인터페이스와 `ArrayList<E>` 클래스가 모두 지원됩니다. AutoParams는 몇 가지 요소를 포함하는 목록 개체를 생성합니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(List<String> list, ArrayList<UUID> arrayList) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(list: List<String>, arrayList: ArrayList<UUID>) {
+}
+```
+</JavaKotlinCodeBlock>
+
+### Set 유형
+
+AutoParams는 `Set<E>` 인터페이스와 `HashSet<E>` 클래스도 지원하여 몇 가지 요소를 포함하는 집합 개체를 생성합니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(Set<String> set, HashSet<UUID> hashSet) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(set: Set<String>, hashSet: HashSet<UUID>) {
+}
+```
+</JavaKotlinCodeBlock>
+
+### Map 유형
+
+`Map<K, V>` 인터페이스와 `HashMap<K, V>` 클래스도 지원합니다. AutoParams는 몇 가지 키-값 쌍을 포함하는 맵 개체를 생성합니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(Map<String, ComplexObject> map,
+                HashMap<UUID, ComplexObject> hashMap) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(map: Map<String, ComplexObject>,
+               hashMap: HashMap<UUID, ComplexObject>) {
+}
+```
+</JavaKotlinCodeBlock>
+
+AutoParams는 컬렉션 유형을 포괄적으로 지원하여 테스트 데이터를 생성하는 다재다능한 도구로, 다양한 데이터 구조를 수용하여 철저한 테스트를 보장합니다.
+
+## 스트림 유형 지원
+
+AutoParams는 다양한 유형의 스트림 인터페이스를 지원하여 테스트 역량을 더욱 폭넓게 확장할 수 있습니다.
+
+### 제너릭 스트림 인터페이스
+
+AutoParams는 제너릭 `Stream<T>` 인터페이스를 지원하며 몇 가지 요소를 포함하는 스트림 객체를 생성합니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(Stream<ComplexObject> stream) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(stream: Stream<ComplexObject>) {
+}
+```
+</JavaKotlinCodeBlock>
+
+### 원시 유형의 스트림 인터페이스
+
+AutoParams는 IntStream, LongStream, DoubleStream과 같은 원시 유형의 스트림 인터페이스도 수용합니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(IntStream arg1, LongStream arg2, DoubleStream arg3) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(arg1: IntStream, arg2: LongStream, arg3: DoubleStream) {
+}
+```
+</JavaKotlinCodeBlock>
+
+스트림 유형에 대한 지원 계층이 추가됨에 따라 AutoParams는 광범위한 데이터 구조와 유형에 걸쳐 테스트 데이터를 생성하는 포괄적인 솔루션이 되어 보다 강력하고 효율적인 테스트를 수행할 수 있습니다.

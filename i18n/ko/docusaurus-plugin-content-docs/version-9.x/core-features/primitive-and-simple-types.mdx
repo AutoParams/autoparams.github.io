@@ -1,0 +1,86 @@
+---
+sidebar_position: 1
+description: 부울, 정수, 부동소수점과 같은 원시 데이터 유형과 문자열, UUID, BigInteger 같은 유형의 테스트 인수를 생성합니다.
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# 원시 & 단순 유형
+
+## 원시 유형
+
+AutoParams는 부울, 정수, 부동 소수점과 같은 원시 데이터 유형에 대한 테스트 인수를 손쉽게 생성합니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(
+    boolean x1, byte x2, int x3, long x4, float x5, double x6, char x7) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun test_primitive(
+    x1: Boolean, x2: Byte, x3: Int, x4: Long, x5: Float, x6: Double, x7: Char) {
+}
+```
+</JavaKotlinCodeBlock>
+
+## 단순한 개체
+
+또한 문자열, UUID, BigInteger와 같은 간단한 개체도 테스트 인수로 제공합니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(String x1, UUID x2, BigInteger x3) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(x1: String, x2: UUID, x3: BigInteger) {
+}
+```
+</JavaKotlinCodeBlock>
+
+## 열거형
+
+열거형 유형도 완벽하게 통합됩니다. AutoParams는 테스트 인수의 열거형 값을 무작위로 선택합니다.
+
+<JavaKotlinCodeBlock>
+```java
+public enum Day {
+    SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
+    THURSDAY, FRIDAY, SATURDAY
+}
+```
+
+```kotlin
+enum class Day {
+    SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
+    THURSDAY, FRIDAY, SATURDAY
+}
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(Day arg) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(arg: Day) {
+}
+```
+</JavaKotlinCodeBlock>
