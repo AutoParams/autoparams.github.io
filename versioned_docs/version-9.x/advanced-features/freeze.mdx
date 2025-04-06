@@ -1,0 +1,59 @@
+---
+sidebar_position: 1
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# @Freeze
+
+AutoParams provides a `@Freeze` annotation to let you fix the value of a generated argument. Once an argument is fixed using the `@Freeze` annotation, `@AutoSource` will reuse this fixed value for any subsequent parameters of the same type within the same test method.
+
+## How to Use
+
+Simply decorate the parameter in your test method with the `@Freeze` annotation. This will instruct AutoParams to keep that parameter's value constant while generating new values for other parameters.
+
+Here's an example:
+
+<JavaKotlinCodeBlock>
+```java
+@AllArgsConstructor
+@Getter
+public class ValueContainer {
+    private final String value;
+}
+```
+
+```kotlin
+class ValueContainer(val value: String)
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(@Freeze String arg1, String arg2, ValueContainer arg3) {
+    assertEquals(arg1, arg2);
+    assertEquals(arg1, arg3.getValue());
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(@Freeze arg1: String, arg2: String, arg3: ValueContainer) {
+    assertEquals(arg1, arg2)
+    assertEquals(arg1, arg3.value)
+}
+```
+</JavaKotlinCodeBlock>
+
+In the above example, the value of `arg1` is fixed by the `@Freeze` annotation. The test verifies that `arg1` is equal to `arg2` and also equal to the value property of `arg3`. As a result, `arg1`, `arg2`, and `arg3.getValue()` will all contain the same string value, thanks to the `@Freeze` annotation.
+
+## Benefits
+
+1. **Consistency**: `@Freeze` ensures that certain values stay constant, making it easier to verify relations between different parameters in your tests.
+1. **Simpler Test Logic**: Reusing a fixed value across multiple parameters simplifies your test logic and makes your tests easier to read and maintain.
+1. **Control Over Randomness**: While `@AutoSource` provides the benefit of random value generation, `@Freeze` gives you control when you need specific values to be consistent throughout a test.
+
+The `@Freeze` annotation is a powerful feature for scenarios where you need to maintain the consistency of certain test parameters while still benefiting from the randomness and coverage offered by AutoParams.

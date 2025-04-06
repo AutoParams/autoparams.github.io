@@ -1,0 +1,110 @@
+---
+sidebar_position: 2
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# Complex Objects
+
+For more complicated objects, AutoParams utilizes the public constructor with arbitrary arguments to generate test data. If the class has multiple public constructors, the framework will select the one with the fewest parameters to initialize the object.
+
+<JavaKotlinCodeBlock>
+```java
+@AllArgsConstructor
+@Getter
+public class ComplexObject {
+    private final int value1;
+    private final String value2;
+}
+```
+
+```kotlin
+class ComplexObject (val value1: Int, val value2: String)
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(ComplexObject arg) {
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(arg: ComplexObject) {
+}
+```
+</JavaKotlinCodeBlock>
+
+## Constructor Selection Policy
+
+When AutoParams generates objects of complex types, it adheres to the following selection criteria for constructors:
+
+1. Priority is given to constructors that are annotated with the `@ConstructorProperties` annotation.
+1. If no such annotation is present, AutoParams will choose the constructor with the fewest parameters.
+
+<JavaKotlinCodeBlock>
+```java
+@Getter
+public class ComplexObject {
+
+    private final int value1;
+    private final String value2;
+    private final UUID value3;
+
+    @ConstructorProperties({"value1", "value2, value3"})
+    public ComplexObject(int value1, String value2, UUID value3) {
+        this.value1 = value1;
+        this.value2 = value2;
+        this.value3 = value3;
+    }
+
+    @ConstructorProperties({"value1", "value2"})
+    public ComplexObject(int value1, String value2) {
+        this(value1, value2, null);
+    }
+
+    public ComplexObject(int value1) {
+        this(value1, null, null);
+    }
+}
+```
+
+```kotlin
+class ComplexObject
+@ConstructorProperties("value1", "value2, value3")
+constructor (val value1: Int,
+             val value2: String?,
+             val value3: UUID?) {
+
+    @ConstructorProperties("value1", "value2")
+    constructor(value1: Int, value2: String)
+            : this(value1, value2, null)
+
+    constructor(value1: Int): this(value1, null, null)
+}
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(ComplexObject arg) {
+    assertNotNull(object.getValue2());
+    assertNull(object.getValue3());
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(arg: ComplexObject) {
+    assertNotNull(arg.value2)
+    assertNull(arg.value3)
+}
+```
+</JavaKotlinCodeBlock>

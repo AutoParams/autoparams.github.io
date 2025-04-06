@@ -1,0 +1,62 @@
+---
+sidebar_position: 6
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# Range of Values
+
+You can constrain the range of generated arbitrary values for certain parameters using the `@Min` and `@Max` annotations. These annotations allow you to set minimum and maximum bounds, respectively, ensuring that the generated values fall within the specified range.
+
+## How to Use
+
+To set the range for a parameter, simply annotate it with `@Min` to define the minimum value and `@Max` to define the maximum value.
+
+Here's an example:
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+void testMethod(@Min(1) @Max(10) int value) {
+    assertTrue(value >= 1);
+    assertTrue(value <= 10);
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoSource
+fun testMethod(@Min(1) @Max(10) value: Int) {
+    assertTrue(value >= 1)
+    assertTrue(value <= 10)
+}
+```
+</JavaKotlinCodeBlock>
+
+In this test, the value parameter will always be an integer between `1` and `10`, inclusive.
+
+## Supported types
+
+The `@Min` and `@Max` annotations are compatible with the following types:
+
+- `byte`
+- `Byte`
+- `short`
+- `Short`
+- `int`
+- `Integer`
+- `long`
+- `Long`
+- `float`
+- `Float`
+- `double`
+- `Double`
+
+## Benefits
+
+1. **Controlled Randomness**: These annotations help you fine-tune the scope of randomness, allowing for more targeted and meaningful tests.
+1. **Reduced Test Flakiness**: By constraining the range of values, you reduce the risk of encountering edge cases that could make your tests flaky.
+1. **Enhanced Readability**: Using `@Min` and `@Max` makes it clear to readers what range of values are being tested, thereby improving the readability and maintainability of your test code.
+
+By using the `@Min` and `@Max` annotations in conjunction with `@AutoSource`, you can achieve a balanced mix of randomness and predictability, making your parameterized tests both versatile and reliable.

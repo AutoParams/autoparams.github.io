@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'AutoParams - Test Data Generator in Java and Kotlin.',
+  title: 'AutoParams - Test Data Generator in Java and Kotlin',
   tagline: 'Enhance your TDD experience!',
   favicon: 'img/favicon.ico',
 
@@ -83,6 +83,10 @@ const config: Config = {
           sidebarId: 'docsSidebar',
           position: 'left',
           label: 'Docs',
+        },
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
         },
         {
           type: 'localeDropdown',

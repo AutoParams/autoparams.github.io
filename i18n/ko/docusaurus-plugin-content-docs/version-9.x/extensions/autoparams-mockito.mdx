@@ -1,0 +1,121 @@
+---
+sidebar_position: 1
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# autoparams-mockito
+
+`autoparams-mockito`는 Java에서 인기 있는 모의 프레임워크인 Mockito를 사용하여 인터페이스와 추상 클래스에 대한 모의를 만드는 것을 용이하게 하는 AutoParams 라이브러리의 확장입니다. 이 두 라이브러리를 통합하면 테스트를 위한 모의 개체를 원활하게 생성할 수 있습니다.
+
+## 설치하기
+
+### Maven
+
+Maven을 사용한다면, `pom.xml`에 다음 종속성을 추가하세요.
+
+```xml
+<dependency>
+  <groupId>io.github.autoparams</groupId>
+  <artifactId>autoparams-mockito</artifactId>
+  <version>9.0.0</version>
+</dependency>
+```
+
+### Gradle (Groovy)
+
+Gradle Groovy DSL을 사용한다면, `build.gradle`에 다음 종속성을 추가하세요.
+
+```gradle
+testImplementation 'io.github.autoparams:autoparams-mockito:9.0.0'
+```
+
+### Gradle (Kotlin)
+
+Gradle Kotlin DSL을 사용한다면, `build.gradle.kts`에 다음 종속성을 추가하세요.
+
+```gradle
+testImplementation("io.github.autoparams:autoparams-mockito:9.0.0")
+```
+
+## Mockito로 테스트 더블 생성
+
+특정 서비스를 추상화하는 인터페이스가 있는 상황을 생각해 보세요.
+
+<JavaKotlinCodeBlock>
+```java
+public interface Dependency {
+
+    String getName();
+}
+```
+
+```kotlin
+interface Dependency {
+
+    val name: String
+}
+```
+</JavaKotlinCodeBlock>
+
+또한 `Dependency` 인터페이스에 의존하는 시스템도 있습니다.
+
+<JavaKotlinCodeBlock>
+```java
+public class SystemUnderTest {
+
+    private final Dependency dependency;
+
+    public SystemUnderTest(Dependency dependency) {
+        this.dependency = dependency;
+    }
+
+    public String getMessage() {
+        return "Hello " + dependency.getName();
+    }
+}
+```
+
+```kotlin
+class SystemUnderTest(private val dependency: Dependency) {
+
+    val message: String
+        get() = "Hello " + dependency.name
+}
+```
+</JavaKotlinCodeBlock>
+
+인터페이스나 추상 클래스에 대한 모의 개체를 생성하기 위해 `autoparams-mockito` 확장은 `MockitoCustomizer`를 제공합니다. 테스트 메서드를 `@Customization(MockitoCustomizer.class)`로 장식하면 `@AutoSource` 어노테이션이 Mockito를 사용하여 지정된 매개변수에 대한 모의 값을 생성합니다.
+
+이를 적용하는 방법은 다음과 같습니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+@Customization(MockitoCustomizer.class)
+void testUsingMockito(@Freeze Dependency stub, SystemUnderTest sut) {
+    when(stub.getName()).thenReturn("World");
+    assertEquals("Hello World", sut.getMessage());
+}
+```
+
+```kotlin
+import org.mockito.kotlin.whenever
+
+@ParameterizedTest
+@AutoSource
+@Customization(MockitoCustomizer::class)
+fun testUsingMockito(@Freeze stub: Dependency, sut: SystemUnderTest) {
+    whenever(stub.name).thenReturn("World")
+    assertEquals("Hello World", sut.message)
+}
+```
+</JavaKotlinCodeBlock>
+
+위의 예에서:
+
+- `stub` 인수는 `MockitoCustomizer` 덕분에 Mockito가 생성한 모의 개체입니다.
+- `@Freeze` 어노테이션은 이 모의 개체(`stub`)가 `SystemUnderTest` 개체(`sut`) 생성을 위한 매개변수로 재사용되도록 보장합니다.
+
+이 통합은 매개변수화된 테스트를 위한 모의 개체 생성을 간소화하여 테스트를 보다 효율적이고 간단하게 만듭니다.

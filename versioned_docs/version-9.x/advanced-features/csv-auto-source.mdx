@@ -1,0 +1,85 @@
+---
+sidebar_position: 4
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# @CsvAutoSource
+
+The `@CsvAutoSource` annotation merges the features of `@CsvSource` and `@AutoSource`, providing you with the flexibility to specify CSV-formatted arguments for some parameters while generating random values for the remaining ones.
+
+## How to Use
+
+To use `@CsvAutoSource`, annotate your test method with it and provide CSV-formatted input values for the initial set of parameters. The remaining parameters will be populated with automatically generated values.
+
+Here's a simple example:
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@CsvAutoSource({"16, foo"})
+void testMethod(int arg1, String arg2, String arg3) {
+    assertEquals(16, arg1);
+    assertEquals("foo", arg2);
+    assertNotEquals(arg2, arg3);
+}
+```
+
+```kotlin
+@ParameterizedTest
+@CsvAutoSource("16, foo")
+fun testMethod(arg1: Int, arg2: String, arg3: String) {
+    assertEquals(16, arg1)
+    assertEquals("foo", arg2)
+    assertNotEquals(arg2, arg3)
+}
+```
+</JavaKotlinCodeBlock>
+
+In this example, `arg1` is set to `16` and `arg2` is set to `"foo"` based on the provided CSV input. Meanwhile, `arg3` will be assigned a randomly generated value. The test verifies that `arg3` is different from `arg2`.
+
+## Compatibility with @Freeze
+
+Just like `@ValueAutoSource`, `@CsvAutoSource` is fully compatible with the `@Freeze` annotation, allowing you to lock in values for specific parameters while also defining others via CSV.
+
+Here's how they can work together:
+
+<JavaKotlinCodeBlock>
+```java
+@AllArgsConstructor
+@Getter
+public class ValueContainer {
+    private final String value;
+}
+```
+
+```kotlin
+class ValueContainer(val value: String)
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@CsvAutoSource({"16, foo"})
+void testMethod(int arg1, @Freeze String arg2, ValueContainer arg3) {
+    assertEquals("foo", arg3.getValue());
+}
+```
+
+```kotlin
+@ParameterizedTest
+@CsvAutoSource("16, foo")
+fun testMethod(arg1: Int, @Freeze arg2: String, arg3: ValueContainer) {
+    assertEquals("foo", arg3.value)
+}
+```
+</JavaKotlinCodeBlock>
+
+## Benefits
+
+1. **Dual Control**: The ability to specify values via CSV for some parameters while allowing automatic random generation for others provides a high level of control over your test data.
+1. **Streamlined Testing**: By allowing both manual and automated data input, `@CsvAutoSource` simplifies the setup of complex tests.
+1. **Flexible and Comprehensive**: This feature offers you the flexibility to cover a broader range of test scenarios by mixing pre-defined and random values.
+
+The `@CsvAutoSource` annotation is another versatile tool in your testing suite, adding both precision and coverage to your parameterized tests.
