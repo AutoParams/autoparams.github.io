@@ -57,3 +57,13 @@ main {
 .header-github-link:hover::before {
   background-color: var(--ifm-navbar-link-hover-color);
 }
+
+.markdown h1:first-child {
+  --ifm-h1-font-size: 2.6rem;
+}
+
+@media (max-width: 576px) {
+  .markdown h1:first-child {
+    --ifm-h1-font-size: 2rem;
+  }
+}
