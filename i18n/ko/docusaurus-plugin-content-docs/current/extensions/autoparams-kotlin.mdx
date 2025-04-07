@@ -1,46 +1,46 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
-# autoparams-kotlin
+# `autoparams-kotlin`
 
-`autoparams-kotlin`은 Kotlin을 사용할 때의 경험을 단순화하고 향상시키도록 설계된 확장 프로그램입니다.
+`autoparams-kotlin` is an extension of AutoParams that adds Kotlin-specific support for test data generation. It helps reduce boilerplate in Kotlin tests by generating values in a way that aligns with Kotlin’s language features.
 
-## 설치하기
+## Install
 
 ### Maven
 
-Maven을 사용한다면, `pom.xml`에 다음 종속성을 추가하세요.
+For Maven, you can add the following dependency to your `pom.xml`:
 
 ```xml
 <dependency>
   <groupId>io.github.autoparams</groupId>
   <artifactId>autoparams-kotlin</artifactId>
-  <version>9.0.0</version>
+  <version>10.0.0</version>
 </dependency>
 ```
 
 ### Gradle (Groovy)
 
-Gradle Groovy DSL을 사용한다면, `build.gradle`에 다음 종속성을 추가하세요.
+For Gradle Groovy DSL, use:
 
 ```gradle
-testImplementation 'io.github.autoparams:autoparams-kotlin:9.0.0'
+testImplementation 'io.github.autoparams:autoparams-kotlin:10.0.0'
 ```
 
 ### Gradle (Kotlin)
 
-Gradle Kotlin DSL을 사용한다면, `build.gradle.kts`에 다음 종속성을 추가하세요.
+For Gradle Kotlin DSL, use:
 
 ```gradle
-testImplementation("io.github.autoparams:autoparams-kotlin:9.0.0")
+testImplementation("io.github.autoparams:autoparams-kotlin:10.0.0")
 ```
 
-## @AutoKotlinSource
+## `@AutoKotlinParams` Annotation
 
-Kotlin의 `Point` 데이터 클래스 예를 살펴보겠습니다.
+Consider the following Kotlin data class:
 
 <JavaKotlinCodeBlock>
 ```kotlin
@@ -48,14 +48,14 @@ data class Point(val x: Int = 0, val y: Int = 0)
 ```
 </JavaKotlinCodeBlock>
 
-일반적인 테스트 시나리오에서 테스트 메서드에 전달된 매개변수가 기본 값이나 예측 가능한 값이 아닌지 확인하고 싶을 수 있습니다. `autoparams-kotlin` 확장은 이러한 경우에 도움이 될 수 있습니다.
+Using default values in tests can result in limited test coverage. The `@AutoKotlinParams` annotation enables AutoParams to provide randomized arguments for Kotlin test methods, ensuring more varied and meaningful input.
 
-아래는 `autoparams-kotlin`에서 제공하는 `@AutoKotlinSource` 어노테이션을 사용한 데모입니다. 이 어노테이션은 테스트 메서드에 대한 임의의 매개변수를 자동으로 생성합니다.
+Here's an example:
 
 <JavaKotlinCodeBlock>
 ```kotlin
-@ParameterizedTest
-@AutoKotlinSource
+@Test
+@AutoKotlinParams
 fun testMethod(point: Point) {
     assertThat(point.x).isNotEqualTo(0)
     assertThat(point.y).isNotEqualTo(0)
@@ -63,4 +63,4 @@ fun testMethod(point: Point) {
 ```
 </JavaKotlinCodeBlock>
 
-이 예에서 `testMethod`는 하드코딩된 `Point` 개체를 받지 않습니다. 대신 `@AutoKotlinSource` 어노테이션 덕분에 무작위 `Point` 개체가 전달되어 미리 정해진 값에 의해 편향되지 않도록 하여 테스트를 더욱 견고하게 만듭니다.
+In this test, the `point` parameter is automatically initialized with non-default, randomly generated values—allowing the test to cover a broader range of scenarios without requiring manual setup.
