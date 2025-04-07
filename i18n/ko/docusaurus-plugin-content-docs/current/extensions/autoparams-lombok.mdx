@@ -6,13 +6,13 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # `autoparams-lombok`
 
-`autoparams-lombok` is an extension for AutoParams that enhances compatibility with [Project Lombok](https://projectlombok.org/), a popular Java library for reducing boilerplate code.
+`autoparams-lombok`은 보일러플레이트 코드를 줄이는 데 사용되는 인기 있는 Java 라이브러리인 [Project Lombok](https://projectlombok.org/)과의 호환성을 향상시키는 AutoParams용 확장 프로그램입니다.
 
-## Install
+## 설치하기
 
 ### Maven
 
-For Maven, you can add the following dependency to your `pom.xml`:
+Maven을 사용한다면, `pom.xml`에 다음 종속성을 추가하세요.
 
 ```xml
 <dependency>
@@ -24,7 +24,7 @@ For Maven, you can add the following dependency to your `pom.xml`:
 
 ### Gradle (Groovy)
 
-For Gradle Groovy DSL, use:
+Gradle Groovy DSL을 사용한다면, `build.gradle`에 다음 종속성을 추가하세요.
 
 ```gradle
 testImplementation 'io.github.autoparams:autoparams-lombok:10.0.0'
@@ -32,17 +32,17 @@ testImplementation 'io.github.autoparams:autoparams-lombok:10.0.0'
 
 ### Gradle (Kotlin)
 
-For Gradle Kotlin DSL, use:
+Gradle Kotlin DSL을 사용한다면, `build.gradle.kts`에 다음 종속성을 추가하세요.
 
 ```gradle
 testImplementation("io.github.autoparams:autoparams-lombok:10.0.0")
 ```
 
-## `BuilderCustomizer` Class
+## `BuilderCustomizer` 클래스
 
-If you're using Lombok's `@Builder` annotation, the `BuilderCustomizer` allows AutoParams to generate arbitrary objects via the builder, making it easier to write tests without manually constructing instances.
+롬복의 `@Builder` 애너테이션을 사용하는 경우 `BuilderCustomizer`를 사용하면 AutoParams가 빌더를 통해 임의의 개체를 생성할 수 있으므로 수동으로 인스턴스를 구성하지 않고도 테스트를 더 쉽게 작성할 수 있습니다.
 
-Suppose you have an `Order` class like this:
+다음과 같은 `Order` 클래스가 있다고 가정해 보겠습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -60,7 +60,7 @@ public class Order {
 ```
 </JavaKotlinCodeBlock>
 
-To automatically generate `Order` instances, apply `BuilderCustomizer` in your test:
+`Order` 인스턴스를 자동으로 생성하기 위해 테스트에 `BuilderCustomizer`를 적용합니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -79,13 +79,13 @@ void testMethod(Order order) {
 ```
 </JavaKotlinCodeBlock>
 
-This eliminates the need to manually configure builder calls, helping you write cleaner and more maintainable tests.
+이렇게 하면 빌더 호출을 수동으로 구성할 필요가 없으므로 더 깔끔하고 유지 관리하기 쉬운 테스트를 작성할 수 있습니다.
 
-### Custom Method Names
+### 사용자 정의 메서드 이름
 
-If your class uses custom builder method names via Lombok's `builderMethodName` and `buildMethodName` attributes, you can still use `BuilderCustomizer` by extending it to specify those method names.
+클래스가 롬복의 빌더에 `builderMethodName`과 `buildMethodName` 속성을 사용하여 메서드 이름을 사용자 정의한 경우, `BuilderCustomizer`를 확장하여 메서드 이름을 지정하고 사용할 수 있습니다.
 
-For example, consider the following `Shipment` class:
+예를 들어, 다음 `Shipment` 클래스를 생각해 보세요.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -102,7 +102,7 @@ public class Shipment {
 ```
 </JavaKotlinCodeBlock>
 
-To make this compatible with AutoParams, define a custom subclass:
+이것을 AutoParams와 호환되게 하려면 사용자 정의 하위 클래스를 정의합니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -115,7 +115,7 @@ public class ShipmentBuilderCustomizer extends BuilderCustomizer {
 ```
 </JavaKotlinCodeBlock>
 
-Then apply it in your test:
+그런 다음 테스트에 적용합니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -132,4 +132,4 @@ void testMethod(Shipment shipment) {
 ```
 </JavaKotlinCodeBlock>
 
-This allows you to use custom builder patterns while still benefiting from automatic object generation.
+이를 통해 사용자 정의 빌더 패턴을 사용하면서 자동 개체 생성의 이점을 계속 누릴 수 있습니다.

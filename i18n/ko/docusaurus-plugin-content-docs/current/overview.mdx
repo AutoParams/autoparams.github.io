@@ -5,13 +5,13 @@ sidebar_position: 1
 
 import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
-# Overview
+# 개요
 
-**AutoParams** is a JUnit 5 extension for automatic test data generation, inspired by AutoFixture.
+**AutoParams**는 자동화된 테스트 데이터 생성을 위한 JUnit 5 확장 프로그램으로, AutoFixture에서 영감을 얻었습니다.
 
-Manually creating test data is often repetitive and distracts from the core logic of the test. AutoParams eliminates this boilerplate by supplying automatically generated values to your test method parameters, allowing you to write concise and focused tests.
+테스트 데이터를 수동으로 생성하는 작업은 종종 반복적이며 테스트의 핵심 논리에 대한 집중을 방해합니다. AutoParams는 자동으로 생성된 값을 테스트 메서드 매개변수에 제공하여 이러한 보일러플레이트를 제거하고 간결하고 집중적인 테스트를 작성할 수 있습니다.
 
-Getting started is simple: annotate your `@Test` method with `@AutoParams`, and the parameters will be populated with generated data.
+간단하게 시작할 수 있습니다. `@Test` 메서드에 `@AutoParams`로 애너테이션을 붙이면 매개변수가 생성된 데이터로 채워집니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -35,9 +35,9 @@ fun testMethod(a: Int, b: Int) {
 ```
 </JavaKotlinCodeBlock>
 
-In the example above, `a` and `b` are automatically generated, making the test cleaner and reducing the need for manual setup or value triangulation.
+위 예시에서 `a`와 `b`는 자동으로 생성되므로 테스트 코드가 더 간결해지고 다양한 입력 값을 수동으로 바꿔가며 값을 검증하는 번거로움이 줄어듭니다.
 
-AutoParams also supports more advanced scenarios. When multiple generated values need to share a reference—such as reviews referring to the same product—you can use the `@Freeze` annotation to ensure consistency.
+AutoParams는 고급 시나리오도 지원합니다. 여러 생성된 값이 참조를 공유해야 하는 경우(예: 동일한 제품을 참조하는 리뷰) `@Freeze` 애너테이션을 사용하여 일관성을 보장할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -107,4 +107,4 @@ fun testMethod(@Freeze product: Product, reviews: Array<Review>) {
 ```
 </JavaKotlinCodeBlock>
 
-This ensures that all generated `Review` instances refer to the same frozen `Product`, simplifying test setup in scenarios involving shared dependencies.
+이렇게 하면 생성된 모든 `Review` 인스턴스는 동일한 동결된 `Product` 인스턴스를 참조하도록 보장하여 공유된 종속성이 포함된 시나리오에서 테스트 설정을 간소화합니다.

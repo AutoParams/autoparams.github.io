@@ -323,7 +323,7 @@
     "description": "Easy to Use title"
   },
   "homepage.feature.easyToUse.description": {
-    "message": "@ValueSource 또는 @CsvSource 주석과 마찬가지로, @AutoSource 주석을 매개변수화된 테스트 메서드에 추가하면 AutoParams가 자동으로 적절한 테스트 인수를 생성합니다.",
+    "message": "@ValueSource 또는 @CsvSource 애너테이션과 마찬가지로, @AutoSource 애너테이션을 매개변수화된 테스트 메서드에 추가하면 AutoParams가 자동으로 적절한 테스트 인수를 생성합니다.",
     "description": "Easy to Use description"
   },
   "homepage.feature.focusOnWhatMatters.title": {
