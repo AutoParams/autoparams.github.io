@@ -1,15 +1,15 @@
 ---
 sidebar_position: 4
-sidebar_label: Factory<T> class
+sidebar_label: Factory<T> 클래스
 ---
 
 import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
-# `Factory<T>` class
+# `Factory<T>` 클래스
 
-The `Factory<T>` class is useful when you need to generate multiple instances of the same type. It allows you to create single instances or collections of generated objects on demand.
+`Factory<T>` 클래스는 동일한 유형의 인스턴스를 여러 개 생성해야 할 때 유용합니다. 이 기능을 사용하여 필요에 따라 단일 인스턴스 또는 컬렉션을 생성할 수 있습니다.
 
-Here's an example:
+다음은 그 예입니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -31,4 +31,4 @@ fun testMethod() {
 ```
 </JavaKotlinCodeBlock>
 
-In this example, a `Factory<Product>` is created to produce `Product` instances. The `get()` method creates a single instance, while `getRange(n)` returns a list of `n` instances. This approach is particularly helpful when you need bulk data generation in your tests.
+이 예에서는 `Product` 인스턴스를 만들기 위해 `Factory<Product>`가 생성되었습니다. `get()` 메서드는 단일 인스턴스를 생성하는 반면, `getRange(n)` 메서드는 `n`개의 인스턴스 목록을 반환합니다.

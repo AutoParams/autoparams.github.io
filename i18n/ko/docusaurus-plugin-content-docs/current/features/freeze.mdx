@@ -1,15 +1,15 @@
 ---
 sidebar_position: 1
-sidebar_label: '@Freeze Annotation'
+sidebar_label: '@Freeze 애너테이션'
 ---
 
 import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
-# `@Freeze` Annotation
+# `@Freeze` 애너테이션
 
-The `@Freeze` annotation allows you to "freeze" a generated value so that it is reused consistently across other parameters of the same type within a single test method.
+`@Freeze` 애너테이션을 사용하면 생성된 값을 "동결"하여 단일 테스트 메서드 내에서 동일한 유형의 다른 매개변수에서 전반에 걸쳐 일관되게 재사용할 수 있습니다.
 
-To apply it, annotate one of your method parameters with `@Freeze`. AutoParams will then propagate that frozen value to all other parameters of the same type—including nested fields in complex objects.
+이를 적용하려면 원하는 메소드 매개변수에 `@Freeze` 애너테이션을 붙이면 됩니다. 그러면 AutoParams가 해당 동결된 값을 복합 개체의 중첩된 필드를 포함하여 동일한 유형의 다른 모든 매개변수에 전파합니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -50,6 +50,6 @@ fun testMethodFreeze(s1: String, @Freeze s2: String, s3: String,
 ```
 </JavaKotlinCodeBlock>
 
-In this example, `s2` is frozen, meaning the same string value is reused for `s3` and for the `value` field inside `container`. Meanwhile, `s1` is independently generated.
+이 예에서 `s2`는 동결되어 동일한 문자열 값이 `s3`와 `container` 내부의 `value` 필드에 재사용됩니다. 한편 `s1`은 독립적으로 생성됩니다.
 
-This makes `@Freeze` particularly useful when certain dependencies in your test need to remain consistent, while still allowing variation in the rest of the test data.
+이와 같이 테스트의 특정 종속성을 일관되되록 유지하면서 나머지 테스트 데이터에 변형을 허용해야 하는 경우 `@Freeze`가 특히 유용합니다.

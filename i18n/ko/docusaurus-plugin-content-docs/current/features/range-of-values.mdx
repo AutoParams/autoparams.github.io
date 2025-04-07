@@ -1,17 +1,17 @@
 ---
 sidebar_position: 2
-sidebar_label: Setting the Range of Values
+sidebar_label: 값의 범위 설정
 ---
 
 import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
-# Setting the Range of Values
+# 값의 범위 설정
 
-You can constrain the range of automatically generated values using the `@Min` and `@Max` annotations. These let you define minimum and maximum bounds for numeric parameters, ensuring that generated values fall within a specified range.
+`@Min` 및 `@Max` 애너테이션을 사용하여 자동으로 생성된 값의 범위를 제한할 수 있습니다. 이를 통해 숫자 매개변수에 대한 최소 및 최대 경계를 정의하여 생성된 값이 지정된 범위 내에 있도록 할 수 있습니다.
 
-To apply a range, annotate the parameter with `@Min` and/or `@Max` as needed.
+범위를 적용하려면, `@Min` 및/또는 `@Max`를 애너테이션으로 붙이면 됩니다.
 
-Here's an example:
+다음은 그 예입니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -33,9 +33,9 @@ fun testMethod(@Min(1) @Max(10) value: Int) {
 ```
 </JavaKotlinCodeBlock>
 
-In this test, the `value` parameter will always be an integer between `1` and `10`, inclusive.
+이 테스트에서 `value` 매개변수는 항상 `1` 이상 `10` 이하의 정수입니다.
 
-The `@Min` and `@Max` annotations are compatible with the following types:
+`@Min` 및 `@Max` 애너테이션은 다음 유형과 호환됩니다.
 
 - `byte`
 - `java.lang.Byte`
@@ -50,4 +50,4 @@ The `@Min` and `@Max` annotations are compatible with the following types:
 - `double`
 - `java.lang.Double`
 
-By combining `@Min` and `@Max` with `@AutoParams`, you can strike a balance between randomness and control, making your parameterized tests more robust and predictable.
+`@Min`과 `@Max`를 `@AutoParams`와 결합하면 무작위성과 제어 사이의 균형을 유지하여 매개변수화된 테스트를 더욱 강력하고 예측 가능하게 만들 수 있습니다.

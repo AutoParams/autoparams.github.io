@@ -1,20 +1,20 @@
 ---
 sidebar_position: 5
-sidebar_label: Customization
+sidebar_label: 사용자 정의
 ---
 
 import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
-# Customization
+# 사용자 정의
 
-Customization is one of the most powerful features offered by AutoParams. It gives you full control over how test data is generated, allowing you to enforce business rules or tailor the data to meet specific testing needs.
+사용자 정의는 AutoParams에서 제공하는 가장 강력한 기능 중 하나입니다. 이를 통해 테스트 데이터 생성 방법을 완벽하게 제어할 수 있으므로 비즈니스 규칙을 적용하거나 특정 테스트 요구 사항을 충족하도록 데이터를 맞춤화할 수 있습니다.
 
-For example, suppose the `Product` entity must follow these business rules:
+예를 들어 `Product` 엔터티가 다음 비즈니스 규칙을 따라야 한다고 가정해 보겠습니다.
 
-- `priceAmount` must be greater than or equal to `10`
-- `priceAmount` must be less than or equal to `10000`
+- `priceAmount`는 `10`보다 크거나 같아야 합니다.
+- `priceAmount`는 `10000`보다 작거나 같아야 합니다.
 
-You can implement these rules using a custom generator by extending `ObjectGeneratorBase<T>`:
+`ObjectGeneratorBase<T>`를 확장한 사용자 정의 제너레이터를 사용하여 이러한 규칙을 구현할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -49,9 +49,9 @@ class ProductGenerator : ObjectGeneratorBase<Product>() {
 ```
 </JavaKotlinCodeBlock>
 
-This custom generator creates a `Product` instance that adheres to the business constraints. It uses `ResolutionContext` to generate supporting values like `id` and `name`, and applies explicit logic to generate a valid `priceAmount`.
+이 사용자 정의 제너레이터는 비즈니스 제약 조건을 준수하는 `Product` 인스턴스를 생성합니다. `ResolutionContext`를 사용하여 제공되는 `id` 및 `name` 값을 생성하고 명시적 논리를 적용하여 유효한 `priceAmount`를 생성합니다.
 
-You can apply this custom generator using the `@Customization` annotation:
+`@Customization` 애너테이션으로 사용자 정의 제너레이터를 적용할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -75,9 +75,9 @@ fun testMethod(product: Product) {
 ```
 </JavaKotlinCodeBlock>
 
-In this test, AutoParams uses `ProductGenerator` to ensure that the `Product` instance respects the required pricing constraints.
+이 테스트에서 AutoParams는 `ProductGenerator`를 사용하여 `Product` 인스턴스가 필요한 가격 제약 조건을 준수하는지 확인합니다.
 
-You can also apply multiple custom generators at once by listing them in the `@Customization` annotation:
+또한 `@Customization` 애너테이션에 나열하여 여러 사용자 정의 제너레이터를 한 번에 적용할 수도 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -142,7 +142,7 @@ fun testMethod(product: Product, review: Review) {
 ```
 </JavaKotlinCodeBlock>
 
-Alternatively, if you prefer to encapsulate multiple generators into a single reusable configuration, you can extend `CompositeCustomizer`:
+또는 여러 제너레이터를 재사용 가능한 단일 구성으로 캡슐화하려는 경우 `CompositeCustomizer`를 확장할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -191,15 +191,15 @@ fun testMethod(product: Product, review: Review) {
 ```
 </JavaKotlinCodeBlock>
 
-This approach gives you a clean and reusable way to manage related custom generators, improving maintainability and consistency across your test suite.
+이 접근 방식은 사용자 정의 제너레이터를 관리하는 깔끔하고 재사용 가능한 방법을 제공하여 테스트 스위트(suite) 전반에 걸쳐 유지 관리가 더 쉬워지고 일관성이 개선됩니다.
 
-## Customization Scoping
+## 사용자 정의 범위 지정
 
-The `@Customization` annotation can also be applied to individual parameters within a test method. When used in this way, the specified customization will apply to that parameter and all subsequent parameters of the same type—unless explicitly overridden.
+`@Customization` 애너테이션은 테스트 메서드 내의 개별 매개변수에도 적용할 수 있습니다. 이 방식을 사용하면 명시적으로 재정의되지 않는 한 지정된 사용자 정의가 해당 매개변수 및 동일한 유형의 모든 후속 매개변수에 적용됩니다.
 
-This allows for fine-grained control over how test data is generated, making it easier to set up complex, context-specific scenarios.
+이를 통해 테스트 데이터가 생성되는 방식을 세밀하게 제어할 수 있어 복잡한 상황별 시나리오를 더 쉽게 설정할 수 있습니다.
 
-Here's an example of a custom generator that creates a free product (with zero prices):
+무료 제품(가격 0)을 생성하는 사용자 정의 제너레이터의 예입니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -232,7 +232,7 @@ class FreeProductGenerator : ObjectGeneratorBase<Product>() {
 ```
 </JavaKotlinCodeBlock>
 
-And here’s how to apply it to a specific parameter:
+특정 매개변수에 적용하는 방법은 다음과 같습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -266,11 +266,11 @@ fun testMethod(
 ```
 </JavaKotlinCodeBlock>
 
-In this test, `product1` is generated using the default logic from `DomainCustomizer`, while `product2` uses the `FreeProductGenerator` to produce a free product. This demonstrates how per-parameter customization gives you precise control over test data generation.
+이 테스트에서 `product1`은 `DomainCustomizer`의 기본 논리를 사용하여 생성되는 반면, `product2`는 `FreeProductGenerator`를 사용하여 무료 제품을 생성합니다. 이는 매개변수별 사용자 정의를 통해 테스트 데이터 생성을 정밀하게 제어하는 방법을 보여줍니다.
 
-## One-time Customizations with DSL(Domain-Specific Language)
+## 도메인 특화 언어(DSL)를 사용한 일회성 사용자 정의
 
-AutoParams allows you to define one-time customizations directly within your test method using a domain-specific language(DSL). This is useful when you want to customize test data generation in a highly localized, context-specific way—without having to create separate generator classes.
+AutoParams를 사용하면 DSL(Domain-Specific Language)을 사용하여 테스트 메서드 내에서 일회성 사용자 정의를 직접 정의할 수 있습니다. 이는 별도의 제너레이터 클래스를 만들 필요 없이 고도로 지역화되고 컨텍스트에 특화된 방식으로 테스트 데이터 생성을 사용자 정의하려는 경우에 유용합니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -312,18 +312,18 @@ class TestClass {
 ```
 </JavaKotlinCodeBlock>
 
-In this example, we use the `freezeArgument` static method from the `ArgumentCustomizationDsl` class to customize the behavior of the `ResolutionContext`. Specifically:
+이 예에서는 `ArgumentCustomizationDsl` 클래스의 `freezeArgument` 정적 메서드를 사용하여 `ResolutionContext`의 동작을 사용자 정의합니다. 구체적으로 다음과 같은 동작을 수행합니다.
 
-- The `product` property in any `Review` instance created by the context will be set to the `product` parameter of the test.
-- Likewise, the `rating` property will be set to the `rating` parameter.
+- 컨텍스트에서 생성된 모든 `Review` 인스턴스의 `product` 속성은 테스트 메서드의 `product` 매개변수로 설정됩니다.
+- 마찬가지로 `rating` 속성은 `rating` 매개변수로 설정됩니다.
 
-This approach is especially useful for quickly fixing values without defining a full custom generator or specifying customization at the test method level. It improves the readability and maintainability of localized scenarios by keeping custom logic close to the test logic.
+이러한 접근 방식은 사용자 정의 제너레이터 전체를 정의하거나 테스트 메서드 수준에서 사용자 정의를 지정할 필요 없이 값을 빠르게 고정하는 데 특히 유용합니다. 사용자 정의 논리를 테스트 논리에 가깝게 유지하여 지역화된 시나리오의 가독성과 유지 관리성을 개선합니다.
 
-## Settable Properties
+## 설정 가능한 속성
 
-If a class follows the JavaBeans convention—meaning it has a no-arguments constructor and public setter methods—AutoParams can automatically populate its properties using the `InstancePropertyWriter` customizer.
+클래스가 JavaBeans 규칙을 따르는 경우(즉, 인수 없는 생성자와 공개 세터 메서드가 있는 경우) AutoParams는 `InstancePropertyWriter` 커스터마이저를 사용하여 자동으로 속성을 채울 수 있습니다.
 
-Here's a simple example:
+간단한 예는 다음과 같습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -344,7 +344,7 @@ data class User(
 ```
 </JavaKotlinCodeBlock>
 
-By applying the `InstancePropertyWriter` customizer, AutoParams will generate and assign values to the `id` and `name` properties automatically:
+`InstancePropertyWriter` 커스터마이저를 적용하면 AutoParams가 자동으로 `id` 및 `name` 속성에 값을 생성하고 할당합니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -368,4 +368,4 @@ fun testMethod(user: User) {
 ```
 </JavaKotlinCodeBlock>
 
-In this test, the `User` object is created using its default constructor, and AutoParams sets values on its writable properties via their setters. This is especially useful when working with legacy models or data transfer objects(DTOs) that do not have constructors covering all fields.
+이 테스트에서 `User` 개체는 기본 생성자를 사용하여 생성되고, AutoParams는 세터를 통해 속성에 값을 설정합니다. 이는 모든 필드를 포함하는 생성자가 없는 레거시 모델이나 데이터 전송 개체(DTO)로 작업할 때 특히 유용합니다.
