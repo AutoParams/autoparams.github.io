@@ -43,6 +43,12 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
+          lastVersion: 'current',
+          versions: {
+            current: {
+              label: '10.x',
+            }
+          }
         },
         blog: false,
         theme: {

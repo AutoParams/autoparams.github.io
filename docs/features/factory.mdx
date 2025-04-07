@@ -1,0 +1,34 @@
+---
+sidebar_position: 4
+sidebar_label: Factory<T> class
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# `Factory<T>` class
+
+The `Factory<T>` class is useful when you need to generate multiple instances of the same type. It allows you to create single instances or collections of generated objects on demand.
+
+Here's an example:
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+void testMethod() {
+    Factory<Product> factory = Factory.create(Product.class);
+    Product product = factory.get();
+    List<Product> products = factory.getRange(10);
+}
+```
+
+```kotlin
+@Test
+fun testMethod() {
+    val factory = Factory.create<Product>()
+    val product = factory.get()
+    val products = factory.getRange(10)
+}
+```
+</JavaKotlinCodeBlock>
+
+In this example, a `Factory<Product>` is created to produce `Product` instances. The `get()` method creates a single instance, while `getRange(n)` returns a list of `n` instances. This approach is particularly helpful when you need bulk data generation in your tests.
