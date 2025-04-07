@@ -4,19 +4,19 @@ import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
 import Translate from '@docusaurus/Translate';
 
-const simpleExampleJavaCode = `@ParameterizedTest
-@AutoSource
-void parameterizedTest(int a, int b) {
+const simpleExampleJavaCode = `@Test
+@AutoParams
+void testMethod(int a, int b) {
     var sut = new Calculator();
     int actual = sut.add(a, b);
     assertEquals(a + b, actual);
 }`;
 
-const simpleExampleKotlinCode = `@ParameterizedTest
-@AutoSource
-fun parameterizedTest(a: Int, b: Int) {
+const simpleExampleKotlinCode = `@Test
+@AutoParams
+fun testMethod(a: Int, b: Int) {
     val sut = Calculator()
-    val actual: Int = sut.add(a, b)
+    val actual = sut.add(a, b)
     assertEquals(a + b, actual)
 }`;
 
