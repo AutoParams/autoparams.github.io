@@ -85,7 +85,7 @@ class SystemUnderTest(private val dependency: Dependency) {
 ```
 </JavaKotlinCodeBlock>
 
-인터페이스나 추상 클래스에 대한 모의 개체를 생성하기 위해 `autoparams-mockito` 확장은 `MockitoCustomizer`를 제공합니다. 테스트 메서드를 `@Customization(MockitoCustomizer.class)`로 장식하면 `@AutoSource` 어노테이션이 Mockito를 사용하여 지정된 매개변수에 대한 모의 값을 생성합니다.
+인터페이스나 추상 클래스에 대한 모의 개체를 생성하기 위해 `autoparams-mockito` 확장은 `MockitoCustomizer`를 제공합니다. 테스트 메서드를 `@Customization(MockitoCustomizer.class)`로 장식하면 `@AutoSource` 애너테이션이 Mockito를 사용하여 지정된 매개변수에 대한 모의 값을 생성합니다.
 
 이를 적용하는 방법은 다음과 같습니다.
 
@@ -116,6 +116,6 @@ fun testUsingMockito(@Freeze stub: Dependency, sut: SystemUnderTest) {
 위의 예에서:
 
 - `stub` 인수는 `MockitoCustomizer` 덕분에 Mockito가 생성한 모의 개체입니다.
-- `@Freeze` 어노테이션은 이 모의 개체(`stub`)가 `SystemUnderTest` 개체(`sut`) 생성을 위한 매개변수로 재사용되도록 보장합니다.
+- `@Freeze` 애너테이션은 이 모의 개체(`stub`)가 `SystemUnderTest` 개체(`sut`) 생성을 위한 매개변수로 재사용되도록 보장합니다.
 
 이 통합은 매개변수화된 테스트를 위한 모의 개체 생성을 간소화하여 테스트를 보다 효율적이고 간단하게 만듭니다.
