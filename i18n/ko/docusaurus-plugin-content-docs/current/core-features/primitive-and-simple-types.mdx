@@ -13,16 +13,16 @@ AutoParams는 부울, 정수, 부동 소수점과 같은 원시 데이터 유형
 
 <JavaKotlinCodeBlock>
 ```java
-@ParameterizedTest
-@AutoSource
+@Test
+@AutoParams
 void testMethod(
     boolean x1, byte x2, int x3, long x4, float x5, double x6, char x7) {
 }
 ```
 
 ```kotlin
-@ParameterizedTest
-@AutoSource
+@Test
+@AutoParams
 fun test_primitive(
     x1: Boolean, x2: Byte, x3: Int, x4: Long, x5: Float, x6: Double, x7: Char) {
 }
@@ -35,15 +35,15 @@ fun test_primitive(
 
 <JavaKotlinCodeBlock>
 ```java
-@ParameterizedTest
-@AutoSource
+@Test
+@AutoParams
 void testMethod(String x1, UUID x2, BigInteger x3) {
 }
 ```
 
 ```kotlin
-@ParameterizedTest
-@AutoSource
+@Test
+@AutoParams
 fun testMethod(x1: String, x2: UUID, x3: BigInteger) {
 }
 ```
@@ -71,15 +71,15 @@ enum class Day {
 
 <JavaKotlinCodeBlock>
 ```java
-@ParameterizedTest
-@AutoSource
+@Test
+@AutoParams
 void testMethod(Day arg) {
 }
 ```
 
 ```kotlin
-@ParameterizedTest
-@AutoSource
+@Test
+@AutoParams
 fun testMethod(arg: Day) {
 }
 ```

@@ -1,12 +1,12 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
-# autoparams-lombok
+# `autoparams-lombok`
 
-`autoparams-lombok` is an extension for the AutoParams library that makes it easier to work with [Project Lombok](https://projectlombok.org/), a library that reduces boilerplate code in Java applications.
+`autoparams-lombok` is an extension for AutoParams that enhances compatibility with [Project Lombok](https://projectlombok.org/), a popular Java library for reducing boilerplate code.
 
 ## Install
 
@@ -18,7 +18,7 @@ For Maven, you can add the following dependency to your `pom.xml`:
 <dependency>
   <groupId>io.github.autoparams</groupId>
   <artifactId>autoparams-lombok</artifactId>
-  <version>9.0.0</version>
+  <version>10.0.0</version>
 </dependency>
 ```
 
@@ -27,7 +27,7 @@ For Maven, you can add the following dependency to your `pom.xml`:
 For Gradle Groovy DSL, use:
 
 ```gradle
-testImplementation 'io.github.autoparams:autoparams-lombok:9.0.0'
+testImplementation 'io.github.autoparams:autoparams-lombok:10.0.0'
 ```
 
 ### Gradle (Kotlin)
@@ -35,91 +35,101 @@ testImplementation 'io.github.autoparams:autoparams-lombok:9.0.0'
 For Gradle Kotlin DSL, use:
 
 ```gradle
-testImplementation("io.github.autoparams:autoparams-lombok:9.0.0")
+testImplementation("io.github.autoparams:autoparams-lombok:10.0.0")
 ```
 
+## `BuilderCustomizer` Class
 
-## BuilderCustomizer
+If you're using Lombok's `@Builder` annotation, the `BuilderCustomizer` allows AutoParams to generate arbitrary objects via the builder, making it easier to write tests without manually constructing instances.
 
-When working with `@Builder` annotation, you can use the `BuilderCustomizer` to facilitate generating arbitrary objects for your tests. Here's an example:
-
-Suppose you have a `User` class like so:
+Suppose you have an `Order` class like this:
 
 <JavaKotlinCodeBlock>
 ```java
-import lombok.Builder;
-import lombok.Getter;
-
 @Builder
 @Getter
-public class User {
-    private Long id;
-    private String name;
-    private String email;
+public class Order {
+
+    private final UUID id;
+    private final UUID productId;
+    private final Integer quantity;
+    private final UUID customerId;
+    private final BigDecimal orderedPriceAmount;
+    private final String comment;
 }
 ```
 </JavaKotlinCodeBlock>
 
-You can use BuilderCustomizer to create objects of type User for your tests:
+To automatically generate `Order` instances, apply `BuilderCustomizer` in your test:
 
 <JavaKotlinCodeBlock>
 ```java
 @ParameterizedTest
 @AutoSource
 @Customization(BuilderCustomizer.class)
-void testMethod(User user) {
-    assertThat(arg.getId()).isNotNull();
-    assertThat(arg.getName()).isNotNull();
-    assertThat(arg.getEmail()).isNotNull();
+void testMethod(Order order) {
+    assertThat(order.getId()).isNotNull();
+    assertThat(order.getProductId()).isNotNull();
+    assertThat(order.getQuantity()).isNotNull();
+    assertThat(order.getQuantity()).isPositive();
+    assertThat(order.getCustomerId()).isNotNull();
+    assertThat(order.getOrderedPriceAmount()).isNotNull();
+    assertThat(order.getComment()).isNotNull();
 }
 ```
 </JavaKotlinCodeBlock>
+
+This eliminates the need to manually configure builder calls, helping you write cleaner and more maintainable tests.
 
 ### Custom Method Names
 
-If you've customized the builder method names using `builderMethodName` and `buildMethodName` in your Lombok `@Builder`, you'll need to create a subclass of `BuilderCustomizer` to handle the custom names:
+If your class uses custom builder method names via Lombok's `builderMethodName` and `buildMethodName` attributes, you can still use `BuilderCustomizer` by extending it to specify those method names.
+
+For example, consider the following `Shipment` class:
 
 <JavaKotlinCodeBlock>
 ```java
-import lombok.Builder;
-import lombok.Getter;
-
-@Builder(builderMethodName = "getBuilder", buildMethodName = "createUser")
+@Builder(builderMethodName = "getBuilder", buildMethodName = "create")
 @Getter
-public class User {
-    private Long id;
-    private String name;
-    private String email;
+public class Shipment {
+
+    private final UUID id;
+    private final UUID orderId;
+    private final String postalCode;
+    private final String address;
+    private final Boolean shipped;
 }
 ```
 </JavaKotlinCodeBlock>
 
-Here's how you can extend `BuilderCustomizer`:
+To make this compatible with AutoParams, define a custom subclass:
 
 <JavaKotlinCodeBlock>
 ```java
-public class UserBuilderCustomizer extends BuilderCustomizer {
+public class ShipmentBuilderCustomizer extends BuilderCustomizer {
 
-    public UserBuilderCustomizer() {
-        super("getBuilder", "createUser");
+    public ShipmentBuilderCustomizer() {
+        super("getBuilder", "create");
     }
 }
 ```
 </JavaKotlinCodeBlock>
 
-Now, you can use your customized `UserBuilderCustomizer` in your tests:
+Then apply it in your test:
 
 <JavaKotlinCodeBlock>
 ```java
 @ParameterizedTest
 @AutoSource
-@Customization(UserBuilderCustomizer.class)
-void testMethod(User user) {
-    assertThat(arg.getId()).isNotNull();
-    assertThat(arg.getName()).isNotNull();
-    assertThat(arg.getEmail()).isNotNull();
+@Customization(ShipmentBuilderCustomizer.class)
+void testMethod(Shipment shipment) {
+    assertThat(shipment.getId()).isNotNull();
+    assertThat(shipment.getOrderId()).isNotNull();
+    assertThat(shipment.getPostalCode()).isNotNull();
+    assertThat(shipment.getAddress()).isNotNull();
+    assertThat(shipment.getShipped()).isNotNull();
 }
 ```
 </JavaKotlinCodeBlock>
 
-This allows you to keep the benefits of using `@Builder` annotation while gaining the automatic generation capabilities provided by AutoParams.
+This allows you to use custom builder patterns while still benefiting from automatic object generation.

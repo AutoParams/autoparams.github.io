@@ -7,17 +7,17 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # Overview
 
-AutoParams is an arbitrary test data generator designed for parameterized tests in Java, drawing inspiration from AutoFixture.
+**AutoParams** is a JUnit 5 extension for automatic test data generation, inspired by AutoFixture.
 
-Manually configuring test data can be cumbersome, especially when certain data is necessary but not critical to a specific test. AutoParams eliminates this hassle by automatically generating test arguments for your parameterized methods, allowing you to focus more on your domain-specific requirements.
+Manually creating test data is often repetitive and distracts from the core logic of the test. AutoParams eliminates this boilerplate by supplying automatically generated values to your test method parameters, allowing you to write concise and focused tests.
 
-Using AutoParams is straightforward. Simply annotate your parameterized test method with the `@AutoSource` annotation, in the same way you would use the `@ValueSource` or `@CsvSource` annotations. Once this is done, AutoParams takes care of generating appropriate test arguments automatically.
+Getting started is simple: annotate your `@Test` method with `@AutoParams`, and the parameters will be populated with generated data.
 
 <JavaKotlinCodeBlock>
 ```java
-@ParameterizedTest
-@AutoSource
-void parameterizedTest(int a, int b) {
+@Test
+@AutoParams
+void testMethod(int a, int b) {
     Calculator sut = new Calculator();
     int actual = sut.add(a, b);
     assertEquals(a + b, actual);
@@ -25,48 +25,26 @@ void parameterizedTest(int a, int b) {
 ```
 
 ```kotlin
-@ParameterizedTest
-@AutoSource
-fun parameterizedTest(a: Int, b: Int) {
+@Test
+@AutoParams
+fun testMethod(a: Int, b: Int) {
     val sut = Calculator()
-    val actual: Int = sut.add(a, b)
+    val actual = sut.add(a, b)
     assertEquals(a + b, actual)
 }
 ```
 </JavaKotlinCodeBlock>
 
+In the example above, `a` and `b` are automatically generated, making the test cleaner and reducing the need for manual setup or value triangulation.
 
-<JavaKotlinCodeBlock>
-```java
-@ParameterizedTest
-@AutoSource
-void parameterizedTest(int a, int b) {
-    Calculator sut = new Calculator();
-    int actual = sut.add(a, b);
-    assertEquals(a + b, actual);
-}
-```
-
-```kotlin
-@ParameterizedTest
-@AutoSource
-fun parameterizedTest(a: Int, b: Int) {
-    val sut = Calculator()
-    val actual: Int = sut.add(a, b)
-    assertEquals(a + b, actual)
-}
-```
-</JavaKotlinCodeBlock>
-
-In the example above, the automatic generation of test data by AutoParams can potentially eliminate the need for triangulation in tests, streamlining the testing process.
-
-AutoParams also simplifies the writing of test setup code. For instance, if you need to generate multiple review entities for a single product, you can effortlessly accomplish this using the `@Freeze` annotation.
+AutoParams also supports more advanced scenarios. When multiple generated values need to share a reference—such as reviews referring to the same product—you can use the `@Freeze` annotation to ensure consistency.
 
 <JavaKotlinCodeBlock>
 ```java
 @AllArgsConstructor
 @Getter
 public class Product {
+
     private final UUID id;
     private final String name;
     private final BigDecimal priceAmount;
@@ -74,7 +52,11 @@ public class Product {
 ```
 
 ```kotlin
-class Product (val id: UUID, val name: String, val priceAmount: BigDecimal)
+class Product(
+    val id: UUID,
+    val name: String,
+    val priceAmount: BigDecimal,
+)
 ```
 </JavaKotlinCodeBlock>
 
@@ -83,21 +65,30 @@ class Product (val id: UUID, val name: String, val priceAmount: BigDecimal)
 @AllArgsConstructor
 @Getter
 public class Review {
+    
     private final UUID id;
+    private final UUID reviewerId;
     private final Product product;
+    private final int rating;
     private final String comment;
 }
 ```
 
 ```kotlin
-class Review(val id: UUID, val product: Product, val comment: String)
+class Review(
+    val id: UUID,
+    val reviewerId: UUID,
+    val product: Product,
+    val rating: Int,
+    val comment: String,
+)
 ```
 </JavaKotlinCodeBlock>
 
 <JavaKotlinCodeBlock>
 ```java
-@ParameterizedTest
-@AutoSource
+@Test
+@AutoParams
 void testMethod(@Freeze Product product, Review[] reviews) {
     for (Review review : reviews) {
         assertSame(product, review.getProduct());
@@ -106,14 +97,14 @@ void testMethod(@Freeze Product product, Review[] reviews) {
 ```
 
 ```kotlin
-@ParameterizedTest
-@AutoSource
+@Test
+@AutoParams
 fun testMethod(@Freeze product: Product, reviews: Array<Review>) {
     for (review in reviews) {
-        assertSame(product, review.product)
+        Assertions.assertSame(product, review.product)
     }
 }
 ```
 </JavaKotlinCodeBlock>
 
-That's cool!
+This ensures that all generated `Review` instances refer to the same frozen `Product`, simplifying test setup in scenarios involving shared dependencies.

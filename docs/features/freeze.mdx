@@ -1,0 +1,55 @@
+---
+sidebar_position: 1
+sidebar_label: '@Freeze Annotation'
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# `@Freeze` Annotation
+
+The `@Freeze` annotation allows you to "freeze" a generated value so that it is reused consistently across other parameters of the same type within a single test method.
+
+To apply it, annotate one of your method parameters with `@Freeze`. AutoParams will then propagate that frozen value to all other parameters of the same type—including nested fields in complex objects.
+
+<JavaKotlinCodeBlock>
+```java
+@AllArgsConstructor
+@Getter
+public class StringContainer {
+
+    private final String value;
+}
+```
+
+```kotlin
+class StringContainer(val value: String)
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+void testMethodFreeze(String s1, @Freeze String s2, String s3,
+                      StringContainer container) {
+    assertNotEquals(s1, s2);
+    assertEquals(s2, s3);
+    assertEquals(s2, container.getValue());
+}
+```
+
+```kotlin
+@Test
+@AutoParams
+fun testMethodFreeze(s1: String, @Freeze s2: String, s3: String,
+                     container: StringContainer) {
+    Assertions.assertNotEquals(s1, s2)
+    assertEquals(s2, s3)
+    assertEquals(s2, container.value)
+}
+```
+</JavaKotlinCodeBlock>
+
+In this example, `s2` is frozen, meaning the same string value is reused for `s3` and for the `value` field inside `container`. Meanwhile, `s1` is independently generated.
+
+This makes `@Freeze` particularly useful when certain dependencies in your test need to remain consistent, while still allowing variation in the rest of the test data.
