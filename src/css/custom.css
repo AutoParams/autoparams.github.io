@@ -67,3 +67,7 @@ main {
     --ifm-h1-font-size: 2rem;
   }
 }
+
+a {
+  color: var(--ifm-color-primary-lightest);
+}
