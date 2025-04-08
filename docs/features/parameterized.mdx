@@ -39,6 +39,12 @@ fun testMethod(name: String, factory: Factory<Product>) {
 ```
 </JavaKotlinCodeBlock>
 
+:::note
+
+This feature depends on parameter name availability. See the note in the [One-time Customizations with DSL](./customization#customization-dsl) section for details.
+
+:::
+
 In this example, the test method is executed twice—once with `"Camera"` and once with `"Candle"` as the value of the `name` parameter. The `factory` parameter is resolved automatically by AutoParams and can be customized using the DSL, as shown with `freezeArgument`.
 
 This enables the creation of test objects (`Product` in this case) that are partially controlled (e.g., a fixed name) and partially randomized (e.g., all other properties), striking a balance between specificity and variety.
