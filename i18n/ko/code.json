@@ -319,23 +319,23 @@
     "description": "The siteConfig.tagline message"
   },
   "homepage.feature.easyToUse.title": {
-    "message": "사용하기 쉽습니다",
+    "message": "간편한 사용",
     "description": "Easy to Use title"
   },
   "homepage.feature.easyToUse.description": {
-    "message": "@ValueSource 또는 @CsvSource 애너테이션과 마찬가지로, @AutoSource 애너테이션을 매개변수화된 테스트 메서드에 추가하면 AutoParams가 자동으로 적절한 테스트 인수를 생성합니다.",
+    "message": "AutoParams를 사용하면 테스트 작성이 그 어느 때보다 쉬워집니다. 테스트 메서드에 @AutoParams 애너테이션만 추가하면, 매개변수에 필요한 값들이 자동으로 생성되어 채워집니다.",
     "description": "Easy to Use description"
   },
   "homepage.feature.focusOnWhatMatters.title": {
-    "message": "중요한 것에 집중하세요",
+    "message": "중요한 것에 집중",
     "description": "Focus on what matters title"
   },
   "homepage.feature.focusOnWhatMatters.description": {
-    "message": "매개변수화된 메서드에서 AutoParams를 사용하면 테스트 데이터를 구성하는 반복적인 작업을 건너뛸 수 있습니다. 필요한 테스트 데이터는 자동으로 생성되므로 정말 중요한 것, 즉 도메인별 요구 사항에 집중할 수 있습니다.",
+    "message": "AutoParams를 사용하면 테스트 데이터를 구성하는 반복적인 작업을 건너뛸 수 있습니다. 필요한 테스트 데이터는 자동으로 생성되므로 정말 중요한 것, 즉 도메인별 요구 사항에 집중할 수 있습니다.",
     "description": "Focus on what matters description"
   },
   "homepage.feature.enhancedCoverage.title": {
-    "message": "커버리지를 향상시키세요",
+    "message": "커버리지 향상",
     "description": "Enhanced coverage title"
   },
   "homepage.feature.enhancedCoverage.description": {
@@ -347,7 +347,7 @@
     "description": "Simple example title"
   },
   "homepage.codeExample.description": {
-    "message": "AutoParams가 테스트 데이터를 자동으로 생성하면 테스트에서 삼각 측량의 필요성을 없앨 수 있고, 이를 통해 테스트 프로세스를 간소화할 수 있습니다.",
+    "message": "AutoParams가 테스트 데이터를 자동으로 생성하면 테스트에서 다양한 입력 값을 수동으로 바꿔가며 검증해야 할 필요성을 없앨 수 있고, 이를 통해 테스트 프로세스를 간소화할 수 있습니다.",
     "description": "Simple example description"
   },
   "homepage.meta.description": {

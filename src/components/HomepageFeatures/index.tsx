@@ -16,7 +16,7 @@ const FeatureList: FeatureItem[] = [
     }),
     description: (
       <Translate id="homepage.feature.easyToUse.description">
-        Just like the @ValueSource or @CsvSource annotations, when you add the @AutoSource annotation to a parameterized test method, AutoParams automatically generates the appropriate test arguments.
+        With AutoParams, writing tests is easier than ever. Simply add the @AutoParams annotation to your test method, and the parameters will be automatically populated with generated values.
       </Translate>
     ),
   },
@@ -27,7 +27,7 @@ const FeatureList: FeatureItem[] = [
     }),
     description: (
       <Translate id="homepage.feature.focusOnWhatMatters.description">
-        Using AutoParams in parameterized methods allows you to skip the repetitive work of constructing test data. The required test data is automatically generated, so you can focus on what really matters: your domain-specific requirements.
+        Using AutoParams allows you to skip the repetitive work of constructing test data. The required test data is automatically generated, so you can focus on what really matters: your domain-specific requirements.
       </Translate>
     ),
   },
