@@ -1,0 +1,50 @@
+---
+sidebar_position: 4.5
+sidebar_label: Collections and Arrays
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# Collections and Arrays
+
+AutoParams can generate collections and arrays automatically. By default, the size of generated collections and arrays is 3, but you can override this using annotations such as `@Size`.
+
+For example, the following tests verify that AutoParams generates an `ArrayList<String>` and a `String[]` with exactly 5 elements when the `@Size(min = 5)` constraint is applied:
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+void testMethod(@Size(min = 5) ArrayList<String> arrayList) {
+    assertThat(arrayList).hasSize(5);
+}
+```
+
+```kotlin
+@Test
+@AutoParams
+fun testMethod(@Size(min = 5) arrayList: ArrayList<String>) {
+    assertThat(arrayList).hasSize(5)
+}
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+void testMethod(@Size(min = 5) String[] array) {
+    assertThat(array).hasSize(5);
+}
+```
+
+```kotlin
+@Test
+@AutoParams
+fun testMethod(@Size(min = 5) array: Array<String>) {
+    assertThat(array).hasSize(5)
+}
+```
+</JavaKotlinCodeBlock>
+
+This allows you to work with realistic data sizes while keeping your test code clean and concise.
