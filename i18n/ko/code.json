@@ -323,7 +323,7 @@
     "description": "Easy to Use title"
   },
   "homepage.feature.easyToUse.description": {
-    "message": "AutoParams를 사용하면 테스트 작성이 그 어느 때보다 쉬워집니다. 테스트 메서드에 @AutoParams 애너테이션만 추가하면, 매개변수에 필요한 값들이 자동으로 생성되어 채워집니다.",
+    "message": "AutoParams를 사용하면 테스트 작성이 그 어느 때보다 쉬워집니다. 테스트 메서드에 @AutoParams(코틀린의 경우 @AutoKotlinParams), 애너테이션만 추가하면, 매개변수에 필요한 값들이 자동으로 생성되어 채워집니다.",
     "description": "Easy to Use description"
   },
   "homepage.feature.focusOnWhatMatters.title": {
