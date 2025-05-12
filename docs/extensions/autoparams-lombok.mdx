@@ -18,7 +18,7 @@ For Maven, you can add the following dependency to your `pom.xml`:
 <dependency>
   <groupId>io.github.autoparams</groupId>
   <artifactId>autoparams-lombok</artifactId>
-  <version>10.1.0</version>
+  <version>10.1.1</version>
 </dependency>
 ```
 
@@ -27,7 +27,7 @@ For Maven, you can add the following dependency to your `pom.xml`:
 For Gradle Groovy DSL, use:
 
 ```gradle
-testImplementation 'io.github.autoparams:autoparams-lombok:10.1.0'
+testImplementation 'io.github.autoparams:autoparams-lombok:10.1.1'
 ```
 
 ### Gradle (Kotlin)
@@ -35,7 +35,7 @@ testImplementation 'io.github.autoparams:autoparams-lombok:10.1.0'
 For Gradle Kotlin DSL, use:
 
 ```gradle
-testImplementation("io.github.autoparams:autoparams-lombok:10.1.0")
+testImplementation("io.github.autoparams:autoparams-lombok:10.1.1")
 ```
 
 ## `BuilderCustomizer` Class
@@ -64,8 +64,8 @@ To automatically generate `Order` instances, apply `BuilderCustomizer` in your t
 
 <JavaKotlinCodeBlock>
 ```java
-@ParameterizedTest
-@AutoSource
+@Test
+@AutoParams
 @Customization(BuilderCustomizer.class)
 void testMethod(Order order) {
     assertThat(order.getId()).isNotNull();
@@ -119,8 +119,8 @@ Then apply it in your test:
 
 <JavaKotlinCodeBlock>
 ```java
-@ParameterizedTest
-@AutoSource
+@Test
+@AutoParams
 @Customization(ShipmentBuilderCustomizer.class)
 void testMethod(Shipment shipment) {
     assertThat(shipment.getId()).isNotNull();
