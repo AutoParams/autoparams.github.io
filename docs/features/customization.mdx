@@ -66,7 +66,7 @@ void testMethod(Product product) {
 
 ```kotlin
 @Test
-@AutoParams
+@AutoKotlinParams
 @Customization(ProductGenerator::class)
 fun testMethod(product: Product) {
     assertTrue(product.priceAmount >= BigDecimal.valueOf(10))
@@ -131,7 +131,7 @@ void testMethod(Product product, Review review) {
 
 ```kotlin
 @Test
-@AutoParams
+@AutoKotlinParams
 @Customization(ProductGenerator::class, ReviewGenerator::class)
 fun testMethod(product: Product, review: Review) {
     assertTrue(product.priceAmount >= BigDecimal.valueOf(10))
@@ -180,7 +180,7 @@ void testMethod(Product product, Review review) {
 
 ```kotlin
 @Test
-@AutoParams
+@AutoKotlinParams
 @Customization(DomainCustomizer::class)
 fun testMethod(product: Product, review: Review) {
     assertTrue(product.priceAmount >= BigDecimal.valueOf(10))
@@ -252,7 +252,7 @@ void testMethod(
 
 ```kotlin
 @Test
-@AutoParams
+@AutoKotlinParams
 @Customization(DomainCustomizer::class)
 fun testMethod(
     product1: Product,
@@ -298,7 +298,7 @@ import autoparams.customization.dsl.ArgumentCustomizationDsl.freezeArgument
 class TestClass {
 
     @Test
-    @AutoParams
+    @AutoKotlinParams
     fun testMethod(product: Product, @Max(5) rating: Int, context: ResolutionContext) {
         context.customize(
             freezeArgument("product").`in`(Review::class.java).to(product),
@@ -372,7 +372,7 @@ void testMethod(User user) {
 
 ```kotlin
 @Test
-@AutoParams
+@AutoKotlinParams
 @Customization(InstancePropertyWriter::class)
 fun testMethod(user: User) {
     assertNotNull(user.id)

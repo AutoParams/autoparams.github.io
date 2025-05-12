@@ -13,7 +13,7 @@ void testMethod(int a, int b) {
 }`;
 
 const simpleExampleKotlinCode = `@Test
-@AutoParams
+@AutoKotlinParams
 fun testMethod(a: Int, b: Int) {
     val sut = Calculator()
     val actual = sut.add(a, b)

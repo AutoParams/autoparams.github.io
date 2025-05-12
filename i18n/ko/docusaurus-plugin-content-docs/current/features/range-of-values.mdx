@@ -25,7 +25,7 @@ void testMethod(@Min(1) @Max(10) int value) {
 
 ```kotlin
 @Test
-@AutoParams
+@AutoKotlinParams
 fun testMethod(@Min(1) @Max(10) value: Int) {
     assertTrue(value >= 1)
     assertTrue(value <= 10)

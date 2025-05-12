@@ -26,7 +26,7 @@ void testMethod(int a, int b) {
 
 ```kotlin
 @Test
-@AutoParams
+@AutoKotlinParams
 fun testMethod(a: Int, b: Int) {
     val sut = Calculator()
     val actual = sut.add(a, b)
@@ -98,7 +98,7 @@ void testMethod(@Freeze Product product, Review[] reviews) {
 
 ```kotlin
 @Test
-@AutoParams
+@AutoKotlinParams
 fun testMethod(@Freeze product: Product, reviews: Array<Review>) {
     for (review in reviews) {
         Assertions.assertSame(product, review.product)
