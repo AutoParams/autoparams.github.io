@@ -11,7 +11,7 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 테스트 데이터를 수동으로 생성하는 작업은 종종 반복적이며 테스트의 핵심 논리에 대한 집중을 방해합니다. AutoParams는 자동으로 생성된 값을 테스트 메서드 매개변수에 제공하여 이러한 보일러플레이트를 제거하고 간결하고 집중적인 테스트를 작성할 수 있습니다.
 
-간단하게 시작할 수 있습니다. `@Test` 메서드에 `@AutoParams`로 애너테이션을 붙이면 매개변수가 생성된 데이터로 채워집니다.
+간단하게 시작할 수 있습니다. `@Test` 메서드에 `@AutoParams`(코틀린의 경우 `@AutoKotlinParams`)로 애너테이션을 붙이면 매개변수가 생성된 데이터로 채워집니다.
 
 <JavaKotlinCodeBlock>
 ```java

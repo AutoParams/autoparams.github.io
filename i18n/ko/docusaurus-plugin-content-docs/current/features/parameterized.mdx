@@ -13,7 +13,7 @@ AutoParams는 **매개변수화된 테스트**도 지원하므로 여러 입력 
 
 ## `@ValueAutoSource` 애너테이션
 
-`@ValueAutoSource` 애너테이션은 AutoParams를 사용하여 매개변수화된 테스트를 작성하기 위한 간단하면서도 강력한 도구입니다.
+`@ValueAutoSource`(또는 `@ValueAutoKotlinSource`) 애너테이션은 AutoParams를 사용하여 매개변수화된 테스트를 작성하기 위한 간단하면서도 강력한 도구입니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -64,7 +64,7 @@ fun testMethod(name: String, factory: Factory<Product>) {
 
 ## `@CsvAutoSource` 애너테이션
 
-`@CsvAutoSource` 애너테이션을 사용하면 JUnit 5의 @CsvSource와 유사한 CSV 형식으로 반복되는 테스트 입력을 정의할 수 있습니다. CSV 행에 명시적으로 제공되지 않은 모든 매개변수는 AutoParams에서 자동으로 생성됩니다.
+`@CsvAutoSource`(또는 `@CsvAutoKotlinSource`) 애너테이션을 사용하면 JUnit 5의 @CsvSource와 유사한 CSV 형식으로 반복되는 테스트 입력을 정의할 수 있습니다. CSV 행에 명시적으로 제공되지 않은 모든 매개변수는 AutoParams에서 자동으로 생성됩니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -100,9 +100,7 @@ fun testMethod(name: String, priceAmount: BigDecimal, id: UUID) {
 
 ## `@MethodAutoSource` 애너테이션
 
-The `@MethodAutoSource` annotation combines the features of JUnit 5’s `@MethodSource` and AutoParams’s `@AutoSource`. You can specify a method that provides test data, and AutoParams will fill in any remaining parameters automatically.
-
-`@MethodAutoSource` 애너테이션은 JUnit 5의 `@MethodSource`와 AutoParams의 `@AutoSource` 기능을 결합합니다. 이를 사용하여 테스트 데이터를 제공하는 메서드를 지정할 수 있으며, AutoParams는 나머지 매개변수를 자동으로 채웁니다.
+`@MethodAutoSource`(또는 `@MethodAutoKotlinSource`) 애너테이션은 JUnit 5의 `@MethodSource`와 AutoParams의 `@AutoSource` 기능을 결합합니다. 이를 사용하여 테스트 데이터를 제공하는 메서드를 지정할 수 있으며, AutoParams는 나머지 매개변수를 자동으로 채웁니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -175,7 +173,7 @@ fun testMethod(a: Int, b: Int) {
 
 이 예에서 테스트는 총 15번 실행됩니다. 매개변수 `a`에 할당된 값 `1`, `2`, `3` 각각에 대해 5번씩 실행됩니다. 각 실행마다 `b` 값은 AutoParams에 의해 자동으로 생성됩니다.
 
-AutoParams가 **모든** 매개변수에 대한 값을 생성하고 테스트를 여러 번 반복하도록 하려면 `@AutoSource`를 `@Repeat`와 결합할 수 있습니다.
+AutoParams가 **모든** 매개변수에 대한 값을 생성하고 테스트를 여러 번 반복하도록 하려면 `@AutoSource`(또는 `@AutoKotlinSource`)를 `@Repeat`와 결합할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java

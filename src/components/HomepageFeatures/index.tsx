@@ -16,7 +16,7 @@ const FeatureList: FeatureItem[] = [
     }),
     description: (
       <Translate id="homepage.feature.easyToUse.description">
-        With AutoParams, writing tests is easier than ever. Simply add the @AutoParams annotation to your test method, and the parameters will be automatically populated with generated values.
+        With AutoParams, writing tests is easier than ever. Simply add the @AutoParams(or @AutoKotlinParams in Kotlin), annotation to your test method, and the parameters will be automatically populated with generated values.
       </Translate>
     ),
   },
