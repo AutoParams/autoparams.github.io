@@ -112,7 +112,7 @@ class TestClass {
 class TestClass {
 
     @Test
-    @AutoParams
+    @AutoKotlinParams
     @UseBeans
     fun testMethod(service: MessageSupplier, name: String) {
         val message: String = service.getMessage(name)

@@ -102,7 +102,7 @@ void testMethod(@Freeze Dependency stub, SystemUnderTest sut) {
 
 ```kotlin
 @Test
-@AutoParams
+@AutoKotlinParams
 @Customization(MockitoCustomizer::class)
 fun testMethod(@Freeze stub: Dependency, sut: SystemUnderTest) {
     whenever(stub.name).thenReturn("World")

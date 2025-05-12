@@ -22,7 +22,7 @@ void testMethod(@Size(min = 5) ArrayList<String> arrayList) {
 
 ```kotlin
 @Test
-@AutoParams
+@AutoKotlinParams
 fun testMethod(@Size(min = 5) arrayList: ArrayList<String>) {
     assertThat(arrayList).hasSize(5)
 }
@@ -40,7 +40,7 @@ void testMethod(@Size(min = 5) String[] array) {
 
 ```kotlin
 @Test
-@AutoParams
+@AutoKotlinParams
 fun testMethod(@Size(min = 5) array: Array<String>) {
     assertThat(array).hasSize(5)
 }

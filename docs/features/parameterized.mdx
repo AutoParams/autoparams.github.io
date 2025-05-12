@@ -29,7 +29,7 @@ void testMethod(String name, Factory<Product> factory) {
 
 ```kotlin
 @ParameterizedTest
-@ValueAutoSource(strings = ["Camera", "Candle"])
+@ValueAutoKotlinSource(strings = ["Camera", "Candle"])
 fun testMethod(name: String, factory: Factory<Product>) {
     val product: Product = factory.get(
         freezeArgument("name").to(name)
@@ -81,7 +81,7 @@ void testMethod(String name, BigDecimal priceAmount, UUID id) {
 
 ```kotlin
 @ParameterizedTest
-@CsvAutoSource(
+@CsvAutoKotlinSource(
     "Product 1, 500",
     "Product 2, 10000"
 )
@@ -121,7 +121,7 @@ static Stream<Arguments> testDataSource() {
 
 ```kotlin
 @ParameterizedTest
-@MethodAutoSource("testDataSource")
+@MethodAutoKotlinSource("testDataSource")
 fun testMethod(name: String, priceAmount: BigDecimal, id: UUID) {
     val product = Product(id, name, priceAmount)
     assertTrue(product.name.startsWith("Product"))
@@ -161,7 +161,7 @@ void testMethod(int a, int b) {
 
 ```kotlin
 @ParameterizedTest
-@ValueAutoSource(ints = [1, 2, 3])
+@ValueAutoKotlinSource(ints = [1, 2, 3])
 @Repeat(5)
 fun testMethod(a: Int, b: Int) {
     val sut = Calculator()
@@ -189,7 +189,7 @@ void testMethod(int a, int b) {
 
 ```kotlin
 @ParameterizedTest
-@AutoSource
+@AutoKotlinSource
 @Repeat(10)
 fun testMethod(a: Int, b: Int) {
     val sut = Calculator()

@@ -57,7 +57,7 @@ AutoParams provides several matching strategies that determine which targets sho
   class TestClass {
 
       @Test
-      @AutoParams
+      @AutoKotlinParams
       fun testMethod(
           @FreezeBy(EXACT_TYPE) s1: String,
           s2: String,
@@ -101,7 +101,7 @@ AutoParams provides several matching strategies that determine which targets sho
   class TestClass {
 
       @Test
-      @AutoParams
+      @AutoKotlinParams
       fun testMethod(
           @FreezeBy(IMPLEMENTED_INTERFACES) s1: String,
           chars: CharSequence,
@@ -144,7 +144,7 @@ AutoParams provides several matching strategies that determine which targets sho
   class TestClass {
 
       @Test
-      @AutoParams
+      @AutoKotlinParams
       fun testMethod(
           @FreezeBy(PARAMETER_NAME) reviewerId: UUID,
           review: Review
@@ -193,7 +193,7 @@ import autoparams.customization.Matching.IMPLEMENTED_INTERFACES
 class TestClass {
 
     @Test
-    @AutoParams
+    @AutoKotlinParams
     fun testMethod(
         @FreezeBy(EXACT_TYPE, IMPLEMENTED_INTERFACES) s1: String,
         s2: String,
@@ -223,7 +223,7 @@ void testMethod(@Freeze String s1, String s2) {
 
 ```kotlin
 @Test
-@AutoParams
+@AutoKotlinParams
 fun testMethod(@Freeze s1: String, s2: String) {
     assertSame(s1, s2)
 }
