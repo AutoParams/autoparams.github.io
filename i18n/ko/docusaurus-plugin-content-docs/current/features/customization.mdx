@@ -14,7 +14,7 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 - `priceAmount`는 `10`보다 크거나 같아야 합니다.
 - `priceAmount`는 `10000`보다 작거나 같아야 합니다.
 
-`ObjectGeneratorBase<T>`를 확장한 사용자 정의 제너레이터를 사용하여 이러한 규칙을 구현할 수 있습니다.
+[`ObjectGeneratorBase<T>`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/generator/ObjectGeneratorBase.html)를 확장한 사용자 정의 제너레이터를 사용하여 이러한 규칙을 구현할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -49,9 +49,9 @@ class ProductGenerator : ObjectGeneratorBase<Product>() {
 ```
 </JavaKotlinCodeBlock>
 
-이 사용자 정의 제너레이터는 비즈니스 제약 조건을 준수하는 `Product` 인스턴스를 생성합니다. `ResolutionContext`를 사용하여 제공되는 `id` 및 `name` 값을 생성하고 명시적 논리를 적용하여 유효한 `priceAmount`를 생성합니다.
+이 사용자 정의 제너레이터는 비즈니스 제약 조건을 준수하는 `Product` 인스턴스를 생성합니다. [`ResolutionContext`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/ResolutionContext.html)를 사용하여 제공되는 `id` 및 `name` 값을 생성하고 명시적 논리를 적용하여 유효한 `priceAmount`를 생성합니다.
 
-`@Customization` 애너테이션으로 사용자 정의 제너레이터를 적용할 수 있습니다.
+[`@Customization`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/customization/Customization.html) 애너테이션으로 사용자 정의 제너레이터를 적용할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -142,7 +142,7 @@ fun testMethod(product: Product, review: Review) {
 ```
 </JavaKotlinCodeBlock>
 
-또는 여러 제너레이터를 재사용 가능한 단일 구성으로 캡슐화하려는 경우 `CompositeCustomizer`를 확장할 수 있습니다.
+또는 여러 제너레이터를 재사용 가능한 단일 구성으로 캡슐화하려는 경우 [`CompositeCustomizer`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/customization/CompositeCustomizer.html)를 확장할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -312,7 +312,7 @@ class TestClass {
 ```
 </JavaKotlinCodeBlock>
 
-이 예에서는 `ArgumentCustomizationDsl` 클래스의 `set` 정적 메서드를 사용하여 `ResolutionContext`의 동작을 사용자 정의합니다. 구체적으로 다음과 같은 동작을 수행합니다.
+이 예에서는 [`ArgumentCustomizationDsl`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/customization/dsl/ArgumentCustomizationDsl.html) 클래스의 [`set`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/customization/dsl/ArgumentCustomizationDsl.html#set(autoparams.customization.dsl.FunctionDelegate)) 정적 메서드를 사용하여 `ResolutionContext`의 동작을 사용자 정의합니다. 구체적으로 다음과 같은 동작을 수행합니다.
 
 - 컨텍스트에서 생성된 모든 `Review` 인스턴스의 `product` 속성은 테스트 메서드의 `product` 매개변수로 설정됩니다.
 - 마찬가지로 `Review` 인스턴스의 `rating` 속성은 `rating` 매개변수로 설정됩니다.
@@ -359,7 +359,7 @@ class TestClass {
 ```
 </JavaKotlinCodeBlock>
 
-`Factory<T>` 클래스는 단일 유형에 대한 사용자 정의 객체를 생성하는 편리한 방법을 제공합니다. 명시적으로 `ResolutionContext`를 다룰 필요 없이 테스트 대상 인스턴스에 집중할 수 있습니다.
+[`Factory<T>`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/generator/Factory.html) 클래스는 단일 유형에 대한 사용자 정의 객체를 생성하는 편리한 방법을 제공합니다. 명시적으로 `ResolutionContext`를 다룰 필요 없이 테스트 대상 인스턴스에 집중할 수 있습니다.
 
 :::note
 
@@ -368,15 +368,15 @@ class TestClass {
 1. 설계상 매개변수 이름을 보존하는 `record` 클래스를 사용합니다.
 1. 컴파일시 `javac`를 사용하는 경우 `-parameters`를, `kotlinc`를 사용하는 경우 `-java-parameters`를 옵션으로 지정합니다.
     스프링 부트를 사용하는 경우 [Spring Boot Gradle 플러그인](https://docs.spring.io/spring-boot/gradle-plugin/reacting.html#reacting-to-other-plugins.java) 또는 [Spring Boot Maven 플러그인](https://docs.spring.io/spring-boot/maven-plugin/using.html)을 사용하면 이 옵션이 자동으로 활성화됩니다.
-1. 생성자에 `@ConstructorProperties` 애너테이션을 적용하여 매개변수 이름을 명시적으로 선언합니다.
-    이 애너테이션은 생성자에 대해서만 작동하며 일반 메서드에는 영향을 주지 않습니다. Lombok을 사용 중이고 생성자가 `@AllArgsConstructor`와 같은 롬복 애너테이션에 의해 생성되는 경우 `lombok.anyConstructor.addConstructorProperties = true` 설정을 구성하면 `@ConstructorProperties` 애너테이션을 자동으로 추가할 수 있습니다.
+1. 생성자에 [`@ConstructorProperties`](https://docs.oracle.com/javase/8/docs/api/java/beans/ConstructorProperties.html) 애너테이션을 적용하여 매개변수 이름을 명시적으로 선언합니다.
+    이 애너테이션은 생성자에 대해서만 작동하며 일반 메서드에는 영향을 주지 않습니다. Lombok을 사용 중이고 생성자가 [`@AllArgsConstructor`](https://projectlombok.org/api/lombok/AllArgsConstructor)와 같은 롬복 애너테이션에 의해 생성되는 경우 `lombok.anyConstructor.addConstructorProperties = true` 설정을 구성하면 `@ConstructorProperties` 애너테이션을 자동으로 추가할 수 있습니다.
     자세한 내용은 다음을 참조하세요. [https://projectlombok.org/features/constructor](https://projectlombok.org/features/constructor)
 
 :::
 
 ## 설정 가능한 속성
 
-클래스가 JavaBeans 규칙을 따르는 경우(즉, 인수 없는 생성자와 공개 세터 메서드가 있는 경우) AutoParams는 `InstancePropertyWriter` 커스터마이저를 사용하여 자동으로 속성을 채울 수 있습니다.
+클래스가 JavaBeans 규칙을 따르는 경우(즉, 인수 없는 생성자와 공개 세터 메서드가 있는 경우) AutoParams는 [`InstancePropertyWriter`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/processor/InstancePropertyWriter.html) 커스터마이저를 사용하여 자동으로 속성을 채울 수 있습니다.
 
 간단한 예는 다음과 같습니다.
 
