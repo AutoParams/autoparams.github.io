@@ -1,0 +1,110 @@
+---
+slug: /
+sidebar_position: 1
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# 개요
+
+**AutoParams**는 자동화된 테스트 데이터 생성을 위한 JUnit 5 확장 프로그램으로, AutoFixture에서 영감을 얻었습니다.
+
+테스트 데이터를 수동으로 생성하는 작업은 종종 반복적이며 테스트의 핵심 논리에 대한 집중을 방해합니다. AutoParams는 자동으로 생성된 값을 테스트 메서드 매개변수에 제공하여 이러한 보일러플레이트를 제거하고 간결하고 집중적인 테스트를 작성할 수 있습니다.
+
+간단하게 시작할 수 있습니다. `@Test` 메서드에 `@AutoParams`(코틀린의 경우 `@AutoKotlinParams`)로 애너테이션을 붙이면 매개변수가 생성된 데이터로 채워집니다.
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+void testMethod(int a, int b) {
+    Calculator sut = new Calculator();
+    int actual = sut.add(a, b);
+    assertEquals(a + b, actual);
+}
+```
+
+```kotlin
+@Test
+@AutoKotlinParams
+fun testMethod(a: Int, b: Int) {
+    val sut = Calculator()
+    val actual = sut.add(a, b)
+    assertEquals(a + b, actual)
+}
+```
+</JavaKotlinCodeBlock>
+
+위 예시에서 `a`와 `b`는 자동으로 생성되므로 테스트 코드가 더 간결해지고 다양한 입력 값을 수동으로 바꿔가며 값을 검증하는 번거로움이 줄어듭니다.
+
+AutoParams는 고급 시나리오도 지원합니다. 여러 생성된 값이 참조를 공유해야 하는 경우(예: 동일한 제품을 참조하는 리뷰) `@Freeze` 애너테이션을 사용하여 일관성을 보장할 수 있습니다.
+
+<JavaKotlinCodeBlock>
+```java
+@AllArgsConstructor
+@Getter
+public class Product {
+
+    private final UUID id;
+    private final String name;
+    private final BigDecimal priceAmount;
+}
+```
+
+```kotlin
+class Product(
+    val id: UUID,
+    val name: String,
+    val priceAmount: BigDecimal,
+)
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@AllArgsConstructor
+@Getter
+public class Review {
+    
+    private final UUID id;
+    private final UUID reviewerId;
+    private final Product product;
+    private final int rating;
+    private final String comment;
+}
+```
+
+```kotlin
+class Review(
+    val id: UUID,
+    val reviewerId: UUID,
+    val product: Product,
+    val rating: Int,
+    val comment: String,
+)
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+void testMethod(@Freeze Product product, Review[] reviews) {
+    for (Review review : reviews) {
+        assertSame(product, review.getProduct());
+    }
+}
+```
+
+```kotlin
+@Test
+@AutoKotlinParams
+fun testMethod(@Freeze product: Product, reviews: Array<Review>) {
+    for (review in reviews) {
+        Assertions.assertSame(product, review.product)
+    }
+}
+```
+</JavaKotlinCodeBlock>
+
+이렇게 하면 생성된 모든 `Review` 인스턴스는 동일한 동결된 `Product` 인스턴스를 참조하도록 보장하여 공유된 종속성이 포함된 시나리오에서 테스트 설정을 간소화합니다.

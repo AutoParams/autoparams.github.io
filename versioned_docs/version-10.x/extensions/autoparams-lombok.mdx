@@ -1,0 +1,135 @@
+---
+sidebar_position: 3
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# `autoparams-lombok`
+
+`autoparams-lombok` is an extension for AutoParams that enhances compatibility with [Project Lombok](https://projectlombok.org/), a popular Java library for reducing boilerplate code.
+
+## Install
+
+### Maven
+
+For Maven, you can add the following dependency to your `pom.xml`:
+
+```xml
+<dependency>
+  <groupId>io.github.autoparams</groupId>
+  <artifactId>autoparams-lombok</artifactId>
+  <version>10.2.0</version>
+</dependency>
+```
+
+### Gradle (Groovy)
+
+For Gradle Groovy DSL, use:
+
+```gradle
+testImplementation 'io.github.autoparams:autoparams-lombok:10.2.0'
+```
+
+### Gradle (Kotlin)
+
+For Gradle Kotlin DSL, use:
+
+```gradle
+testImplementation("io.github.autoparams:autoparams-lombok:10.2.0")
+```
+
+## `BuilderCustomizer` Class
+
+If you're using Lombok's `@Builder` annotation, the `BuilderCustomizer` allows AutoParams to generate arbitrary objects via the builder, making it easier to write tests without manually constructing instances.
+
+Suppose you have an `Order` class like this:
+
+<JavaKotlinCodeBlock>
+```java
+@Builder
+@Getter
+public class Order {
+
+    private final UUID id;
+    private final UUID productId;
+    private final Integer quantity;
+    private final UUID customerId;
+    private final BigDecimal orderedPriceAmount;
+    private final String comment;
+}
+```
+</JavaKotlinCodeBlock>
+
+To automatically generate `Order` instances, apply `BuilderCustomizer` in your test:
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+@Customization(BuilderCustomizer.class)
+void testMethod(Order order) {
+    assertThat(order.getId()).isNotNull();
+    assertThat(order.getProductId()).isNotNull();
+    assertThat(order.getQuantity()).isNotNull();
+    assertThat(order.getQuantity()).isPositive();
+    assertThat(order.getCustomerId()).isNotNull();
+    assertThat(order.getOrderedPriceAmount()).isNotNull();
+    assertThat(order.getComment()).isNotNull();
+}
+```
+</JavaKotlinCodeBlock>
+
+This eliminates the need to manually configure builder calls, helping you write cleaner and more maintainable tests.
+
+### Custom Method Names
+
+If your class uses custom builder method names via Lombok's `builderMethodName` and `buildMethodName` attributes, you can still use `BuilderCustomizer` by extending it to specify those method names.
+
+For example, consider the following `Shipment` class:
+
+<JavaKotlinCodeBlock>
+```java
+@Builder(builderMethodName = "getBuilder", buildMethodName = "create")
+@Getter
+public class Shipment {
+
+    private final UUID id;
+    private final UUID orderId;
+    private final String postalCode;
+    private final String address;
+    private final Boolean shipped;
+}
+```
+</JavaKotlinCodeBlock>
+
+To make this compatible with AutoParams, define a custom subclass:
+
+<JavaKotlinCodeBlock>
+```java
+public class ShipmentBuilderCustomizer extends BuilderCustomizer {
+
+    public ShipmentBuilderCustomizer() {
+        super("getBuilder", "create");
+    }
+}
+```
+</JavaKotlinCodeBlock>
+
+Then apply it in your test:
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+@Customization(ShipmentBuilderCustomizer.class)
+void testMethod(Shipment shipment) {
+    assertThat(shipment.getId()).isNotNull();
+    assertThat(shipment.getOrderId()).isNotNull();
+    assertThat(shipment.getPostalCode()).isNotNull();
+    assertThat(shipment.getAddress()).isNotNull();
+    assertThat(shipment.getShipped()).isNotNull();
+}
+```
+</JavaKotlinCodeBlock>
+
+This allows you to use custom builder patterns while still benefiting from automatic object generation.

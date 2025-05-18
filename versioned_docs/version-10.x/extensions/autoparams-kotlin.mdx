@@ -1,0 +1,66 @@
+---
+sidebar_position: 4
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# `autoparams-kotlin`
+
+`autoparams-kotlin` is an extension of AutoParams that adds Kotlin-specific support for test data generation. It helps reduce boilerplate in Kotlin tests by generating values in a way that aligns with Kotlin’s language features.
+
+## Install
+
+### Maven
+
+For Maven, you can add the following dependency to your `pom.xml`:
+
+```xml
+<dependency>
+  <groupId>io.github.autoparams</groupId>
+  <artifactId>autoparams-kotlin</artifactId>
+  <version>10.2.0</version>
+</dependency>
+```
+
+### Gradle (Groovy)
+
+For Gradle Groovy DSL, use:
+
+```gradle
+testImplementation 'io.github.autoparams:autoparams-kotlin:10.2.0'
+```
+
+### Gradle (Kotlin)
+
+For Gradle Kotlin DSL, use:
+
+```gradle
+testImplementation("io.github.autoparams:autoparams-kotlin:10.2.0")
+```
+
+## `@AutoKotlinParams` Annotation
+
+Consider the following Kotlin data class:
+
+<JavaKotlinCodeBlock>
+```kotlin
+data class Point(val x: Int = 0, val y: Int = 0)
+```
+</JavaKotlinCodeBlock>
+
+Using default values in tests can result in limited test coverage. The `@AutoKotlinParams` annotation enables AutoParams to provide randomized arguments for Kotlin test methods, ensuring more varied and meaningful input.
+
+Here's an example:
+
+<JavaKotlinCodeBlock>
+```kotlin
+@Test
+@AutoKotlinParams
+fun testMethod(point: Point) {
+    assertThat(point.x).isNotEqualTo(0)
+    assertThat(point.y).isNotEqualTo(0)
+}
+```
+</JavaKotlinCodeBlock>
+
+In this test, the `point` parameter is automatically initialized with non-default, randomly generated values—allowing the test to cover a broader range of scenarios without requiring manual setup.

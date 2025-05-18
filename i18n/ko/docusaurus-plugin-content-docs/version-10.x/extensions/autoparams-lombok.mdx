@@ -1,0 +1,135 @@
+---
+sidebar_position: 3
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# `autoparams-lombok`
+
+`autoparams-lombok`은 보일러플레이트 코드를 줄이는 데 사용되는 인기 있는 Java 라이브러리인 [Project Lombok](https://projectlombok.org/)과의 호환성을 향상시키는 AutoParams용 확장 프로그램입니다.
+
+## 설치하기
+
+### Maven
+
+Maven을 사용한다면, `pom.xml`에 다음 종속성을 추가하세요.
+
+```xml
+<dependency>
+  <groupId>io.github.autoparams</groupId>
+  <artifactId>autoparams-lombok</artifactId>
+  <version>10.2.0</version>
+</dependency>
+```
+
+### Gradle (Groovy)
+
+Gradle Groovy DSL을 사용한다면, `build.gradle`에 다음 종속성을 추가하세요.
+
+```gradle
+testImplementation 'io.github.autoparams:autoparams-lombok:10.2.0'
+```
+
+### Gradle (Kotlin)
+
+Gradle Kotlin DSL을 사용한다면, `build.gradle.kts`에 다음 종속성을 추가하세요.
+
+```gradle
+testImplementation("io.github.autoparams:autoparams-lombok:10.2.0")
+```
+
+## `BuilderCustomizer` 클래스
+
+롬복의 `@Builder` 애너테이션을 사용하는 경우 `BuilderCustomizer`를 사용하면 AutoParams가 빌더를 통해 임의의 개체를 생성할 수 있으므로 수동으로 인스턴스를 구성하지 않고도 테스트를 더 쉽게 작성할 수 있습니다.
+
+다음과 같은 `Order` 클래스가 있다고 가정해 보겠습니다.
+
+<JavaKotlinCodeBlock>
+```java
+@Builder
+@Getter
+public class Order {
+
+    private final UUID id;
+    private final UUID productId;
+    private final Integer quantity;
+    private final UUID customerId;
+    private final BigDecimal orderedPriceAmount;
+    private final String comment;
+}
+```
+</JavaKotlinCodeBlock>
+
+`Order` 인스턴스를 자동으로 생성하기 위해 테스트에 `BuilderCustomizer`를 적용합니다.
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+@Customization(BuilderCustomizer.class)
+void testMethod(Order order) {
+    assertThat(order.getId()).isNotNull();
+    assertThat(order.getProductId()).isNotNull();
+    assertThat(order.getQuantity()).isNotNull();
+    assertThat(order.getQuantity()).isPositive();
+    assertThat(order.getCustomerId()).isNotNull();
+    assertThat(order.getOrderedPriceAmount()).isNotNull();
+    assertThat(order.getComment()).isNotNull();
+}
+```
+</JavaKotlinCodeBlock>
+
+이렇게 하면 빌더 호출을 수동으로 구성할 필요가 없으므로 더 깔끔하고 유지 관리하기 쉬운 테스트를 작성할 수 있습니다.
+
+### 사용자 정의 메서드 이름
+
+클래스가 롬복의 빌더에 `builderMethodName`과 `buildMethodName` 속성을 사용하여 메서드 이름을 사용자 정의한 경우, `BuilderCustomizer`를 확장하여 메서드 이름을 지정하고 사용할 수 있습니다.
+
+예를 들어, 다음 `Shipment` 클래스를 생각해 보세요.
+
+<JavaKotlinCodeBlock>
+```java
+@Builder(builderMethodName = "getBuilder", buildMethodName = "create")
+@Getter
+public class Shipment {
+
+    private final UUID id;
+    private final UUID orderId;
+    private final String postalCode;
+    private final String address;
+    private final Boolean shipped;
+}
+```
+</JavaKotlinCodeBlock>
+
+이것을 AutoParams와 호환되게 하려면 사용자 정의 하위 클래스를 정의합니다.
+
+<JavaKotlinCodeBlock>
+```java
+public class ShipmentBuilderCustomizer extends BuilderCustomizer {
+
+    public ShipmentBuilderCustomizer() {
+        super("getBuilder", "create");
+    }
+}
+```
+</JavaKotlinCodeBlock>
+
+그런 다음 테스트에 적용합니다.
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+@Customization(ShipmentBuilderCustomizer.class)
+void testMethod(Shipment shipment) {
+    assertThat(shipment.getId()).isNotNull();
+    assertThat(shipment.getOrderId()).isNotNull();
+    assertThat(shipment.getPostalCode()).isNotNull();
+    assertThat(shipment.getAddress()).isNotNull();
+    assertThat(shipment.getShipped()).isNotNull();
+}
+```
+</JavaKotlinCodeBlock>
+
+이를 통해 사용자 정의 빌더 패턴을 사용하면서 자동 개체 생성의 이점을 계속 누릴 수 있습니다.
