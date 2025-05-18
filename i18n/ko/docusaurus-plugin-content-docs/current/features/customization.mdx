@@ -274,7 +274,7 @@ AutoParams를 사용하면 DSL(Domain-Specific Language)을 사용하여 테스�
 
 <JavaKotlinCodeBlock>
 ```java
-import static autoparams.customization.dsl.ArgumentCustomizationDsl.freezeArgument;
+import static autoparams.customization.dsl.ArgumentCustomizationDsl.set;
 
 class TestClass {
 
@@ -282,8 +282,8 @@ class TestClass {
     @AutoParams
     void testMethod(Product product, @Max(5) int rating, ResolutionContext context) {
         context.customize(
-            freezeArgument("product").in(Review.class).to(product),
-            freezeArgument("rating").to(rating)
+            set(Review::getProduct).to(product),
+            set(Review::getRating).to(rating)
         );
         Review review = context.resolve();
         assertSame(product, review.getProduct());
@@ -293,7 +293,7 @@ class TestClass {
 ```
 
 ```kotlin
-import autoparams.customization.dsl.ArgumentCustomizationDsl.freezeArgument
+import autoparams.customization.dsl.ArgumentCustomizationDsl.set
 
 class TestClass {
 
@@ -301,8 +301,8 @@ class TestClass {
     @AutoKotlinParams
     fun testMethod(product: Product, @Max(5) rating: Int, context: ResolutionContext) {
         context.customize(
-            freezeArgument("product").`in`(Review::class.java).to(product),
-            freezeArgument("rating").to(rating)
+            set(Review::product).to(product),
+            set(Review::rating).to(rating)
         )
         val review = context.resolve<Review>()
         assertSame(product, review.product)
@@ -312,16 +312,58 @@ class TestClass {
 ```
 </JavaKotlinCodeBlock>
 
-이 예에서는 `ArgumentCustomizationDsl` 클래스의 `freezeArgument` 정적 메서드를 사용하여 `ResolutionContext`의 동작을 사용자 정의합니다. 구체적으로 다음과 같은 동작을 수행합니다.
+이 예에서는 `ArgumentCustomizationDsl` 클래스의 `set` 정적 메서드를 사용하여 `ResolutionContext`의 동작을 사용자 정의합니다. 구체적으로 다음과 같은 동작을 수행합니다.
 
 - 컨텍스트에서 생성된 모든 `Review` 인스턴스의 `product` 속성은 테스트 메서드의 `product` 매개변수로 설정됩니다.
-- 마찬가지로 `rating` 속성은 `rating` 매개변수로 설정됩니다.
+- 마찬가지로 `Review` 인스턴스의 `rating` 속성은 `rating` 매개변수로 설정됩니다.
 
 이러한 접근 방식은 사용자 정의 제너레이터 전체를 정의하거나 테스트 메서드 수준에서 사용자 정의를 지정할 필요 없이 값을 빠르게 고정하는 데 특히 유용합니다. 사용자 정의 논리를 테스트 논리에 가깝게 유지하여 지역화된 시나리오의 가독성과 유지 관리성을 개선합니다.
 
+`Factory<T>` 사용에도 동일한 DSL 사용자 정의를 적용할 수도 있습니다.
+
+<JavaKotlinCodeBlock>
+```java
+import static autoparams.customization.dsl.ArgumentCustomizationDsl.set;
+
+public class TestClass {
+
+    @Test
+    @AutoParams
+    void testMethod(Product product, @Max(5) int rating, Factory<Review> factory) {
+        Review review = factory.get(
+            set(Review::getProduct).to(product),
+            set(Review::getRating).to(rating)
+        );
+        assertSame(product, review.getProduct());
+        assertEquals(rating, review.getRating());
+    }
+}
+```
+
+```kotlin
+import autoparams.customization.dsl.ArgumentCustomizationDsl.set
+
+class TestClass {
+
+    @Test
+    @AutoKotlinParams
+    fun testMethod(product: Product, @Max(5) rating: Int, factory: Factory<Review>) {
+        val review = factory.get(
+            set(Review::product).to(product),
+            set(Review::rating).to(rating)
+        )
+        assertSame(product, review.product)
+        assertEquals(rating, review.rating)
+    }
+}
+```
+</JavaKotlinCodeBlock>
+
+`Factory<T>` 클래스는 단일 유형에 대한 사용자 정의 객체를 생성하는 편리한 방법을 제공합니다. 명시적으로 `ResolutionContext`를 다룰 필요 없이 테스트 대상 인스턴스에 집중할 수 있습니다.
+
 :::note
 
-`freezeArgument(String parametersName)` 메서드는 런타임에 매개변수 이름을 필요로 합니다. 그러나 자바는 기본적으로 바이트코드에 매개변수 이름을 포함하지 않습니다. 올바르게 동작하는 것을 보장하기 위해 다음 방법 중 하나를 선택할 수 있습니다.
+`set` 메서드는 런타임에 매개변수 이름을 필요로 합니다. 그러나 자바는 기본적으로 바이트코드에 매개변수 이름을 포함하지 않습니다. 올바르게 동작하는 것을 보장하기 위해 다음 방법 중 하나를 선택할 수 있습니다.
 >
 1. 설계상 매개변수 이름을 보존하는 `record` 클래스를 사용합니다.
 1. 컴파일시 `javac`를 사용하는 경우 `-parameters`를, `kotlinc`를 사용하는 경우 `-java-parameters`를 옵션으로 지정합니다.
