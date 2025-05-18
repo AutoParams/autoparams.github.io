@@ -7,7 +7,7 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # Collections and Arrays
 
-AutoParams can generate collections and arrays automatically. By default, the size of generated collections and arrays is 3, but you can override this using annotations such as `@Size`.
+AutoParams can generate collections and arrays automatically. By default, the size of generated collections and arrays is 3, but you can override this using annotations such as [`@Size`](https://javadoc.io/static/jakarta.validation/jakarta.validation-api/3.0.2/jakarta/validation/constraints/Size.html).
 
 For example, the following tests verify that AutoParams generates an `ArrayList<String>` and a `String[]` with exactly 5 elements when the `@Size(min = 5)` constraint is applied:
 

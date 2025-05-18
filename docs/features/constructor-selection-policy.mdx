@@ -9,7 +9,7 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 When AutoParams generates instances of complex types that have multiple constructors, it follows a specific policy to determine which constructor to use:
 
-1. Constructors annotated with `@ConstructorProperties` are prioritized.
+1. Constructors annotated with [`@ConstructorProperties`](https://docs.oracle.com/javase/8/docs/api/java/beans/ConstructorProperties.html) are prioritized.
 1. If no such annotation is present, AutoParams chooses the constructor with the **fewest** parameters.
 
 Here's an example:
