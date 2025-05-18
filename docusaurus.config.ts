@@ -91,6 +91,12 @@ const config: Config = {
           label: 'Docs',
         },
         {
+          href: 'https://www.javadoc.io/doc/io.github.autoparams/autoparams/latest/index.html',
+          position: 'left',
+          label: 'API Doc',
+          target: '_blank',
+        },
+        {
           type: 'docsVersionDropdown',
           position: 'right',
         },
