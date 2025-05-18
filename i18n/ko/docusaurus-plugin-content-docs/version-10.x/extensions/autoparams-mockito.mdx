@@ -1,0 +1,120 @@
+---
+sidebar_position: 2
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# `autoparams-mockito`
+
+`autoparams-mockito`는 자바에서 널리 사용되는 모킹 프레임워크인 Mockito를 사용하여 인터페이스와 추상 클래스에 대한 테스트 더블을 자동으로 생성할 수 있게 해주는 AutoParams의 확장입니다. AutoParams는 이 확장을 통해 최소한의 설정으로 테스트 더블을 원활하게 생성할 수 있습니다.
+
+## 설치하기
+
+### Maven
+
+Maven을 사용한다면, `pom.xml`에 다음 종속성을 추가하세요.
+
+```xml
+<dependency>
+  <groupId>io.github.autoparams</groupId>
+  <artifactId>autoparams-mockito</artifactId>
+  <version>10.2.0</version>
+</dependency>
+```
+
+### Gradle (Groovy)
+
+Gradle Groovy DSL을 사용한다면, `build.gradle`에 다음 종속성을 추가하세요.
+
+```gradle
+testImplementation 'io.github.autoparams:autoparams-mockito:10.2.0'
+```
+
+### Gradle (Kotlin)
+
+Gradle Kotlin DSL을 사용한다면, `build.gradle.kts`에 다음 종속성을 추가하세요.
+
+```gradle
+testImplementation("io.github.autoparams:autoparams-mockito:10.2.0")
+```
+
+## Mockito로 테스트 더블 생성
+
+어떤 기능에 필요한 의존성을 인터페이스로 정의했다고 가정하겠습니다.
+
+<JavaKotlinCodeBlock>
+```java
+public interface Dependency {
+
+    String getName();
+}
+```
+
+```kotlin
+interface Dependency {
+
+    val name: String
+}
+```
+</JavaKotlinCodeBlock>
+
+그리고 이 종속성에 의존하는 테스트 중인 시스템은 다음과 같습니다.
+
+<JavaKotlinCodeBlock>
+```java
+public class SystemUnderTest {
+
+    private final Dependency dependency;
+
+    public SystemUnderTest(Dependency dependency) {
+        this.dependency = dependency;
+    }
+
+    public String getMessage() {
+        return "Hello " + dependency.getName();
+    }
+}
+```
+
+```kotlin
+class SystemUnderTest(private val dependency: Dependency) {
+
+    val message: String
+        get() = "Hello ${dependency.name}"
+}
+```
+</JavaKotlinCodeBlock>
+
+`@Customization(MockitoCustomizer.class)` 애너테이션을 사용하면 AutoParams는 적합한 매개변수(예: 인터페이스 및 추상 클래스)에 대해 Mockito 기반 테스트 더블을 자동으로 생성합니다.
+
+다음은 예입니다.
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+@Customization(MockitoCustomizer.class)
+void testMethod(@Freeze Dependency stub, SystemUnderTest sut) {
+    when(stub.getName()).thenReturn("World");
+    assertEquals("Hello World", sut.getMessage());
+}
+```
+
+```kotlin
+@Test
+@AutoKotlinParams
+@Customization(MockitoCustomizer::class)
+fun testMethod(@Freeze stub: Dependency, sut: SystemUnderTest) {
+    whenever(stub.name).thenReturn("World")
+    assertEquals("Hello World", sut.message)
+}
+```
+</JavaKotlinCodeBlock>
+
+이 테스트는 다음과 같습니다.
+
+- `stub`은 Mockito에 의해 자동으로 생성된 테스트 더블입니다.
+- `@Freeze` 애너테이션은 동일한 `stub` 인스턴스가 `SystemUnderTest`에 주입되도록 보장합니다.
+- 표준 Mockito 구문을 사용하여 테스트 더블을 구성할 수 있습니다.
+
+이 통합을 통해 테스트 설정이 간소화되므로 수동으로 종속성을 연결하는 대신 동작을 확인하는 데 집중할 수 있습니다.

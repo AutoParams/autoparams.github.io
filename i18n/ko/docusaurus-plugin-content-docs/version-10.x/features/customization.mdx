@@ -1,0 +1,384 @@
+---
+sidebar_position: 5
+sidebar_label: 사용자 정의
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# 사용자 정의
+
+사용자 정의는 AutoParams에서 제공하는 가장 강력한 기능 중 하나입니다. 이를 통해 테스트 데이터 생성 방법을 완벽하게 제어할 수 있으므로 비즈니스 규칙을 적용하거나 특정 테스트 요구 사항을 충족하도록 데이터를 맞춤화할 수 있습니다.
+
+예를 들어 `Product` 엔터티가 다음 비즈니스 규칙을 따라야 한다고 가정해 보겠습니다.
+
+- `priceAmount`는 `10`보다 크거나 같아야 합니다.
+- `priceAmount`는 `10000`보다 작거나 같아야 합니다.
+
+`ObjectGeneratorBase<T>`를 확장한 사용자 정의 제너레이터를 사용하여 이러한 규칙을 구현할 수 있습니다.
+
+<JavaKotlinCodeBlock>
+```java
+public class ProductGenerator extends ObjectGeneratorBase<Product> {
+
+    @Override
+    protected Product generateObject(ObjectQuery query, ResolutionContext context) {
+        UUID id = context.resolve();
+        String name = context.resolve();
+
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        BigDecimal priceAmount = new BigDecimal(random.nextInt(10, 10000 + 1));
+
+        return new Product(id, name, priceAmount);
+    }
+}
+```
+
+```kotlin
+class ProductGenerator : ObjectGeneratorBase<Product>() {
+
+    override fun generateObject(query: ObjectQuery, context: ResolutionContext): Product {
+        val id = context.resolve<UUID>()
+        val name = context.resolve<String>()
+
+        val random = ThreadLocalRandom.current()
+        val priceAmount = BigDecimal(random.nextInt(10, 10000 + 1))
+
+        return Product(id, name, priceAmount)
+    }
+}
+```
+</JavaKotlinCodeBlock>
+
+이 사용자 정의 제너레이터는 비즈니스 제약 조건을 준수하는 `Product` 인스턴스를 생성합니다. `ResolutionContext`를 사용하여 제공되는 `id` 및 `name` 값을 생성하고 명시적 논리를 적용하여 유효한 `priceAmount`를 생성합니다.
+
+`@Customization` 애너테이션으로 사용자 정의 제너레이터를 적용할 수 있습니다.
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+@Customization(ProductGenerator.class)
+void testMethod(Product product) {
+    assertTrue(product.getPriceAmount().compareTo(BigDecimal.valueOf(10)) >= 0);
+    assertTrue(product.getPriceAmount().compareTo(BigDecimal.valueOf(10000)) <= 0);
+}
+```
+
+```kotlin
+@Test
+@AutoKotlinParams
+@Customization(ProductGenerator::class)
+fun testMethod(product: Product) {
+    assertTrue(product.priceAmount >= BigDecimal.valueOf(10))
+    assertTrue(product.priceAmount <= BigDecimal.valueOf(10000))
+}
+```
+</JavaKotlinCodeBlock>
+
+이 테스트에서 AutoParams는 `ProductGenerator`를 사용하여 `Product` 인스턴스가 필요한 가격 제약 조건을 준수하는지 확인합니다.
+
+또한 `@Customization` 애너테이션에 나열하여 여러 사용자 정의 제너레이터를 한 번에 적용할 수도 있습니다.
+
+<JavaKotlinCodeBlock>
+```java
+public class ReviewGenerator extends ObjectGeneratorBase<Review> {
+
+    @Override
+    protected Review generateObject(ObjectQuery query, ResolutionContext context) {
+        UUID id = context.resolve();
+        UUID reviewerId = context.resolve();
+        Product product = context.resolve();
+        String comment = context.resolve();
+
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        int rating = random.nextInt(1, 5 + 1);
+
+        return new Review(id, reviewerId, product, rating, comment);
+    }
+}
+```
+
+```kotlin
+class ReviewGenerator : ObjectGeneratorBase<Review>() {
+    
+    override fun generateObject(query: ObjectQuery, context: ResolutionContext): Review {
+        val id = context.resolve<UUID>()
+        val reviewerId = context.resolve<UUID>()
+        val product = context.resolve<Product>()
+        val comment = context.resolve<String>()
+
+        val random = ThreadLocalRandom.current()
+        val rating = random.nextInt(1, 5 + 1)
+
+        return Review(id, reviewerId, product, rating, comment)
+    }
+}
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+@Customization({ ProductGenerator.class, ReviewGenerator.class })
+void testMethod(Product product, Review review) {
+    assertTrue(product.getPriceAmount().compareTo(BigDecimal.valueOf(10)) >= 0);
+    assertTrue(product.getPriceAmount().compareTo(BigDecimal.valueOf(10000)) <= 0);
+    assertTrue(review.getRating() >= 1);
+    assertTrue(review.getRating() <= 5);
+}
+```
+
+```kotlin
+@Test
+@AutoKotlinParams
+@Customization(ProductGenerator::class, ReviewGenerator::class)
+fun testMethod(product: Product, review: Review) {
+    assertTrue(product.priceAmount >= BigDecimal.valueOf(10))
+    assertTrue(product.priceAmount <= BigDecimal.valueOf(10000))
+    assertTrue(review.rating >= 1)
+    assertTrue(review.rating <= 5)
+}
+```
+</JavaKotlinCodeBlock>
+
+또는 여러 제너레이터를 재사용 가능한 단일 구성으로 캡슐화하려는 경우 `CompositeCustomizer`를 확장할 수 있습니다.
+
+<JavaKotlinCodeBlock>
+```java
+public class DomainCustomizer extends CompositeCustomizer {
+
+    public DomainCustomizer() {
+        super(
+            new ProductGenerator(),
+            new ReviewGenerator()
+        );
+    }
+}
+```
+
+```kotlin
+class DomainCustomizer : CompositeCustomizer(
+    ProductGenerator(),
+    ReviewGenerator()
+)
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+@Customization(DomainCustomizer.class)
+void testMethod(Product product, Review review) {
+    assertTrue(product.getPriceAmount().compareTo(BigDecimal.valueOf(10)) >= 0);
+    assertTrue(product.getPriceAmount().compareTo(BigDecimal.valueOf(10000)) <= 0);
+    assertTrue(review.getRating() >= 1);
+    assertTrue(review.getRating() <= 5);
+}
+```
+
+```kotlin
+@Test
+@AutoKotlinParams
+@Customization(DomainCustomizer::class)
+fun testMethod(product: Product, review: Review) {
+    assertTrue(product.priceAmount >= BigDecimal.valueOf(10))
+    assertTrue(product.priceAmount <= BigDecimal.valueOf(10000))
+    assertTrue(review.rating >= 1)
+    assertTrue(review.rating <= 5)
+}
+```
+</JavaKotlinCodeBlock>
+
+이 접근 방식은 사용자 정의 제너레이터를 관리하는 깔끔하고 재사용 가능한 방법을 제공하여 테스트 스위트(suite) 전반에 걸쳐 유지 관리가 더 쉬워지고 일관성이 개선됩니다.
+
+## 사용자 정의 범위 지정
+
+`@Customization` 애너테이션은 테스트 메서드 내의 개별 매개변수에도 적용할 수 있습니다. 이 방식을 사용하면 명시적으로 재정의되지 않는 한 지정된 사용자 정의가 해당 매개변수 및 동일한 유형의 모든 후속 매개변수에 적용됩니다.
+
+이를 통해 테스트 데이터가 생성되는 방식을 세밀하게 제어할 수 있어 복잡한 상황별 시나리오를 더 쉽게 설정할 수 있습니다.
+
+무료 제품(가격 0)을 생성하는 사용자 정의 제너레이터의 예입니다.
+
+<JavaKotlinCodeBlock>
+```java
+public class FreeProductGenerator extends ObjectGeneratorBase<Product> {
+
+    @Override
+    protected Product generateObject(ObjectQuery query, ResolutionContext context) {
+        UUID id = context.resolve();
+        String name = context.resolve();
+
+        BigDecimal priceAmount = BigDecimal.ZERO;
+
+        return new Product(id, name, priceAmount);
+    }
+}
+```
+
+```kotlin
+class FreeProductGenerator : ObjectGeneratorBase<Product>() {
+
+    override fun generateObject(query: ObjectQuery, context: ResolutionContext): Product {
+        val id = context.resolve<UUID>()
+        val name = context.resolve<String>()
+
+        val priceAmount = BigDecimal.ZERO
+
+        return Product(id, name, priceAmount)
+    }
+}
+```
+</JavaKotlinCodeBlock>
+
+특정 매개변수에 적용하는 방법은 다음과 같습니다.
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+@Customization(DomainCustomizer.class)
+void testMethod(
+    Product product1,
+    @Customization(FreeProductGenerator.class) Product product2
+) {
+    assertTrue(product1.getPriceAmount().compareTo(BigDecimal.valueOf(10)) >= 0);
+    assertTrue(product1.getPriceAmount().compareTo(BigDecimal.valueOf(10000)) <= 0);
+
+    assertEquals(BigDecimal.ZERO, product2.getPriceAmount());
+}
+```
+
+```kotlin
+@Test
+@AutoKotlinParams
+@Customization(DomainCustomizer::class)
+fun testMethod(
+    product1: Product,
+    @Customization(FreeProductGenerator::class) product2: Product
+) {
+    assertTrue(product1.priceAmount >= BigDecimal.valueOf(10))
+    assertTrue(product1.priceAmount <= BigDecimal.valueOf(10000))
+
+    assertEquals(BigDecimal.ZERO, product2.priceAmount)
+}
+```
+</JavaKotlinCodeBlock>
+
+이 테스트에서 `product1`은 `DomainCustomizer`의 기본 논리를 사용하여 생성되는 반면, `product2`는 `FreeProductGenerator`를 사용하여 무료 제품을 생성합니다. 이는 매개변수별 사용자 정의를 통해 테스트 데이터 생성을 정밀하게 제어하는 방법을 보여줍니다.
+
+## 도메인 특화 언어(DSL)를 사용한 일회성 사용자 정의 \{#customization-dsl}
+
+AutoParams를 사용하면 DSL(Domain-Specific Language)을 사용하여 테스트 메서드 내에서 일회성 사용자 정의를 직접 정의할 수 있습니다. 이는 별도의 제너레이터 클래스를 만들 필요 없이 고도로 지역화되고 컨텍스트에 특화된 방식으로 테스트 데이터 생성을 사용자 정의하려는 경우에 유용합니다.
+
+<JavaKotlinCodeBlock>
+```java
+import static autoparams.customization.dsl.ArgumentCustomizationDsl.freezeArgument;
+
+class TestClass {
+
+    @Test
+    @AutoParams
+    void testMethod(Product product, @Max(5) int rating, ResolutionContext context) {
+        context.customize(
+            freezeArgument("product").in(Review.class).to(product),
+            freezeArgument("rating").to(rating)
+        );
+        Review review = context.resolve();
+        assertSame(product, review.getProduct());
+        assertEquals(rating, review.getRating());
+    }
+}
+```
+
+```kotlin
+import autoparams.customization.dsl.ArgumentCustomizationDsl.freezeArgument
+
+class TestClass {
+
+    @Test
+    @AutoKotlinParams
+    fun testMethod(product: Product, @Max(5) rating: Int, context: ResolutionContext) {
+        context.customize(
+            freezeArgument("product").`in`(Review::class.java).to(product),
+            freezeArgument("rating").to(rating)
+        )
+        val review = context.resolve<Review>()
+        assertSame(product, review.product)
+        assertEquals(rating, review.rating)
+    }
+}
+```
+</JavaKotlinCodeBlock>
+
+이 예에서는 `ArgumentCustomizationDsl` 클래스의 `freezeArgument` 정적 메서드를 사용하여 `ResolutionContext`의 동작을 사용자 정의합니다. 구체적으로 다음과 같은 동작을 수행합니다.
+
+- 컨텍스트에서 생성된 모든 `Review` 인스턴스의 `product` 속성은 테스트 메서드의 `product` 매개변수로 설정됩니다.
+- 마찬가지로 `rating` 속성은 `rating` 매개변수로 설정됩니다.
+
+이러한 접근 방식은 사용자 정의 제너레이터 전체를 정의하거나 테스트 메서드 수준에서 사용자 정의를 지정할 필요 없이 값을 빠르게 고정하는 데 특히 유용합니다. 사용자 정의 논리를 테스트 논리에 가깝게 유지하여 지역화된 시나리오의 가독성과 유지 관리성을 개선합니다.
+
+:::note
+
+`freezeArgument(String parametersName)` 메서드는 런타임에 매개변수 이름을 필요로 합니다. 그러나 자바는 기본적으로 바이트코드에 매개변수 이름을 포함하지 않습니다. 올바르게 동작하는 것을 보장하기 위해 다음 방법 중 하나를 선택할 수 있습니다.
+>
+1. 설계상 매개변수 이름을 보존하는 `record` 클래스를 사용합니다.
+1. 컴파일시 `javac`를 사용하는 경우 `-parameters`를, `kotlinc`를 사용하는 경우 `-java-parameters`를 옵션으로 지정합니다.
+    스프링 부트를 사용하는 경우 [Spring Boot Gradle 플러그인](https://docs.spring.io/spring-boot/gradle-plugin/reacting.html#reacting-to-other-plugins.java) 또는 [Spring Boot Maven 플러그인](https://docs.spring.io/spring-boot/maven-plugin/using.html)을 사용하면 이 옵션이 자동으로 활성화됩니다.
+1. 생성자에 `@ConstructorProperties` 애너테이션을 적용하여 매개변수 이름을 명시적으로 선언합니다.
+    이 애너테이션은 생성자에 대해서만 작동하며 일반 메서드에는 영향을 주지 않습니다. Lombok을 사용 중이고 생성자가 `@AllArgsConstructor`와 같은 롬복 애너테이션에 의해 생성되는 경우 `lombok.anyConstructor.addConstructorProperties = true` 설정을 구성하면 `@ConstructorProperties` 애너테이션을 자동으로 추가할 수 있습니다.
+    자세한 내용은 다음을 참조하세요. [https://projectlombok.org/features/constructor](https://projectlombok.org/features/constructor)
+
+:::
+
+## 설정 가능한 속성
+
+클래스가 JavaBeans 규칙을 따르는 경우(즉, 인수 없는 생성자와 공개 세터 메서드가 있는 경우) AutoParams는 `InstancePropertyWriter` 커스터마이저를 사용하여 자동으로 속성을 채울 수 있습니다.
+
+간단한 예는 다음과 같습니다.
+
+<JavaKotlinCodeBlock>
+```java
+@Getter
+@Setter
+public class User {
+
+    private Long id;
+    private String name;
+}
+```
+
+```kotlin
+data class User(
+    var id: Long? = null,
+    var name: String? = null
+)
+```
+</JavaKotlinCodeBlock>
+
+`InstancePropertyWriter` 커스터마이저를 적용하면 AutoParams가 자동으로 `id` 및 `name` 속성에 값을 생성하고 할당합니다.
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+@Customization(InstancePropertyWriter.class)
+void testMethod(User user) {
+    assertNotNull(user.getId());
+    assertNotNull(user.getName());
+}
+```
+
+```kotlin
+@Test
+@AutoKotlinParams
+@Customization(InstancePropertyWriter::class)
+fun testMethod(user: User) {
+    assertNotNull(user.id)
+    assertNotNull(user.name)
+}
+```
+</JavaKotlinCodeBlock>
+
+이 테스트에서 `User` 개체는 기본 생성자를 사용하여 생성되고, AutoParams는 세터를 통해 속성에 값을 설정합니다. 이는 모든 필드를 포함하는 생성자가 없는 레거시 모델이나 데이터 전송 개체(DTO)로 작업할 때 특히 유용합니다.

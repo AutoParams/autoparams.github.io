@@ -1,0 +1,78 @@
+---
+sidebar_position: 7
+sidebar_label: Constructor Selection Policy
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# Constructor Selection Policy
+
+When AutoParams generates instances of complex types that have multiple constructors, it follows a specific policy to determine which constructor to use:
+
+1. Constructors annotated with `@ConstructorProperties` are prioritized.
+1. If no such annotation is present, AutoParams chooses the constructor with the **fewest** parameters.
+
+Here's an example:
+
+<JavaKotlinCodeBlock>
+```java
+@Getter
+public class ComplexObject {
+
+    private final int value1;
+    private final String value2;
+    private final UUID value3;
+
+    @ConstructorProperties({ "value1", "value2", "value3" })
+    public ComplexObject(int value1, String value2, UUID value3) {
+        this.value1 = value1;
+        this.value2 = value2;
+        this.value3 = value3;
+    }
+
+    @ConstructorProperties({ "value1", "value2" })
+    public ComplexObject(int value1, String value2) {
+        this(value1, value2, null);
+    }
+
+    public ComplexObject(int value1) {
+        this(value1, null, null);
+    }
+}
+```
+
+```kotlin
+class ComplexObject @ConstructorProperties("value1", "value2", "value3") constructor(
+    val value1: Int,
+    val value2: String?,
+    val value3: UUID?
+) {
+    @ConstructorProperties("value1", "value2")
+    constructor(value1: Int, value2: String?) : this(value1, value2, null)
+
+    constructor(value1: Int) : this(value1, null, null)
+}
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+void testMethod(ComplexObject object) {
+    assertNotNull(object.getValue2());
+    assertNull(object.getValue3());
+}
+```
+
+```kotlin
+@Test
+@AutoKotlinParams
+fun testMethod(obj: ComplexObject) {
+    assertNotNull(obj.value2)
+    assertNull(obj.value3)
+}
+```
+</JavaKotlinCodeBlock>
+
+In this example, AutoParams selects the constructor with the `@ConstructorProperties` annotation that has the fewest parameters—(`int`, `String`)—and assigns null to the `value3` field. This shows how constructor selection can affect the structure of the generated object.

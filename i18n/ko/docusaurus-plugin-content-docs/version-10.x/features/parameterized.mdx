@@ -1,0 +1,202 @@
+---
+sidebar_position: 6
+sidebar_label: 매개변수화된 테스트
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# 매개변수화된 테스트
+
+AutoParams는 **매개변수화된 테스트**도 지원하므로 여러 입력 데이터 세트를 사용하여 동일한 테스트 논리를 실행할 수 있습니다. AutoParams를 사용하면 수동으로 지정한 값을 자동으로 생성된 테스트 데이터와 원활하게 결합하여 유연성과 편의성을 모두 얻을 수 있습니다.
+
+매개변수화된 테스트에 사용할 수 있는 몇 가지 기능은 다음과 같습니다.
+
+## `@ValueAutoSource` 애너테이션
+
+`@ValueAutoSource`(또는 `@ValueAutoKotlinSource`) 애너테이션은 AutoParams를 사용하여 매개변수화된 테스트를 작성하기 위한 간단하면서도 강력한 도구입니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@ValueAutoSource(strings = { "Camera", "Candle" })
+void testMethod(String name, Factory<Product> factory) {
+    Product product = factory.get(
+        freezeArgument("name").to(name)
+    );
+    assertTrue(product.getName().startsWith("Ca"));
+}
+```
+
+```kotlin
+@ParameterizedTest
+@ValueAutoKotlinSource(strings = ["Camera", "Candle"])
+fun testMethod(name: String, factory: Factory<Product>) {
+    val product: Product = factory.get(
+        freezeArgument("name").to(name)
+    )
+    assertTrue(product.name.startsWith("Ca"))
+}
+```
+</JavaKotlinCodeBlock>
+
+:::note
+
+이 기능은 런타임에 매개변수 이름의 사용 가능 여부에 따라 달라집니다. 자세한 내용은 [도메인 특화 언어(DSL)를 사용한 일회성 사용자 정의](./customization#customization-dsl) 섹션의 노트를 참조하세요.
+
+:::
+
+이 예에서 테스트 메서드는 두 번 실행됩니다. 한 번은 `"Camera"`로, 한 번은 `"Candle"`을 `name` 매개변수 값으로 사용합니다. `factory` 매개변수는 AutoParams에 의해 자동으로 해결되며 `freezeArgument`와 같이 DSL을 활용하여 사용자 정의할 수 있습니다.
+
+이를 통해 부분적으로 제어되고(예: 고정된 이름) 부분적으로 무작위화되는(예: 기타 모든 속성) 테스트 개체(이 경우 `Product`)를 생성하여 구체성과 다양성 사이의 균형을 유지할 수 있습니다.
+
+`@ValueAutoSource`의 사용법은 JUnit 5의 `@ValueSource`와 유사하며 다음과 같은 유형의 리터럴 값을 지원합니다.
+
+- `short`
+- `byte`
+- `int`
+- `long`
+- `float`
+- `double`
+- `char`
+- `boolean`
+- `java.lang.String`
+- `java.lang.Class`
+
+## `@CsvAutoSource` 애너테이션
+
+`@CsvAutoSource`(또는 `@CsvAutoKotlinSource`) 애너테이션을 사용하면 JUnit 5의 @CsvSource와 유사한 CSV 형식으로 반복되는 테스트 입력을 정의할 수 있습니다. CSV 행에 명시적으로 제공되지 않은 모든 매개변수는 AutoParams에서 자동으로 생성됩니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@CsvAutoSource({
+    "Product 1, 500",
+    "Product 2, 10000"
+})
+void testMethod(String name, BigDecimal priceAmount, UUID id) {
+    Product product = new Product(id, name, priceAmount);
+    assertTrue(product.getName().startsWith("Product"));
+}
+```
+
+```kotlin
+@ParameterizedTest
+@CsvAutoKotlinSource(
+    "Product 1, 500",
+    "Product 2, 10000"
+)
+fun testMethod(name: String, priceAmount: BigDecimal, id: UUID) {
+    val product = Product(id, name, priceAmount)
+    assertTrue(product.name.startsWith("Product"))
+}
+```
+</JavaKotlinCodeBlock>
+
+이 예에서 `@CsvAutoSource` 애너테이션은 `name` 및 `priceAmount` 매개변수에 대한 값을 제공합니다. 나머지 매개변수(`id`)는 AutoParams에 의해 자동으로 해결됩니다.
+
+테스트는 CSV 입력 배열의 각 라인에 대해 한 번씩(이 경우 두 번) 실행되므로 여러 고정 입력으로 동일한 테스트 논리를 반복하는 동시에 나머지에 대한 자동 값 생성의 이점을 누릴 수 있습니다.
+
+이 접근 방식을 사용하면 간결하고 표현력이 풍부한 방식으로 고정 값과 동적 값의 조합을 쉽게 테스트할 수 있습니다.
+
+## `@MethodAutoSource` 애너테이션
+
+`@MethodAutoSource`(또는 `@MethodAutoKotlinSource`) 애너테이션은 JUnit 5의 `@MethodSource`와 AutoParams의 `@AutoSource` 기능을 결합합니다. 이를 사용하여 테스트 데이터를 제공하는 메서드를 지정할 수 있으며, AutoParams는 나머지 매개변수를 자동으로 채웁니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@MethodAutoSource("testDataSource")
+void testMethod(String name, BigDecimal priceAmount, UUID id) {
+    Product product = new Product(id, name, priceAmount);
+    assertTrue(product.getName().startsWith("Product"));
+}
+
+static Stream<Arguments> testDataSource() {
+    return Stream.of(
+        arguments("Product 1", new BigDecimal(500)),
+        arguments("Product 2", new BigDecimal(10000))
+    );
+}
+```
+
+```kotlin
+@ParameterizedTest
+@MethodAutoKotlinSource("testDataSource")
+fun testMethod(name: String, priceAmount: BigDecimal, id: UUID) {
+    val product = Product(id, name, priceAmount)
+    assertTrue(product.name.startsWith("Product"))
+}
+
+companion object {
+    @JvmStatic
+    fun testDataSource(): Stream<Arguments> {
+        return Stream.of(
+            arguments("Product 1", BigDecimal(500)),
+            arguments("Product 2", BigDecimal(10000))
+        )
+    }
+}
+```
+</JavaKotlinCodeBlock>
+
+이 예에서 `testDataSource` 메서드는 `name` 및 `priceAmount` 매개변수에 대한 값을 제공합니다. 나머지 매개변수(`id`)는 AutoParams에 의해 자동으로 해결되고 테스트 메서드에 인수로 제공됩니다.
+
+이 설정을 사용하면 수동으로 지정한 값과 자동으로 생성된 값을 혼합하여 매개변수화된 테스트에서 정밀도와 가변성을 모두 제공할 수 있습니다.
+
+## `@Repeat` 애너테이션
+
+`@Repeat` 애너테이션을 사용하면 테스트를 여러 번 실행할 수 있으며, 각 실행에서 지정되지 않은 매개변수에 대해 새로운 임의 값을 생성할 수 있습니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@ValueAutoSource(ints = { 1, 2, 3 })
+@Repeat(5)
+void testMethod(int a, int b) {
+    Calculator sut = new Calculator();
+    int actual = sut.add(a, b);
+    assertEquals(a + b, actual);
+}
+```
+
+```kotlin
+@ParameterizedTest
+@ValueAutoKotlinSource(ints = [1, 2, 3])
+@Repeat(5)
+fun testMethod(a: Int, b: Int) {
+    val sut = Calculator()
+    val actual = sut.add(a, b)
+    assertEquals(a + b, actual)
+}
+```
+</JavaKotlinCodeBlock>
+
+이 예에서 테스트는 총 15번 실행됩니다. 매개변수 `a`에 할당된 값 `1`, `2`, `3` 각각에 대해 5번씩 실행됩니다. 각 실행마다 `b` 값은 AutoParams에 의해 자동으로 생성됩니다.
+
+AutoParams가 **모든** 매개변수에 대한 값을 생성하고 테스트를 여러 번 반복하도록 하려면 `@AutoSource`(또는 `@AutoKotlinSource`)를 `@Repeat`와 결합할 수 있습니다.
+
+<JavaKotlinCodeBlock>
+```java
+@ParameterizedTest
+@AutoSource
+@Repeat(10)
+void testMethod(int a, int b) {
+    Calculator sut = new Calculator();
+    int actual = sut.add(a, b);
+    assertEquals(a + b, actual);
+}
+```
+
+```kotlin
+@ParameterizedTest
+@AutoKotlinSource
+@Repeat(10)
+fun testMethod(a: Int, b: Int) {
+    val sut = Calculator()
+    val actual = sut.add(a, b)
+    assertEquals(a + b, actual)
+}
+```
+</JavaKotlinCodeBlock>
+
+이 조합은 더 넓은 범위의 입력을 탐색하고 최소한의 설정으로 테스트 범위를 늘리려는 경우에 유용합니다.

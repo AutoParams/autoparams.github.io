@@ -1,0 +1,78 @@
+---
+sidebar_position: 7
+sidebar_label: 생성자 선택 정책
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# 생성자 선택 정책
+
+AutoParams는 여러 생성자가 있는 복합 유형의 인스턴스를 생성할 때 특정 정책에 따라 사용할 생성자를 결정합니다.
+
+1. `@ConstructorProperties` 애너테이션이 달린 생성자가 우선순위를 갖습니다.
+1. 해당 애너테이션이 없는 경우 AutoParams는 **가장 적은** 매개변수를 가진 생성자를 선택합니다.
+
+다음은 예입니다.
+
+<JavaKotlinCodeBlock>
+```java
+@Getter
+public class ComplexObject {
+
+    private final int value1;
+    private final String value2;
+    private final UUID value3;
+
+    @ConstructorProperties({ "value1", "value2", "value3" })
+    public ComplexObject(int value1, String value2, UUID value3) {
+        this.value1 = value1;
+        this.value2 = value2;
+        this.value3 = value3;
+    }
+
+    @ConstructorProperties({ "value1", "value2" })
+    public ComplexObject(int value1, String value2) {
+        this(value1, value2, null);
+    }
+
+    public ComplexObject(int value1) {
+        this(value1, null, null);
+    }
+}
+```
+
+```kotlin
+class ComplexObject @ConstructorProperties("value1", "value2", "value3") constructor(
+    val value1: Int,
+    val value2: String?,
+    val value3: UUID?
+) {
+    @ConstructorProperties("value1", "value2")
+    constructor(value1: Int, value2: String?) : this(value1, value2, null)
+
+    constructor(value1: Int) : this(value1, null, null)
+}
+```
+</JavaKotlinCodeBlock>
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+void testMethod(ComplexObject object) {
+    assertNotNull(object.getValue2());
+    assertNull(object.getValue3());
+}
+```
+
+```kotlin
+@Test
+@AutoKotlinParams
+fun testMethod(obj: ComplexObject) {
+    assertNotNull(obj.value2)
+    assertNull(obj.value3)
+}
+```
+</JavaKotlinCodeBlock>
+
+이 예에서 AutoParams는 가장 적은 매개변수를 갖는 `@ConstructorProperties` 애너테이션이 있는 생성자(`int`, `String`)를 선택하고 `value3` 필드에 null을 할당합니다. 이는 생성자 선택이 생성된 개체의 구조에 어떻게 영향을 미칠 수 있는지 보여줍니다.

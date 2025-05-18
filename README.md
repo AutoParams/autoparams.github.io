@@ -77,3 +77,12 @@ Each locale is a distinct standalone single-page application: it is not possible
 ```bash
 yarn start --locale fr
 ```
+
+## Versioning
+### Tagging a new version
+1. First, make sure the current docs version (the `./docs` directory) is ready to be frozen.
+1. Enter a new version number.
+    ```bash
+    yarn docusaurus docs:version 2.x
+    ```
+1. In the `classic` theme configuration of the `docusaurus.config.ts` file, change the `docs.versions.current.label` to the current version value.

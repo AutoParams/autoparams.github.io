@@ -1,0 +1,53 @@
+---
+sidebar_position: 2
+sidebar_label: Setting the Range of Values
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# Setting the Range of Values
+
+You can constrain the range of automatically generated values using the `@Min` and `@Max` annotations. These let you define minimum and maximum bounds for numeric parameters, ensuring that generated values fall within a specified range.
+
+To apply a range, annotate the parameter with `@Min` and/or `@Max` as needed.
+
+Here's an example:
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+@AutoParams
+void testMethod(@Min(1) @Max(10) int value) {
+    assertTrue(value >= 1);
+    assertTrue(value <= 10);
+}
+```
+
+```kotlin
+@Test
+@AutoKotlinParams
+fun testMethod(@Min(1) @Max(10) value: Int) {
+    assertTrue(value >= 1)
+    assertTrue(value <= 10)
+}
+```
+</JavaKotlinCodeBlock>
+
+In this test, the `value` parameter will always be an integer between `1` and `10`, inclusive.
+
+The `@Min` and `@Max` annotations are compatible with the following types:
+
+- `byte`
+- `java.lang.Byte`
+- `short`
+- `java.lang.Short`
+- `int`
+- `java.lang.Integer`
+- `long`
+- `java.lang.Long`
+- `float`
+- `java.lang.Float`
+- `double`
+- `java.lang.Double`
+
+By combining `@Min` and `@Max` with `@AutoParams`(or `@AutoKotlinParams`), you can strike a balance between randomness and control, making your parameterized tests more robust and predictable.

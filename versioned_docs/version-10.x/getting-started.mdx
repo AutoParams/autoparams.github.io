@@ -1,0 +1,41 @@
+---
+sidebar_position: 2
+description: You can start by adding a dependency to Maven or Gradle.
+---
+
+# Getting Started
+
+## Requirements
+- `JDK 1.8` or higher
+- `JUnit5`
+- (Optional) [autoparams-kotlin](./extensions/autoparams-kotlin.mdx) for Kotlin
+
+## Install
+
+### Maven
+
+For Maven, you can add the following dependency to your `pom.xml`:
+
+```xml
+<dependency>
+  <groupId>io.github.autoparams</groupId>
+  <artifactId>autoparams</artifactId>
+  <version>10.2.0</version>
+</dependency>
+```
+
+### Gradle (Groovy)
+
+For Gradle Groovy DSL, use:
+
+```gradle
+testImplementation 'io.github.autoparams:autoparams:10.2.0'
+```
+
+### Gradle (Kotlin)
+
+For Gradle Kotlin DSL, use:
+
+```gradle
+testImplementation("io.github.autoparams:autoparams:10.2.0")
+```

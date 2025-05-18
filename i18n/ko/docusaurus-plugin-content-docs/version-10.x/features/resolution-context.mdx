@@ -1,0 +1,34 @@
+---
+sidebar_position: 3
+sidebar_label: ResolutionContext 클래스
+---
+
+import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+
+# `ResolutionContext` 클래스
+
+`ResolutionContext` 클래스는 테스트 데이터를 생성하기 위한 핵심 메커니즘을 제공합니다. AutoParams에서 내부적으로 사용되지만, 필요할 때 직접 테스트 코드에서 인스턴스화하고 사용할 수 있습니다.
+
+다음은 예입니다.
+
+<JavaKotlinCodeBlock>
+```java
+@Test
+void testMethod() {
+    ResolutionContext context = new ResolutionContext();
+    Product product = context.resolve();
+    Review review = context.resolve();
+}
+```
+
+```kotlin
+@Test
+fun testMethod() {
+    val context = ResolutionContext()
+    val product = context.resolve<Product>()
+    val review = context.resolve<Review>()
+}
+```
+</JavaKotlinCodeBlock>
+
+이 예에서 `ResolutionContext`는 `@AutoParams` 애너테이션 없이 `Product` 및 `Review` 인스턴스를 수동으로 생성하는 데 사용됩니다. 이는 사용자 정의 테스트 논리를 작성하거나 특수 사례를 다루는 데 더 많은 제어력과 유연성을 제공합니다.
