@@ -7,7 +7,7 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # `Factory<T>` class
 
-The [`Factory<T>`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/generator/Factory.html) class is useful when you need to generate multiple instances of the same type. It allows you to create single instances or collections of generated objects on demand.
+The [`Factory<T>`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/generator/Factory.html) class is useful when you need to generate multiple instances of the same type. It allows you to create single instances or collections of generated objects on demand.
 
 Here's an example:
 
@@ -31,4 +31,4 @@ fun testMethod() {
 ```
 </JavaKotlinCodeBlock>
 
-In this example, a `Factory<Product>` is created to produce `Product` instances. The [`get()`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/generator/Factory.html#get()) method creates a single instance, while [`getRange(n)`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/generator/Factory.html#getRange(int,autoparams.customization.Customizer...)) returns a list of `n` instances. This approach is particularly helpful when you need bulk data generation in your tests.
+In this example, a `Factory<Product>` is created to produce `Product` instances. The [`get()`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/generator/Factory.html#get()) method creates a single instance, while [`getRange(n)`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/generator/Factory.html#getRange(int,autoparams.customization.Customizer...)) returns a list of `n` instances. This approach is particularly helpful when you need bulk data generation in your tests.

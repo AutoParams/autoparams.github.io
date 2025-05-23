@@ -7,13 +7,13 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 
 # `@FreezeBy` Annotation
 
-The [`@FreezeBy`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/customization/FreezeBy.html) annotation enables fine-grained control over value freezing in tests. It allows you to freeze a single value and reuse it across multiple generation targets that match specific conditions, such as type or name. This helps improve test readability and ensures consistency among generated values.
+The [`@FreezeBy`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/customization/FreezeBy.html) annotation enables fine-grained control over value freezing in tests. It allows you to freeze a single value and reuse it across multiple generation targets that match specific conditions, such as type or name. This helps improve test readability and ensures consistency among generated values.
 
 ## Matching Strategies
 
 AutoParams provides several matching strategies that determine which targets should receive the frozen value during object generation. The following examples illustrate some strategies:
 
-- [`EXACT_TYPE`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/customization/Matching.html#EXACT_TYPE)
+- [`EXACT_TYPE`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/customization/Matching.html#EXACT_TYPE)
 
   Reuses the frozen value for all targets with the exact same type.
 
@@ -72,7 +72,7 @@ AutoParams provides several matching strategies that determine which targets sho
 
   In this example, all `String` targets—including the `String` field inside `StringContainer`—are generated with the same frozen value.
 
-- [`IMPLEMENTED_INTERFACES`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/customization/Matching.html#IMPLEMENTED_INTERFACES)
+- [`IMPLEMENTED_INTERFACES`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/customization/Matching.html#IMPLEMENTED_INTERFACES)
 
   Reuses the frozen value for targets whose types are interfaces that the frozen value's type implements.
 
@@ -116,7 +116,7 @@ AutoParams provides several matching strategies that determine which targets sho
 
   In this example, `String` implements `CharSequence`, so the same value is reused for both `s1` and `chars`. `StringContainer` is not affected because its type is not an interface.
 
-- [`PARAMETER_NAME`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/customization/Matching.html#PARAMETER_NAME)
+- [`PARAMETER_NAME`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/customization/Matching.html#PARAMETER_NAME)
 
   Reuses the frozen value for other targets with matching names.
 
@@ -210,7 +210,7 @@ In this example, the frozen value `s1` is reused for both `s2` (same type) and `
 
 ## Shorthand for `EXACT_TYPE`
 
-Using [`@Freeze`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.0/autoparams/customization/Freeze.html) is equivalent to `@FreezeBy(EXACT_TYPE)`. It's a convenient shorthand for the most common matching strategy.
+Using [`@Freeze`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/customization/Freeze.html) is equivalent to `@FreezeBy(EXACT_TYPE)`. It's a convenient shorthand for the most common matching strategy.
 
 <JavaKotlinCodeBlock>
 ```java
