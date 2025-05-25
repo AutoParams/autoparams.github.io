@@ -4,6 +4,7 @@ sidebar_label: Customization
 ---
 
 import { JavaKotlinCodeBlock, JavadocLink } from '@site/src/components/Custom';
+import { version } from '../data.json';
 
 # Customization
 
@@ -14,7 +15,7 @@ For example, suppose the `Product` entity must follow these business rules:
 - `priceAmount` must be greater than or equal to `10`
 - `priceAmount` must be less than or equal to `10000`
 
-You can implement these rules using a custom generator by extending <JavadocLink version="11.0.1" path="autoparams/generator/ObjectGeneratorBase.html">`ObjectGeneratorBase<T>`</JavadocLink>:
+You can implement these rules using a custom generator by extending <JavadocLink version={version} path="autoparams/generator/ObjectGeneratorBase.html">`ObjectGeneratorBase<T>`</JavadocLink>:
 
 <JavaKotlinCodeBlock>
 ```java
@@ -49,9 +50,9 @@ class ProductGenerator : ObjectGeneratorBase<Product>() {
 ```
 </JavaKotlinCodeBlock>
 
-This custom generator creates a `Product` instance that adheres to the business constraints. It uses <JavadocLink version="11.0.1" path="autoparams/ResolutionContext.html">`ResolutionContext`</JavadocLink> to generate supporting values like `id` and `name`, and applies explicit logic to generate a valid `priceAmount`.
+This custom generator creates a `Product` instance that adheres to the business constraints. It uses <JavadocLink version={version} path="autoparams/ResolutionContext.html">`ResolutionContext`</JavadocLink> to generate supporting values like `id` and `name`, and applies explicit logic to generate a valid `priceAmount`.
 
-You can apply this custom generator using the <JavadocLink version="11.0.1" path="autoparams/customization/Customization.html">`@Customization`</JavadocLink> annotation:
+You can apply this custom generator using the <JavadocLink version={version} path="autoparams/customization/Customization.html">`@Customization`</JavadocLink> annotation:
 
 <JavaKotlinCodeBlock>
 ```java
@@ -142,7 +143,7 @@ fun testMethod(product: Product, review: Review) {
 ```
 </JavaKotlinCodeBlock>
 
-Alternatively, if you prefer to encapsulate multiple generators into a single reusable configuration, you can extend <JavadocLink version="11.0.1" path="autoparams/customization/CompositeCustomizer.html">`CompositeCustomizer`</JavadocLink>:
+Alternatively, if you prefer to encapsulate multiple generators into a single reusable configuration, you can extend <JavadocLink version={version} path="autoparams/customization/CompositeCustomizer.html">`CompositeCustomizer`</JavadocLink>:
 
 <JavaKotlinCodeBlock>
 ```java
@@ -312,7 +313,7 @@ class TestClass {
 ```
 </JavaKotlinCodeBlock>
 
-In this example, we use the <JavadocLink version="11.0.1" path="autoparams/customization/dsl/ArgumentCustomizationDsl.html#set(autoparams.customization.dsl.FunctionDelegate)">`set`</JavadocLink> static method from the <JavadocLink version="11.0.1" path="autoparams/customization/dsl/ArgumentCustomizationDsl.html">`ArgumentCustomizationDsl`</JavadocLink> class to customize the behavior of the `ResolutionContext`. Specifically:
+In this example, we use the <JavadocLink version={version} path="autoparams/customization/dsl/ArgumentCustomizationDsl.html#set(autoparams.customization.dsl.FunctionDelegate)">`set`</JavadocLink> static method from the <JavadocLink version={version} path="autoparams/customization/dsl/ArgumentCustomizationDsl.html">`ArgumentCustomizationDsl`</JavadocLink> class to customize the behavior of the `ResolutionContext`. Specifically:
 
 - The `product` property in any `Review` instance created by the context will be set to the `product` parameter of the test.
 - Likewise, the `rating` property will be set to the `rating` parameter.
@@ -359,7 +360,7 @@ class TestClass {
 ```
 </JavaKotlinCodeBlock>
 
-The <JavadocLink version="11.0.1" path="autoparams/generator/Factory.html">`Factory<T>`</JavadocLink> class provides a convenient way to create customized objects when working with a single type. It avoids managing an explicit resolution context and keeps the test focused on the instances under test.
+The <JavadocLink version={version} path="autoparams/generator/Factory.html">`Factory<T>`</JavadocLink> class provides a convenient way to create customized objects when working with a single type. It avoids managing an explicit resolution context and keeps the test focused on the instances under test.
 
 :::note
 
@@ -376,7 +377,7 @@ The `set` method relies on the availability of parameter names at runtime. Howev
 
 ## Settable Properties
 
-If a class follows the JavaBeans convention—meaning it has a no-arguments constructor and public setter methods—AutoParams can automatically populate its properties using the <JavadocLink version="11.0.1" path="autoparams/processor/InstancePropertyWriter.html">`InstancePropertyWriter`</JavadocLink> customizer.
+If a class follows the JavaBeans convention—meaning it has a no-arguments constructor and public setter methods—AutoParams can automatically populate its properties using the <JavadocLink version={version} path="autoparams/processor/InstancePropertyWriter.html">`InstancePropertyWriter`</JavadocLink> customizer.
 
 Here's a simple example:
 
