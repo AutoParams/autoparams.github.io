@@ -3,7 +3,7 @@ sidebar_position: 5
 sidebar_label: 사용자 정의
 ---
 
-import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+import { JavaKotlinCodeBlock, JavadocLink } from '@site/src/components/Custom';
 
 # 사용자 정의
 
@@ -14,7 +14,7 @@ import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
 - `priceAmount`는 `10`보다 크거나 같아야 합니다.
 - `priceAmount`는 `10000`보다 작거나 같아야 합니다.
 
-[`ObjectGeneratorBase<T>`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/generator/ObjectGeneratorBase.html)를 확장한 사용자 정의 제너레이터를 사용하여 이러한 규칙을 구현할 수 있습니다.
+<JavadocLink version="11.0.1" path="autoparams/generator/ObjectGeneratorBase.html">`ObjectGeneratorBase<T>`</JavadocLink>를 확장한 사용자 정의 제너레이터를 사용하여 이러한 규칙을 구현할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -49,9 +49,9 @@ class ProductGenerator : ObjectGeneratorBase<Product>() {
 ```
 </JavaKotlinCodeBlock>
 
-이 사용자 정의 제너레이터는 비즈니스 제약 조건을 준수하는 `Product` 인스턴스를 생성합니다. [`ResolutionContext`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/ResolutionContext.html)를 사용하여 제공되는 `id` 및 `name` 값을 생성하고 명시적 논리를 적용하여 유효한 `priceAmount`를 생성합니다.
+이 사용자 정의 제너레이터는 비즈니스 제약 조건을 준수하는 `Product` 인스턴스를 생성합니다. <JavadocLink version="11.0.1" path="autoparams/ResolutionContext.html">`ResolutionContext`</JavadocLink>를 사용하여 제공되는 `id` 및 `name` 값을 생성하고 명시적 논리를 적용하여 유효한 `priceAmount`를 생성합니다.
 
-[`@Customization`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/customization/Customization.html) 애너테이션으로 사용자 정의 제너레이터를 적용할 수 있습니다.
+<JavadocLink version="11.0.1" path="autoparams/customization/Customization.html">`@Customization`</JavadocLink> 애너테이션으로 사용자 정의 제너레이터를 적용할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -142,7 +142,7 @@ fun testMethod(product: Product, review: Review) {
 ```
 </JavaKotlinCodeBlock>
 
-또는 여러 제너레이터를 재사용 가능한 단일 구성으로 캡슐화하려는 경우 [`CompositeCustomizer`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/customization/CompositeCustomizer.html)를 확장할 수 있습니다.
+또는 여러 제너레이터를 재사용 가능한 단일 구성으로 캡슐화하려는 경우 <JavadocLink version="11.0.1" path="autoparams/customization/CompositeCustomizer.html">`CompositeCustomizer`</JavadocLink>를 확장할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -312,7 +312,7 @@ class TestClass {
 ```
 </JavaKotlinCodeBlock>
 
-이 예에서는 [`ArgumentCustomizationDsl`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/customization/dsl/ArgumentCustomizationDsl.html) 클래스의 [`set`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/customization/dsl/ArgumentCustomizationDsl.html#set(autoparams.customization.dsl.FunctionDelegate)) 정적 메서드를 사용하여 `ResolutionContext`의 동작을 사용자 정의합니다. 구체적으로 다음과 같은 동작을 수행합니다.
+이 예에서는 <JavadocLink version="11.0.1" path="autoparams/customization/dsl/ArgumentCustomizationDsl.html">`ArgumentCustomizationDsl`</JavadocLink> 클래스의 <JavadocLink version="11.0.1" path="autoparams/customization/dsl/ArgumentCustomizationDsl.html#set(autoparams.customization.dsl.FunctionDelegate)">`set`</JavadocLink> 정적 메서드를 사용하여 `ResolutionContext`의 동작을 사용자 정의합니다. 구체적으로 다음과 같은 동작을 수행합니다.
 
 - 컨텍스트에서 생성된 모든 `Review` 인스턴스의 `product` 속성은 테스트 메서드의 `product` 매개변수로 설정됩니다.
 - 마찬가지로 `Review` 인스턴스의 `rating` 속성은 `rating` 매개변수로 설정됩니다.
@@ -359,7 +359,7 @@ class TestClass {
 ```
 </JavaKotlinCodeBlock>
 
-[`Factory<T>`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/generator/Factory.html) 클래스는 단일 유형에 대한 사용자 정의 객체를 생성하는 편리한 방법을 제공합니다. 명시적으로 `ResolutionContext`를 다룰 필요 없이 테스트 대상 인스턴스에 집중할 수 있습니다.
+<JavadocLink version="11.0.1" path="autoparams/generator/Factory.html">`Factory<T>`</JavadocLink> 클래스는 단일 유형에 대한 사용자 정의 객체를 생성하는 편리한 방법을 제공합니다. 명시적으로 `ResolutionContext`를 다룰 필요 없이 테스트 대상 인스턴스에 집중할 수 있습니다.
 
 :::note
 
@@ -376,7 +376,7 @@ class TestClass {
 
 ## 설정 가능한 속성
 
-클래스가 JavaBeans 규칙을 따르는 경우(즉, 인수 없는 생성자와 공개 세터 메서드가 있는 경우) AutoParams는 [`InstancePropertyWriter`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/processor/InstancePropertyWriter.html) 커스터마이저를 사용하여 자동으로 속성을 채울 수 있습니다.
+클래스가 JavaBeans 규칙을 따르는 경우(즉, 인수 없는 생성자와 공개 세터 메서드가 있는 경우) AutoParams는 <JavadocLink version="11.0.1" path="autoparams/processor/InstancePropertyWriter.html">`InstancePropertyWriter`</JavadocLink> 커스터마이저를 사용하여 자동으로 속성을 채울 수 있습니다.
 
 간단한 예는 다음과 같습니다.
 
