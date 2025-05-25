@@ -3,11 +3,11 @@ sidebar_position: 4
 sidebar_label: Factory<T> class
 ---
 
-import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+import { JavaKotlinCodeBlock, JavadocLink } from '@site/src/components/Custom';
 
 # `Factory<T>` class
 
-The [`Factory<T>`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/generator/Factory.html) class is useful when you need to generate multiple instances of the same type. It allows you to create single instances or collections of generated objects on demand.
+The <JavadocLink version="11.0.1" path="autoparams/generator/Factory.html">`Factory<T>`</JavadocLink> class is useful when you need to generate multiple instances of the same type. It allows you to create single instances or collections of generated objects on demand.
 
 Here's an example:
 
@@ -31,4 +31,4 @@ fun testMethod() {
 ```
 </JavaKotlinCodeBlock>
 
-In this example, a `Factory<Product>` is created to produce `Product` instances. The [`get()`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/generator/Factory.html#get()) method creates a single instance, while [`getRange(n)`](https://www.javadoc.io/static/io.github.autoparams/autoparams/11.0.1/autoparams/generator/Factory.html#getRange(int,autoparams.customization.Customizer...)) returns a list of `n` instances. This approach is particularly helpful when you need bulk data generation in your tests.
+In this example, a `Factory<Product>` is created to produce `Product` instances. The <JavadocLink version="11.0.1" path="autoparams/generator/Factory.html#get()">`get()`</JavadocLink> method creates a single instance, while <JavadocLink version="11.0.1" path="autoparams/generator/Factory.html#getRange(int,autoparams.customization.Customizer...)">`getRange(n)`</JavadocLink> returns a list of `n` instances. This approach is particularly helpful when you need bulk data generation in your tests.

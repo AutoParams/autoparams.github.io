@@ -3,7 +3,7 @@ sidebar_position: 1
 sidebar_label: autoparams-spring
 ---
 
-import { JavaKotlinCodeBlock } from '@site/src/components/JavaKotlinCodeBlock';
+import { JavaKotlinCodeBlock, JavadocLink } from '@site/src/components/Custom';
 
 # `autoparams-spring`
 
@@ -89,7 +89,7 @@ class HelloSupplier : MessageSupplier {
 ```
 </JavaKotlinCodeBlock>
 
-If you want to test how your `MessageSupplier` bean behaves, you can use the [`@UseBeans`](https://www.javadoc.io/static/io.github.autoparams/autoparams-spring/11.0.1/autoparams/spring/UseBeans.html) annotation like this:
+If you want to test how your `MessageSupplier` bean behaves, you can use the <JavadocLink version="11.0.1" path="autoparams/spring/UseBeans.html">`@UseBeans`</JavadocLink> annotation like this:
 
 <JavaKotlinCodeBlock>
 ```java
