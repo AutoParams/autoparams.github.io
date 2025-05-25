@@ -4,6 +4,7 @@ sidebar_label: 매개변수화된 테스트
 ---
 
 import { JavaKotlinCodeBlock, JavadocLink } from '@site/src/components/Custom';
+import { version } from '../data.json';
 
 # 매개변수화된 테스트
 
@@ -13,7 +14,7 @@ AutoParams는 **매개변수화된 테스트**도 지원하므로 여러 입력 
 
 ## `@ValueAutoSource` 애너테이션
 
-<JavadocLink version="11.0.1" path="autoparams/ValueAutoSource.html">`@ValueAutoSource`</JavadocLink>(또는 `@ValueAutoKotlinSource`) 애너테이션은 AutoParams를 사용하여 매개변수화된 테스트를 작성하기 위한 간단하면서도 강력한 도구입니다.
+<JavadocLink version={version} path="autoparams/ValueAutoSource.html">`@ValueAutoSource`</JavadocLink>(또는 `@ValueAutoKotlinSource`) 애너테이션은 AutoParams를 사용하여 매개변수화된 테스트를 작성하기 위한 간단하면서도 강력한 도구입니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -45,7 +46,7 @@ fun testMethod(name: String, factory: Factory<Product>) {
 
 :::
 
-이 예에서 테스트 메서드는 두 번 실행됩니다. 한 번은 `"Camera"`로, 한 번은 `"Candle"`을 `name` 매개변수 값으로 사용합니다. `factory` 매개변수는 AutoParams에 의해 자동으로 해결되며 <JavadocLink version="11.0.1" path="autoparams/customization/dsl/ArgumentCustomizationDsl.html">`freezeArgument`</JavadocLink>와 같이 DSL을 활용하여 사용자 정의할 수 있습니다.
+이 예에서 테스트 메서드는 두 번 실행됩니다. 한 번은 `"Camera"`로, 한 번은 `"Candle"`을 `name` 매개변수 값으로 사용합니다. `factory` 매개변수는 AutoParams에 의해 자동으로 해결되며 <JavadocLink version={version} path="autoparams/customization/dsl/ArgumentCustomizationDsl.html">`freezeArgument`</JavadocLink>와 같이 DSL을 활용하여 사용자 정의할 수 있습니다.
 
 이를 통해 부분적으로 제어되고(예: 고정된 이름) 부분적으로 무작위화되는(예: 기타 모든 속성) 테스트 개체(이 경우 `Product`)를 생성하여 구체성과 다양성 사이의 균형을 유지할 수 있습니다.
 
@@ -64,7 +65,7 @@ fun testMethod(name: String, factory: Factory<Product>) {
 
 ## `@CsvAutoSource` 애너테이션
 
-<JavadocLink version="11.0.1" path="autoparams/CsvAutoSource.html">`@CsvAutoSource`</JavadocLink>(또는 `@CsvAutoKotlinSource`) 애너테이션을 사용하면 JUnit 5의 @CsvSource와 유사한 CSV 형식으로 반복되는 테스트 입력을 정의할 수 있습니다. CSV 행에 명시적으로 제공되지 않은 모든 매개변수는 AutoParams에서 자동으로 생성됩니다.
+<JavadocLink version={version} path="autoparams/CsvAutoSource.html">`@CsvAutoSource`</JavadocLink>(또는 `@CsvAutoKotlinSource`) 애너테이션을 사용하면 JUnit 5의 @CsvSource와 유사한 CSV 형식으로 반복되는 테스트 입력을 정의할 수 있습니다. CSV 행에 명시적으로 제공되지 않은 모든 매개변수는 AutoParams에서 자동으로 생성됩니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -100,7 +101,7 @@ fun testMethod(name: String, priceAmount: BigDecimal, id: UUID) {
 
 ## `@MethodAutoSource` 애너테이션
 
-<JavadocLink version="11.0.1" path="autoparams/MethodAutoSource.html">`@MethodAutoSource`</JavadocLink>(또는 `@MethodAutoKotlinSource`) 애너테이션은 JUnit 5의 `@MethodSource`와 AutoParams의 `@AutoSource` 기능을 결합합니다. 이를 사용하여 테스트 데이터를 제공하는 메서드를 지정할 수 있으며, AutoParams는 나머지 매개변수를 자동으로 채웁니다.
+<JavadocLink version={version} path="autoparams/MethodAutoSource.html">`@MethodAutoSource`</JavadocLink>(또는 `@MethodAutoKotlinSource`) 애너테이션은 JUnit 5의 `@MethodSource`와 AutoParams의 `@AutoSource` 기능을 결합합니다. 이를 사용하여 테스트 데이터를 제공하는 메서드를 지정할 수 있으며, AutoParams는 나머지 매개변수를 자동으로 채웁니다.
 
 <JavaKotlinCodeBlock>
 ```java
@@ -145,7 +146,7 @@ companion object {
 
 ## `@Repeat` 애너테이션
 
-<JavadocLink version="11.0.1" path="autoparams/Repeat.html">`@Repeat`</JavadocLink> 애너테이션을 사용하면 테스트를 여러 번 실행할 수 있으며, 각 실행에서 지정되지 않은 매개변수에 대해 새로운 임의 값을 생성할 수 있습니다.
+<JavadocLink version={version} path="autoparams/Repeat.html">`@Repeat`</JavadocLink> 애너테이션을 사용하면 테스트를 여러 번 실행할 수 있으며, 각 실행에서 지정되지 않은 매개변수에 대해 새로운 임의 값을 생성할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java

@@ -4,6 +4,7 @@ sidebar_label: autoparams-spring
 ---
 
 import { JavaKotlinCodeBlock, JavadocLink } from '@site/src/components/Custom';
+import { version } from '../data.json';
 
 # `autoparams-spring`
 
@@ -89,7 +90,7 @@ class HelloSupplier : MessageSupplier {
 ```
 </JavaKotlinCodeBlock>
 
-`MessageSupplier` 빈이 어떻게 동작하는지 테스트하려면 다음과 같이 <JavadocLink version="11.0.1" path="autoparams/spring/UseBeans.html">`@UseBeans`</JavadocLink> 애너테이션을 사용할 수 있습니다.
+`MessageSupplier` 빈이 어떻게 동작하는지 테스트하려면 다음과 같이 <JavadocLink version={version} path="autoparams/spring/UseBeans.html">`@UseBeans`</JavadocLink> 애너테이션을 사용할 수 있습니다.
 
 <JavaKotlinCodeBlock>
 ```java
