@@ -1,0 +1,69 @@
+---
+sidebar_position: 5.5
+sidebar_label: Logging for Object Resolution
+---
+
+import { JavaKotlinCodeBlock, JavadocLink } from '@site/src/components/Custom';
+import { version } from '../data.json';
+
+# Logging for Object Resolution
+
+AutoParams provides detailed logging capabilities that help you understand how objects are being resolved during test execution. The resolution log is printed to standard output during test execution, making it easy to trace how each value is generated.
+
+For example, resolving a `User` class now produces a detailed trace. Given the following class:
+
+<JavaKotlinCodeBlock>
+```java
+@AllArgsConstructor
+@Getter
+public class User {
+
+    private final UUID id;
+    private final String email;
+    private final String username;
+}
+```
+</JavaKotlinCodeBlock>
+
+Running the following code:
+
+<JavaKotlinCodeBlock>
+```java
+ResolutionContext context = new ResolutionContext();
+User user = context.resolve();
+```
+</JavaKotlinCodeBlock>
+
+Will print a hierarchical visualization of the resolution process:
+
+```text
+▼ Resolving for: class your.app.User
+├── ▼ Resolving for: interface autoparams.generator.ConstructorResolver
+│   ├── ▼ Resolving for: interface autoparams.generator.ConstructorExtractor
+│   │   ✓ Resolved: autoparams.generator.DefaultConstructorExtractor@3b39e79b for: interface autoparams.generator.ConstructorExtractor
+│   ✓ Resolved: autoparams.generator.CompositeConstructorResolver@6dded900 for: interface autoparams.generator.ConstructorResolver
+│
+├── ▼ Resolving for: Parameter final java.lang.Long id
+│   ✓ Resolved: 15775 for: Parameter final java.lang.Long id
+│
+├── ▼ Resolving for: Parameter final java.lang.String email
+│   ├── ▼ Resolving for: class autoparams.generator.EmailAddressGenerationOptions
+│   │   ✓ Resolved: EmailAddressGenerationOptions[domains=["test.com"]] for: class autoparams.generator.EmailAddressGenerationOptions
+│   ✓ Resolved: 27b1bb70-f355-421c-8823-72fb69e9e4e7@test.com for: Parameter final java.lang.String email
+│
+├── ▼ Resolving for: Parameter final java.lang.String username
+│   ✓ Resolved: username6942b0dc-da65-42ca-a756-4303fcb6328a for: Parameter final java.lang.String username
+✓ Resolved: your.app.User@56835f2f for: class your.app.User
+```
+
+The log uses the following symbols to represent the resolution flow:
+- `▼` indicates the start of a resolution attempt
+- `├──` shows nested resolution steps
+- `✓` indicates successful resolution
+- Indentation levels represent the depth of the resolution chain
+
+This logging is particularly valuable when working with:
+- Customizations
+- Complex object hierarchies
+- Dependency injection scenarios
+- Debugging test failures related to object generation
