@@ -68,6 +68,6 @@ main {
   }
 }
 
-a {
+article a {
   color: var(--ifm-color-primary-lightest);
 }
