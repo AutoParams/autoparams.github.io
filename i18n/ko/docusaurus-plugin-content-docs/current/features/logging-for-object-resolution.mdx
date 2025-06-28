@@ -8,9 +8,9 @@ import { version } from '../data.json';
 
 # 개체 해결에 대한 로깅
 
-AutoParams는 테스트 실행 중 개체가 어떻게 해결되는지 이해하는 데 도움이 되는 자세한 로그를 제공합니다. 해결 로그는 테스트 실행 중 표준 출력으로 제공되며 각 값이 어떻게 생성되는지 쉽게 추적할 수 있습니다.
+AutoParams는 테스트 실행 중 개체가 어떻게 해결되는지 이해하는 데 도움이 되는 자세한 로그를 제공합니다. 로깅을 활성화하려면 테스트 메서드에 `@LogResolution` 애노테이션을 `@AutoParams`와 함께 적용합니다. 활성화된 경우, 테스트 실행 중 표준 출력으로 출력되어 각 값이 어떻게 생성되는지 쉽게 추적할 수 있습니다.
 
-`User` 클래스를 해결하면 자세한 추적 정보가 생성되는 예를 살펴보겠습니다. 다음 클래스가 주어졌을 때,
+`User` 클래스의 자세한 추적 정보가 생성되는 예를 살펴보겠습니다. 다음 클래스가 주어졌을 때,
 
 <JavaKotlinCodeBlock>
 ```java
@@ -23,37 +23,54 @@ public class User {
     private final String username;
 }
 ```
+```kotlin
+class User(
+    private val id: UUID,
+    private val email: String,
+    private val username: String
+)
+```
 </JavaKotlinCodeBlock>
 
 다음 코드를 실행하면,
 
 <JavaKotlinCodeBlock>
 ```java
-ResolutionContext context = new ResolutionContext();
-User user = context.resolve();
+@Test
+@AutoParams
+@LogResolution
+void testMethod(User user) {
+}
+```
+```kotlin
+@Test
+@AutoKotlinParams
+@LogResolution
+fun testMethod(user: User) {
+}
 ```
 </JavaKotlinCodeBlock>
 
 해결 프로세스의 계층적 시각화를 출력합니다.
 
 ```text
-> Resolving for: class your.app.User
-|-- > Resolving for: interface autoparams.generator.ConstructorResolver
-|   |-- > Resolving for: interface autoparams.generator.ConstructorExtractor
-|   |   < Resolved(<1 ms): autoparams.generator.DefaultConstructorExtractor@5807ea46 for: interface autoparams.generator.ConstructorExtractor
-|   < Resolved(<1 ms): autoparams.generator.CompositeConstructorResolver@305289b3 for: interface autoparams.generator.ConstructorResolver
+> Resolving: for class your.app.User
+|-- > Resolving: for interface autoparams.generator.ConstructorResolver
+|   |-- > Resolving: for interface autoparams.generator.ConstructorExtractor
+|   |   < Resolved(<1 ms): autoparams.generator.DefaultConstructorExtractor@5807ea46 for interface autoparams.generator.ConstructorExtractor
+|   < Resolved(<1 ms): autoparams.generator.CompositeConstructorResolver@305289b3 for interface autoparams.generator.ConstructorResolver
 |
-|-- > Resolving for: Parameter java.util.UUID id
-|   < Resolved(<1 ms): 2c792f91-2fb8-41c0-a7af-5bda64192949 for: Parameter java.util.UUID id
+|-- > Resolving: for Parameter java.util.UUID id
+|   < Resolved(<1 ms): 2c792f91-2fb8-41c0-a7af-5bda64192949 for Parameter java.util.UUID id
 |
-|-- > Resolving for: Parameter java.lang.String email
-|   |-- > Resolving for: class autoparams.generator.EmailAddressGenerationOptions
-|   |   < Resolved(<1 ms): EmailAddressGenerationOptions[domains=["test.com"]] for: class autoparams.generator.EmailAddressGenerationOptions
-|   < Resolved(1 ms): bab83e7b-bb56-4acb-aef4-ee7b4db24121@test.com for: Parameter java.lang.String email
+|-- > Resolving: for Parameter java.lang.String email
+|   |-- > Resolving: for class autoparams.generator.EmailAddressGenerationOptions
+|   |   < Resolved(<1 ms): EmailAddressGenerationOptions[domains=["test.com"]] for class autoparams.generator.EmailAddressGenerationOptions
+|   < Resolved(1 ms): bab83e7b-bb56-4acb-aef4-ee7b4db24121@test.com for Parameter java.lang.String email
 |
-|-- > Resolving for: Parameter java.lang.String username
-|   < Resolved(<1 ms): username24cbc137-4990-414b-9af7-39ae7ce1b437 for: Parameter java.lang.String username
-< Resolved(1 ms): your.app.User@33e4068 for: class your.app.User
+|-- > Resolving: for Parameter java.lang.String username
+|   < Resolved(<1 ms): username24cbc137-4990-414b-9af7-39ae7ce1b437 for Parameter java.lang.String username
+< Resolved(1 ms): your.app.User@33e4068 for class your.app.User
 ```
 
 로그에서 다음 기호들을 사용하여 해결 흐름을 나타냅니다.
