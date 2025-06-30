@@ -54,29 +54,16 @@ fun testMethod(user: User) {
 해결 프로세스의 계층적 시각화를 출력합니다.
 
 ```text
-> Resolving: for class your.app.User
-|-- > Resolving: for interface autoparams.generator.ConstructorResolver
-|   |-- > Resolving: for interface autoparams.generator.ConstructorExtractor
-|   |   < Resolved(<1 ms): autoparams.generator.DefaultConstructorExtractor@5807ea46 for interface autoparams.generator.ConstructorExtractor
-|   < Resolved(<1 ms): autoparams.generator.CompositeConstructorResolver@305289b3 for interface autoparams.generator.ConstructorResolver
-|
-|-- > Resolving: for Parameter java.util.UUID id
-|   < Resolved(<1 ms): 2c792f91-2fb8-41c0-a7af-5bda64192949 for Parameter java.util.UUID id
-|
-|-- > Resolving: for Parameter java.lang.String email
-|   |-- > Resolving: for class autoparams.generator.EmailAddressGenerationOptions
-|   |   < Resolved(<1 ms): EmailAddressGenerationOptions[domains=["test.com"]] for class autoparams.generator.EmailAddressGenerationOptions
-|   < Resolved(1 ms): bab83e7b-bb56-4acb-aef4-ee7b4db24121@test.com for Parameter java.lang.String email
-|
-|-- > Resolving: for Parameter java.lang.String username
-|   < Resolved(<1 ms): username24cbc137-4990-414b-9af7-39ae7ce1b437 for Parameter java.lang.String username
-< Resolved(1 ms): your.app.User@33e4068 for class your.app.User
+User user (5ms)
+ ├─ UUID id → fbdf7aa8-1af7-4308-bc64-ee9dbfeba8d2 (1ms)
+ ├─ String email → 53bf56a3-8a42-47f3-a5c9-854862ea4a56@test.com (2ms)
+ └─ String username → usernamec6962921-ab77-4dbc-a71d-6932a9faa5be (1ms)
 ```
 
-로그에서 다음 기호들을 사용하여 해결 흐름을 나타냅니다.
-- `>` 는 해결 시도의 시작을 나타냅니다.
-- `|--` 는 중첩된 해결 단계를 표시합니다.
-- `<` 는 성공한 해결을 표시합니다.
+로그는 트리 구조를 사용하여 해결 계층 구조를 보여줍니다.
+- 각 수준은 쿼리 유형과 매개변수 이름을 보여줍니다.
+- `→`는 생성된 값을 나타냅니다.
+- 각 해결에 걸린 시간은 괄호 안에 표시됩니다.
 - 들여쓰기 수준은 해결 체인의 깊이를 나타냅니다.
 
 이 로깅은 다음과 같은 작업에서 특히 유용합니다.
