@@ -54,29 +54,16 @@ fun testMethod(user: User) {
 Will print a hierarchical visualization of the resolution process:
 
 ```text
-> Resolving: for class your.app.User
-|-- > Resolving: for interface autoparams.generator.ConstructorResolver
-|   |-- > Resolving: for interface autoparams.generator.ConstructorExtractor
-|   |   < Resolved(<1 ms): autoparams.generator.DefaultConstructorExtractor@5807ea46 for interface autoparams.generator.ConstructorExtractor
-|   < Resolved(<1 ms): autoparams.generator.CompositeConstructorResolver@305289b3 for interface autoparams.generator.ConstructorResolver
-|
-|-- > Resolving: for Parameter java.util.UUID id
-|   < Resolved(<1 ms): 2c792f91-2fb8-41c0-a7af-5bda64192949 for Parameter java.util.UUID id
-|
-|-- > Resolving: for Parameter java.lang.String email
-|   |-- > Resolving: for class autoparams.generator.EmailAddressGenerationOptions
-|   |   < Resolved(<1 ms): EmailAddressGenerationOptions[domains=["test.com"]] for class autoparams.generator.EmailAddressGenerationOptions
-|   < Resolved(1 ms): bab83e7b-bb56-4acb-aef4-ee7b4db24121@test.com for Parameter java.lang.String email
-|
-|-- > Resolving: for Parameter java.lang.String username
-|   < Resolved(<1 ms): username24cbc137-4990-414b-9af7-39ae7ce1b437 for Parameter java.lang.String username
-< Resolved(1 ms): your.app.User@33e4068 for class your.app.User
+User user (5ms)
+ ├─ UUID id → fbdf7aa8-1af7-4308-bc64-ee9dbfeba8d2 (1ms)
+ ├─ String email → 53bf56a3-8a42-47f3-a5c9-854862ea4a56@test.com (2ms)
+ └─ String username → usernamec6962921-ab77-4dbc-a71d-6932a9faa5be (1ms)
 ```
 
-The log uses the following symbols to represent the resolution flow:
-- `>` indicates the start of a resolution attempt
-- `|--` shows nested resolution steps
-- `<` indicates successful resolution
+The log uses a tree structure to show the resolution hierarchy:
+- Each level shows the query type and parameter name
+- `→` indicates the generated value
+- Time taken for each resolution is shown in parentheses
 - Indentation levels represent the depth of the resolution chain
 
 This logging is particularly valuable when working with:
